@@ -2,6 +2,7 @@ package com.tta.broilers.repositories;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.tta.broilers.dao.ChickReceptionInterface;
 import com.tta.broilers.entities.ChickReception;
+import com.tta.broilers.mappers.ChickReceptionMapper;
+import com.tta.broilers.mappers.FarmRowMapper;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -23,8 +26,9 @@ public class ChickReceptionRepository implements ChickReceptionInterface {
 
 	@Override
 	public List<ChickReception> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return jdbcTemplate.query("SELECT * FROM public.chick_reception;",
+				new ChickReceptionMapper());
 	}
 
 	@Override
@@ -36,33 +40,24 @@ public class ChickReceptionRepository implements ChickReceptionInterface {
 	@Override
 	public BasicResponse save(ChickReception chickReception) {
 		try {
-			System.out.println("chickReception +"+chickReception.toString());
-			System.out.println("getThickFatBellies +"+chickReception.getThickFatBellies());
-			//String farmName= getFarmName(farm.getFarmId());
-	
-			
+			chickReception.setChicReceptionId(UUID.randomUUID().toString().replace("-", ""));
 			chickReception.setCreationDate(new Date());
-			jdbcTemplate.update("INSERT INTO chick_reception(\r\n"
-					+ "            visit_date ,chick_reception_id, farm_id, center_id, house_id, flock_id, breed, \r\n"
-					+ "            hatch_date, chick_placed, ps_origin, ps_age, eyes_clear_bright, \r\n"
-					+ "            body_dry_wet, body_temp, cross_beaks, feet_prop_formed, legs_clean_red_hocks, \r\n"
-					+ "            developed_legs_skin, thick_fat_bellies, large_amount_growth, \r\n"
-					+ "            signs_gasping_heavy, stringy_navels, black_buttons, navels_properly_healed, \r\n"
-					+ "            fairly_even_wing_feather, non_stressful)\r\n"
-					+ "    VALUES (?,?, ?, ?, ?, ?, ?, \r\n"
-					+ "            ?, ?, ?, ?, ?, \r\n"
-					+ "            ?, ?, ?, ?, ?, \r\n"
-					+ "            ?, ?, ?, ?, \r\n"
-					+ "            ?, ?, ?, \r\n"
-					+ "            ?, ?);\r\n"
-					+ "",chickReception.getVisitDate(),chickReception.getChicReceptionId(),chickReception.getFarmId(),chickReception .getCenterId(),
+			jdbcTemplate.update("INSERT INTO public.chick_reception(\r\n"
+					+ "	farm_id, center_id, house_id, flock_id, breed, hatch_date, chick_placed, ps_origin, ps_age, visit_date,"
+					+ " navel_notclosed_strung_button, navel_clean_well_healed, navel_closed_slight_abrasiveness,"
+					+ " legs_clean_waxy, legs_dryness_pale, legs_deshydrated_vien_protruding,"
+					+ " hocks_clean_noblemishes, hocks_slight_blushing, hocks_redcolor_heavyblushing,"
+					+ " defects_clean_nodefects, defects_minor_defects, defects_eye_legs_spraddled, total_score,"
+					+ " creation_date, chick_reception_id)\r\n"
+					+ "	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+					chickReception.getFarmId(),chickReception .getCenterId(),
 					chickReception.getHousesId(),chickReception.getFlockId(),chickReception.getBreed(),
 					chickReception.getHatchDate(),chickReception.getChickPlaced(),chickReception.getPsOrigin(),
-					chickReception.getPsAge(),chickReception.getEyesClearBright(),chickReception.getBodyDryWet(),chickReception.getBodyTemp(),
-							chickReception.getCrossBeaks(),chickReception.getFeetPropFormed(),chickReception.getLegsCleanRedHocks(),
-									chickReception.getSignsGaspingHeavy(),chickReception.getStringyNavels(),chickReception.getBlackButtons(),
-									chickReception.getNavelsProperlyHealed(),chickReception.getDevelopedLegsSkin(),chickReception.getThickFatBellies(),
-									chickReception.getLargeAmountGrowth(),chickReception.getFairlyEvenWingFeather(),chickReception.getNonstressful());
+					chickReception.getPsAge(),chickReception.getVisitDate(), chickReception.getNavelNotclosedStrungButton(),chickReception.getNavelCleanWellHealed(),chickReception.getNavelClosedSlightAbrasiveness(),
+					chickReception.getLegsCleanWaxy(),chickReception.getLegsDrynessPale(), chickReception.getLegsDeshydratedVienProtruding(),
+					chickReception.getHocksCleanNoblemishes(),chickReception.getHocksSlightBlushing(),chickReception.getHocksRedcolorHeavyblushing(),
+					chickReception.getDefectsCleanNodefects(),chickReception.getDefectsMinorDefects(),chickReception.getDefectsEyeLegsSpraddled(),
+					chickReception.getTotalScore(),chickReception.getCreationDate(),chickReception.getChicReceptionId());
 			return new BasicResponse("chickReception created: " + chickReception.toString(), HttpStatus.OK);
 		} catch (org.springframework.dao.DuplicateKeyException ex) {
 			ex.printStackTrace();

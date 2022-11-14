@@ -71,7 +71,7 @@ public class VisitTasksRepository implements VisitTasksInterface {
 			int ageDays = visitTasks.getAgeFlock();
 			double measure = visitTasks.getMeasure();
 			double percentage = visitTasks.getPercentage();
-			visitTasks.setStandard(searchStandard(visitTasks.getTaskId(), nbrOfWeeks, element, ageDays,visitTasks.getBreedId()));
+			visitTasks.setStandard(searchStandard(visitTasks.getTaskId(), nbrOfWeeks, element, ageDays,visitTasks.getBreedId(), measure));
 			visitTasks.setDeviation(
 					searchDeviation(visitTasks.getTaskId(), nbrOfWeeks, element, ageDays, measure, percentage,visitTasks.getBreedId()));
 
@@ -180,6 +180,21 @@ public class VisitTasksRepository implements VisitTasksInterface {
 
 		}
 			break;
+			
+		case 12: {
+			if(measure>=5 && measure<=7){
+				deviation = "Execellent";
+	          }
+	          else if(measure>=8 && measure<=10){
+	        	  deviation = "Average";
+	          }
+	          else if(measure>=11 && measure<=16){
+	        	  deviation = "Poor";
+	          }
+			System.out.println("deviation "+ deviation+"measure "+measure);
+
+		}
+			break;
 
 		default:
 			;
@@ -188,7 +203,7 @@ public class VisitTasksRepository implements VisitTasksInterface {
 		return deviation;
 	}
 
-	public String searchStandard(int taskId, int nbrOfWeeks, String element, int ageDays,int breed) {
+	public String searchStandard(int taskId, int nbrOfWeeks, String element, int ageDays,int breed ,double measure) {
 
 		System.out.println("nbrOfWeeks " + nbrOfWeeks);
 		String standard = "";
@@ -240,6 +255,23 @@ public class VisitTasksRepository implements VisitTasksInterface {
 			DailyWeight dailyWeight = dailyWeightInterface.getByAgeDays(ageDays,breed);
 			standard = String.valueOf(dailyWeight.getWeight());
 			System.out.println("standard weight////////////////////  "+standard);
+		}
+		
+			break;
+			
+         case 12: {
+			
+        	 if(measure>=5 && measure<=7){
+                 standard="[5-7]";      
+               }
+               else if(measure>=8 && measure<=10){
+                 standard="[8-10]";
+                
+               }
+               else if(measure>=11 && measure<=16){
+                 standard="[11-16]";
+               }
+			System.out.println("standard homo////////////////////  "+standard);
 		}
 		
 			break;

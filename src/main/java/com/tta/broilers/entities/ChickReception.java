@@ -8,11 +8,10 @@ import java.util.Date;
  */
 
 public class ChickReception {
+	private String chicReceptionId;
 	private Date visitDate;
-	private int chicReceptionId;
 	private String centerId;
 	private String farmId;
-	private Farm farm;
 	private String  housesId;
 	private String  flockId;
 	private String breed;
@@ -20,28 +19,31 @@ public class ChickReception {
 	private String chickPlaced;
 	private String psOrigin;
 	private int psAge;
-	private String eyesClearBright;
-	private String bodyDryWet;
-	private String bodyTemp;
-	private String crossBeaks;
-	private String feetPropFormed;
-	private String legsCleanRedHocks;
-	
-	private String signsGaspingHeavy;
-	private String stringyNavels;
-	private String blackButtons;
-	private String navelsProperlyHealed;
-	private String developedLegsSkin;
-	private String thickFatBellies;
-	
-	private String largeAmountGrowth;
-	private String fairlyEvenWingFeather;
-	private String nonstressful;
+	private int navelNotclosedStrungButton;
+	private int navelCleanWellHealed ;
+	private int navelClosedSlightAbrasiveness;
+	private int legsCleanWaxy;
+	private int legsDrynessPale;
+	private int legsDeshydratedVienProtruding;
+	private int hocksCleanNoblemishes;
+	private int hocksSlightBlushing;
+	private int hocksRedcolorHeavyblushing;
+	private int defectsCleanNodefects;
+	private int defectsMinorDefects;
+	private int defectsEyeLegsSpraddled;
+	private int totalScore;
 	private Date creationDate;
-	public int getChicReceptionId() {
+	public Date getVisitDate() {
+		return visitDate;
+	}
+	public void setVisitDate(Date visitDate) {
+		this.visitDate = visitDate;
+	}
+	
+	public String getChicReceptionId() {
 		return chicReceptionId;
 	}
-	public void setChicReceptionId(int chicReceptionId) {
+	public void setChicReceptionId(String chicReceptionId) {
 		this.chicReceptionId = chicReceptionId;
 	}
 	public String getCenterId() {
@@ -55,12 +57,6 @@ public class ChickReception {
 	}
 	public void setFarmId(String farmId) {
 		this.farmId = farmId;
-	}
-	public Farm getFarm() {
-		return farm;
-	}
-	public void setFarm(Farm farm) {
-		this.farm = farm;
 	}
 	public String getHousesId() {
 		return housesId;
@@ -104,125 +100,120 @@ public class ChickReception {
 	public void setPsAge(int psAge) {
 		this.psAge = psAge;
 	}
-	public String getEyesClearBright() {
-		return eyesClearBright;
+	public int getNavelNotclosedStrungButton() {
+		return navelNotclosedStrungButton;
 	}
-	public void setEyesClearBright(String eyesClearBright) {
-		this.eyesClearBright = eyesClearBright;
+	public void setNavelNotclosedStrungButton(int navelNotclosedStrungButton) {
+		this.navelNotclosedStrungButton = navelNotclosedStrungButton;
 	}
-	public String getBodyDryWet() {
-		return bodyDryWet;
+	public int getNavelCleanWellHealed() {
+		return navelCleanWellHealed;
 	}
-	public void setBodyDryWet(String bodyDryWet) {
-		this.bodyDryWet = bodyDryWet;
+	public void setNavelCleanWellHealed(int navelCleanWellHealed) {
+		this.navelCleanWellHealed = navelCleanWellHealed;
 	}
-	public String getBodyTemp() {
-		return bodyTemp;
+	public int getNavelClosedSlightAbrasiveness() {
+		return navelClosedSlightAbrasiveness;
 	}
-	public void setBodyTemp(String bodyTemp) {
-		this.bodyTemp = bodyTemp;
+	public void setNavelClosedSlightAbrasiveness(int navelClosedSlightAbrasiveness) {
+		this.navelClosedSlightAbrasiveness = navelClosedSlightAbrasiveness;
 	}
-	public String getCrossBeaks() {
-		return crossBeaks;
+	public int getLegsCleanWaxy() {
+		return legsCleanWaxy;
 	}
-	public void setCrossBeaks(String crossBeaks) {
-		this.crossBeaks = crossBeaks;
+	public void setLegsCleanWaxy(int legsCleanWaxy) {
+		this.legsCleanWaxy = legsCleanWaxy;
 	}
-	public String getFeetPropFormed() {
-		return feetPropFormed;
+	public int getLegsDrynessPale() {
+		return legsDrynessPale;
 	}
-	public void setFeetPropFormed(String feetPropFormed) {
-		this.feetPropFormed = feetPropFormed;
+	public void setLegsDrynessPale(int legsDrynessPale) {
+		this.legsDrynessPale = legsDrynessPale;
 	}
-	public String getLegsCleanRedHocks() {
-		return legsCleanRedHocks;
+	public int getLegsDeshydratedVienProtruding() {
+		return legsDeshydratedVienProtruding;
 	}
-	public void setLegsCleanRedHocks(String legsCleanRedHocks) {
-		this.legsCleanRedHocks = legsCleanRedHocks;
+	public void setLegsDeshydratedVienProtruding(int legsDeshydratedVienProtruding) {
+		this.legsDeshydratedVienProtruding = legsDeshydratedVienProtruding;
 	}
-	public String getSignsGaspingHeavy() {
-		return signsGaspingHeavy;
+	public int getHocksCleanNoblemishes() {
+		return hocksCleanNoblemishes;
 	}
-	public void setSignsGaspingHeavy(String signsGaspingHeavy) {
-		this.signsGaspingHeavy = signsGaspingHeavy;
+	public void setHocksCleanNoblemishes(int hocksCleanNoblemishes) {
+		this.hocksCleanNoblemishes = hocksCleanNoblemishes;
 	}
-	public String getStringyNavels() {
-		return stringyNavels;
+	public int getHocksSlightBlushing() {
+		return hocksSlightBlushing;
 	}
-	public void setStringyNavels(String stringyNavels) {
-		this.stringyNavels = stringyNavels;
+	public void setHocksSlightBlushing(int hocksSlightBlushing) {
+		this.hocksSlightBlushing = hocksSlightBlushing;
 	}
-	public String getBlackButtons() {
-		return blackButtons;
+	public int getHocksRedcolorHeavyblushing() {
+		return hocksRedcolorHeavyblushing;
 	}
-	public void setBlackButtons(String blackButtons) {
-		this.blackButtons = blackButtons;
+	public void setHocksRedcolorHeavyblushing(int hocksRedcolorHeavyblushing) {
+		this.hocksRedcolorHeavyblushing = hocksRedcolorHeavyblushing;
 	}
-	public String getNavelsProperlyHealed() {
-		return navelsProperlyHealed;
+	public int getDefectsCleanNodefects() {
+		return defectsCleanNodefects;
 	}
-	public void setNavelsProperlyHealed(String navelsProperlyHealed) {
-		this.navelsProperlyHealed = navelsProperlyHealed;
+	public void setDefectsCleanNodefects(int defectsCleanNodefects) {
+		this.defectsCleanNodefects = defectsCleanNodefects;
 	}
-	public String getDevelopedLegsSkin() {
-		return developedLegsSkin;
+	public int getDefectsMinorDefects() {
+		return defectsMinorDefects;
 	}
-	public void setDevelopedLegsSkin(String developedLegsSkin) {
-		this.developedLegsSkin = developedLegsSkin;
+	public void setDefectsMinorDefects(int defectsMinorDefects) {
+		this.defectsMinorDefects = defectsMinorDefects;
 	}
-	public String getThickFatBellies() {
-		return thickFatBellies;
+	public int getDefectsEyeLegsSpraddled() {
+		return defectsEyeLegsSpraddled;
 	}
-	public void setThickFatBellies(String thickFatBellies) {
-		this.thickFatBellies = thickFatBellies;
+	public void setDefectsEyeLegsSpraddled(int defectsEyeLegsSpraddled) {
+		this.defectsEyeLegsSpraddled = defectsEyeLegsSpraddled;
 	}
-	public String getLargeAmountGrowth() {
-		return largeAmountGrowth;
+	public int getTotalScore() {
+		return totalScore;
 	}
-	public void setLargeAmountGrowth(String largeAmountGrowth) {
-		this.largeAmountGrowth = largeAmountGrowth;
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
 	}
-	public String getFairlyEvenWingFeather() {
-		return fairlyEvenWingFeather;
-	}
-	public void setFairlyEvenWingFeather(String fairlyEvenWingFeather) {
-		this.fairlyEvenWingFeather = fairlyEvenWingFeather;
-	}
-	public String getNonstressful() {
-		return nonstressful;
-	}
-	public void setNonstressful(String nonstressful) {
-		this.nonstressful = nonstressful;
-	}
-	
 	public Date getCreationDate() {
 		return creationDate;
 	}
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	
-	
-	
-	public Date getVisitDate() {
-		return visitDate;
-	}
-	public void setVisitDate(Date visitDate) {
-		this.visitDate = visitDate;
-	}
 	@Override
 	public String toString() {
 		return "ChickReception [visitDate=" + visitDate + ", chicReceptionId=" + chicReceptionId + ", centerId="
-				+ centerId + ", farmId=" + farmId + ", farm=" + farm + ", housesId=" + housesId + ", flockId=" + flockId
-				+ ", breed=" + breed + ", hatchDate=" + hatchDate + ", chickPlaced=" + chickPlaced + ", psOrigin="
-				+ psOrigin + ", psAge=" + psAge + ", eyesClearBright=" + eyesClearBright + ", bodyDryWet=" + bodyDryWet
-				+ ", bodyTemp=" + bodyTemp + ", crossBeaks=" + crossBeaks + ", feetPropFormed=" + feetPropFormed
-				+ ", legsCleanRedHocks=" + legsCleanRedHocks + ", signsGaspingHeavy=" + signsGaspingHeavy
-				+ ", stringyNavels=" + stringyNavels + ", blackButtons=" + blackButtons + ", navelsProperlyHealed="
-				+ navelsProperlyHealed + ", developedLegsSkin=" + developedLegsSkin + ", thickFatBellies="
-				+ thickFatBellies + ", largeAmountGrowth=" + largeAmountGrowth + ", fairlyEvenWingFeather="
-				+ fairlyEvenWingFeather + ", nonstressful=" + nonstressful + ", creationDate=" + creationDate + "]";
+				+ centerId + ", farmId=" + farmId + ", housesId=" + housesId + ", flockId=" + flockId + ", breed="
+				+ breed + ", hatchDate=" + hatchDate + ", chickPlaced=" + chickPlaced + ", psOrigin=" + psOrigin
+				+ ", psAge=" + psAge + ", navelNotclosedStrungButton=" + navelNotclosedStrungButton
+				+ ", navelCleanWellHealed=" + navelCleanWellHealed + ", navelClosedSlightAbrasiveness="
+				+ navelClosedSlightAbrasiveness + ", legsCleanWaxy=" + legsCleanWaxy + ", legsDrynessPale="
+				+ legsDrynessPale + ", legsDeshydratedVienProtruding=" + legsDeshydratedVienProtruding
+				+ ", hocksCleanNoblemishes=" + hocksCleanNoblemishes + ", hocksSlightBlushing=" + hocksSlightBlushing
+				+ ", hocksRedcolorHeavyblushing=" + hocksRedcolorHeavyblushing + ", defectsCleanNodefects="
+				+ defectsCleanNodefects + ", defectsMinorDefects=" + defectsMinorDefects + ", defectsEyeLegsSpraddled="
+				+ defectsEyeLegsSpraddled + ", totalScore=" + totalScore + ", creationDate=" + creationDate
+				+ ", getVisitDate()=" + getVisitDate() + ", getChicReceptionId()=" + getChicReceptionId()
+				+ ", getCenterId()=" + getCenterId() + ", getFarmId()=" + getFarmId() + ", getHousesId()="
+				+ getHousesId() + ", getFlockId()=" + getFlockId() + ", getBreed()=" + getBreed() + ", getHatchDate()="
+				+ getHatchDate() + ", getChickPlaced()=" + getChickPlaced() + ", getPsOrigin()=" + getPsOrigin()
+				+ ", getPsAge()=" + getPsAge() + ", getNavelNotclosedStrungButton()=" + getNavelNotclosedStrungButton()
+				+ ", getNavelCleanWellHealed()=" + getNavelCleanWellHealed() + ", getNavelClosedSlightAbrasiveness()="
+				+ getNavelClosedSlightAbrasiveness() + ", getLegsCleanWaxy()=" + getLegsCleanWaxy()
+				+ ", getLegsDrynessPale()=" + getLegsDrynessPale() + ", getLegsDeshydratedVienProtruding()="
+				+ getLegsDeshydratedVienProtruding() + ", getHocksCleanNoblemishes()=" + getHocksCleanNoblemishes()
+				+ ", getHocksSlightBlushing()=" + getHocksSlightBlushing() + ", getHocksRedcolorHeavyblushing()="
+				+ getHocksRedcolorHeavyblushing() + ", getDefectsCleanNodefects()=" + getDefectsCleanNodefects()
+				+ ", getDefectsMinorDefects()=" + getDefectsMinorDefects() + ", getDefectsEyeLegsSpraddled()="
+				+ getDefectsEyeLegsSpraddled() + ", getTotalScore()=" + getTotalScore() + ", getCreationDate()="
+				+ getCreationDate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
+	
 	
 	
 	
