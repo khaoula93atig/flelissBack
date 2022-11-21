@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.tta.broilers.dao.VisitInterface;
+import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.Visit;
 import com.tta.broilers.mappers.VisitRowMapper;
 import com.tta.broilers.responses.BasicResponse;
@@ -23,6 +24,8 @@ import com.tta.broilers.utils.Utils;
 public class VisitRepository implements VisitInterface {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private FlockRepository flockRepository;
 
 	@Override
 	public List<Visit> findAll() {
@@ -36,21 +39,60 @@ public class VisitRepository implements VisitInterface {
 	public Visit save(Visit visit) {
 		try {
 			System.out.println("visit******** " + visit.toString());
-			visit.setVisitId(UUID.randomUUID().toString().replace("-", ""));
-			visit.setCreationDate(new Date());
-			visit.setVisitDate(Utils.SMPDF3.parse(visit.getVisitdateString()));
-			System.out.println("date viste "+visit.getVisitDate());
-			jdbcTemplate.update(
-					"INSERT INTO visit( visit_id, visit_date, frequency,  flock_id, house_id, username, age_flock,type_visit, creation_date,center_id,farm_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-					visit.getVisitId(), visit.getVisitDate(), visit.getFrequency(), visit.getFlockID(),
-					visit.getHouseID(), visit.getUsername(), visit.getAgeFlock(),visit.getTypeVisit(), visit.getCreationDate(),visit.getCenterID(),visit.getFarmId());
+			
+			List<Flock> flocks=flockRepository.getById(visit.getFlockID());
+			Flock flock=flocks.get(0);
+			System.out.println(flock);
+			if(flock.getRestFlockNumber()==0 && (flock.getFlockNumber()>visit.getMortality())) {
+				System.out.println("flock"+flock.toString());
+				System.out.println("test1");
+				visit.setVisitId(UUID.randomUUID().toString().replace("-", ""));
+				visit.setCreationDate(new Date());
+				visit.setVisitDate(Utils.SMPDF3.parse(visit.getVisitdateString()));
+				System.out.println("date viste "+visit.getVisitDate());
+				jdbcTemplate.update(
+						"INSERT INTO visit( visit_id, visit_date, frequency,  flock_id, house_id, username, age_flock,type_visit, creation_date,center_id,farm_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+						visit.getVisitId(), visit.getVisitDate(), visit.getFrequency(), visit.getFlockID(),
+						visit.getHouseID(), visit.getUsername(), visit.getAgeFlock(),visit.getTypeVisit(), visit.getCreationDate(),visit.getCenterID(),visit.getFarmId());
 
-			List<Visit> results = getById(visit.getVisitId());
-			if (!results.isEmpty()) {
-				results.get(0).setStatusSave("success");
-				return results.get(0);
-			} else
-				return null;
+				int d=(int) (flock.getFlockNumber()-visit.getMortality());
+				flockRepository.updateRestNumberFlock(flock.getFlockID(),d);
+				List<Visit> results = getById(visit.getVisitId());
+				if (!results.isEmpty()) {
+					results.get(0).setStatusSave("success");
+					return results.get(0);
+				} else
+					return null;
+			}else if(flock.getRestFlockNumber()>0 && flock.getFlockNumber()>flock.getRestFlockNumber() && flock.getRestFlockNumber()>visit.getMortality()) {
+				System.out.println("mor"+visit.getMortality());
+				System.out.println(flock.getRestFlockNumber()>visit.getMortality());
+				System.out.println("test2");
+				visit.setVisitId(UUID.randomUUID().toString().replace("-", ""));
+				visit.setCreationDate(new Date());
+				visit.setVisitDate(Utils.SMPDF3.parse(visit.getVisitdateString()));
+				System.out.println("date viste "+visit.getVisitDate());
+				jdbcTemplate.update(
+						"INSERT INTO visit( visit_id, visit_date, frequency,  flock_id, house_id, username, age_flock,type_visit, creation_date,center_id,farm_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+						visit.getVisitId(), visit.getVisitDate(), visit.getFrequency(), visit.getFlockID(),
+						visit.getHouseID(), visit.getUsername(), visit.getAgeFlock(),visit.getTypeVisit(), visit.getCreationDate(),visit.getCenterID(),visit.getFarmId());
+				System.out.println("mor1"+visit.getMortality());
+				int d1=(int)(flock.getRestFlockNumber()-visit.getMortality());
+				System.out.println(d1);
+				flockRepository.updateRestNumberFlock(flock.getFlockID(), d1);
+				List<Visit> results = getById(visit.getVisitId());
+				if (!results.isEmpty()) {
+					results.get(0).setStatusSave("success");
+					return results.get(0);
+				} else
+					return null;
+				
+			}
+			else
+					return null;
+			//System.out.println("visit******** " + visit.toString());
+			
+			
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;

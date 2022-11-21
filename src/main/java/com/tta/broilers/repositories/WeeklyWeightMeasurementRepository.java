@@ -13,8 +13,10 @@ import com.tta.broilers.dao.WeeklyWeightMeasurementInterface;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.WeeklyWeightForChart;
 import com.tta.broilers.entities.rest.WeeklyweightStandardByBreedAndAge;
+import com.tta.broilers.entities.rest.WeeklyweightbyNbreOfoiseaux;
 import com.tta.broilers.mappers.WeeklyWeightForChartRowMapper;
 import com.tta.broilers.mappers.WeeklyWeightStandardByBreedAndAgeRowMapper;
+import com.tta.broilers.mappers.WeeklyWeightbynbreOfOiseauxMapper;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -105,6 +107,24 @@ public class WeeklyWeightMeasurementRepository implements WeeklyWeightMeasuremen
 	public List<WeeklyweightStandardByBreedAndAge> getWeeklyWeightStandardByAgeAndBreed(int breed) {
 		return jdbcTemplate.query("SELECT age_days, weight\r\n"
 				+ "	FROM public.weekly_weight_standard where breed=? order By age_days ASC;", new Object[] { breed} , new WeeklyWeightStandardByBreedAndAgeRowMapper());
+	}
+
+	@Override
+	public List<WeeklyweightbyNbreOfoiseaux> getWeekWeighbyNbre(String farm, String flock, int breed, int week) {
+		return jdbcTemplate.query("SELECT weight , COUNT(weight)\r\n"
+				+ "FROM public.weekly_weight_measurement \r\n"
+				+ "where farm_id=? and flock_id=? and breed=? and week=?\r\n"
+				+ "group by weight ORDER by weight ASC;", new Object[] {farm, flock, breed,week} , new WeeklyWeightbynbreOfOiseauxMapper());
+	}
+
+	@Override
+	public long getStandardWeightByBreedAndAge(int breed, int age) {
+		return jdbcTemplate.queryForObject(
+				"SELECT  weight\r\n"
+				+ "	FROM public.weekly_weight_standard\r\n"
+				+ "	WHERE breed=? and age_days=? ;",
+				new Object[] { breed ,age},Long.class);
+		
 	}
 
 	

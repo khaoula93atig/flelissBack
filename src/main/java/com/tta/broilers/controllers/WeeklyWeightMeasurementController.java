@@ -14,6 +14,7 @@ import com.tta.broilers.dao.WeeklyWeightMeasurementInterface;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.WeeklyWeightForChart;
 import com.tta.broilers.entities.rest.WeeklyweightStandardByBreedAndAge;
+import com.tta.broilers.entities.rest.WeeklyweightbyNbreOfoiseaux;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -48,6 +49,18 @@ public class WeeklyWeightMeasurementController {
 	public List<WeeklyweightStandardByBreedAndAge> getStandardWeeklyWeightByBreed(@PathVariable("breed") int breed){
 		return weeklyWeightMeasurementInterface.getWeeklyWeightStandardByAgeAndBreed(breed);
 	}
+	
+	@GetMapping("/weeklyweightBynbreOiseau/{breed}/{flock}/{farm}/{week}")
+	public List<WeeklyweightbyNbreOfoiseaux> getWeeklyWeightBynbreoiseaux(@PathVariable("breed") int breed, @PathVariable("flock") String flock,
+			@PathVariable("farm") String farm ,@PathVariable("week") int week ){
+		return weeklyWeightMeasurementInterface.getWeekWeighbyNbre(farm, flock, breed, week);
+	}
+	
+	@GetMapping("/standardweight/{breed}/{age}")
+	public long getWeightBybreedAndage(@PathVariable("breed") int breed ,@PathVariable("age") int age ){
+		return weeklyWeightMeasurementInterface.getStandardWeightByBreedAndAge(breed, age);
+	}
+	
 	
 
 }

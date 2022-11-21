@@ -120,6 +120,8 @@ public class FlockRepository implements FlockInterface {
 
 		try {
 			List<Flock> toUpdate = getById(FlockID);
+			System.out.println(toUpdate);
+			System.out.println(restFlockNumber);
 			if (!toUpdate.isEmpty()) {
 				jdbcTemplate.update("UPDATE flock\r\n" + "SET rest_flock_number=? WHERE flock_id =?;", restFlockNumber,
 						FlockID);

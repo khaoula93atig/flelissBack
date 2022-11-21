@@ -35,6 +35,7 @@ public class FlockRowMapper implements RowMapper<Flock> {
 		flock.setCheckEndOfCycle(rs.getBoolean("check_end_of_cycle"));
 		flock.setFlockNumber(rs.getInt("flock_number"));
 		flock.setEndOfCycle(rs.getDate("end_of_cycle"));
+		flock.setRestFlockNumber(rs.getInt("rest_flock_number"));
 		House house = new House();
 
 		house.setBirdsNumber(rs.getInt("birds_number"));
