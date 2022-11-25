@@ -17,6 +17,7 @@ import com.tta.broilers.entities.rest.WeeklyweightbyNbreOfoiseaux;
 import com.tta.broilers.mappers.WeeklyWeightForChartRowMapper;
 import com.tta.broilers.mappers.WeeklyWeightStandardByBreedAndAgeRowMapper;
 import com.tta.broilers.mappers.WeeklyWeightbynbreOfOiseauxMapper;
+import com.tta.broilers.mappers.WeeklyweightMesurementRowMapper;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -44,13 +45,13 @@ public class WeeklyWeightMeasurementRepository implements WeeklyWeightMeasuremen
 
 					"INSERT INTO weekly_weight_measurement(\r\n"
 					+ "            week, farm_id, center_id, house_id, flock_id, weight, flock_nbr, \r\n"
-					+ "            average, creation_date, breed)\r\n"
+					+ "            average, creation_date, breed, cv, uniformty)\r\n"
 					+ "    VALUES (?, ?, ?, ?, ?, ?, ?, \r\n"
-					+ "            ?, ?, ?);\r\n"
+					+ "            ?, ?, ?, ?, ?);\r\n"
 					,weeklyWeightMeasurement.getWeek(),weeklyWeightMeasurement.getFarmId(),weeklyWeightMeasurement.getCenterId(),
 					weeklyWeightMeasurement.getHouseId(),weeklyWeightMeasurement.getFlockId(),weeklyWeightMeasurement.getWeight(),
 					weeklyWeightMeasurement.getFlockNbr(),weeklyWeightMeasurement.getAverage(),weeklyWeightMeasurement.getCreationDate(),
-					weeklyWeightMeasurement.getBreed()
+					weeklyWeightMeasurement.getBreed(),weeklyWeightMeasurement.getCv(),weeklyWeightMeasurement.getUniformity()
 					);
 		String deviation ;
 		double standard=jdbcTemplate.queryForObject(
@@ -125,6 +126,15 @@ public class WeeklyWeightMeasurementRepository implements WeeklyWeightMeasuremen
 				+ "	WHERE breed=? and age_days=? ;",
 				new Object[] { breed ,age},Long.class);
 		
+	}
+
+	@Override
+	public List<WeeklyWeightMeasurement> getweeklyweightOfFlocks(String flockId) {
+		return jdbcTemplate.query("SELECT count(*) as count,average, week , flock_id , cv , uniformty\r\n"
+				+ "	FROM public.weekly_weight_measurement\r\n"
+				+ "	WHERE flock_id=?\r\n"
+				+ "	GROUP by average , week , flock_id , cv , uniformty \r\n"
+				+ "	ORDER by week ASC;", new Object[] {flockId} , new WeeklyweightMesurementRowMapper());
 	}
 
 	

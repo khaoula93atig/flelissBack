@@ -1,6 +1,7 @@
 package com.tta.broilers.repositories;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,12 @@ import org.springframework.stereotype.Repository;
 import com.tta.broilers.dao.DashboardInterface;
 import com.tta.broilers.entities.Farm;
 import com.tta.broilers.entities.rest.FlockWeight;
+import com.tta.broilers.entities.rest.MortalityByBreed;
+import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.WeightByBreed;
 import com.tta.broilers.entities.rest.WeightByFlock;
+import com.tta.broilers.mappers.FlockRowMapper;
+import com.tta.broilers.mappers.MortalityByfarmRowMapper;
 import com.tta.broilers.mappers.WeightByFlockRowMapper;
 import com.tta.broilers.mappers.WeightPerBreedRowMapper;
 
@@ -63,7 +68,7 @@ public class DashboardRepository implements DashboardInterface {
 		// FlockWeight FlockWeight2=new FlockWeight();
 		List<FlockWeight> newList = new ArrayList<FlockWeight>();
 
-		for ( int  i = 0; i < weightByFlock.size() - 1; i++) {
+		/*for ( int  i = 0; i < weightByFlock.size() - 1; i++) {
 			FlockWeight flockWeight = null;
 			if (i == 0) {
 
@@ -113,7 +118,7 @@ public class DashboardRepository implements DashboardInterface {
 			
 			
 		
-		}
+		}*/
 
 		return newList;
 	}
@@ -172,5 +177,7 @@ public class DashboardRepository implements DashboardInterface {
 		// return the new list
 		return weightByBreed;
 	}
+
+	
 	
 }

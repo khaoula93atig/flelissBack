@@ -22,5 +22,6 @@ public interface WeeklyWeightMeasurementInterface  {
 	List<WeeklyweightbyNbreOfoiseaux> getWeekWeighbyNbre(String farm, String flock, int breed, int week);
 	List<WeeklyweightStandardByBreedAndAge> getWeeklyWeightStandardByAgeAndBreed(int breed);
 	long getStandardWeightByBreedAndAge(int breed , int age);
+	List<WeeklyWeightMeasurement> getweeklyweightOfFlocks(String flockId);
 
 }

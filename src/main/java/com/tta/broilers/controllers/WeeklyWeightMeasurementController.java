@@ -61,6 +61,12 @@ public class WeeklyWeightMeasurementController {
 		return weeklyWeightMeasurementInterface.getStandardWeightByBreedAndAge(breed, age);
 	}
 	
+	@GetMapping("/weeklyWeightMesurementOfFlock/{flockId}")
+	public List<WeeklyWeightMeasurement> getWeeklyWeightMesurementOfFlock(@PathVariable("flockId") String flockId) {
+
+		return weeklyWeightMeasurementInterface.getweeklyweightOfFlocks(flockId);
+		
+	}
 	
 
 }

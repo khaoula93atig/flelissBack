@@ -30,4 +30,6 @@ public class DashboardController {
 	public ArrayList<WeightByBreed> getWeightperBreed(@PathVariable("center_id") String center_id) {
 		return dashboardInterface.getWeightperBreed(center_id);
 	}
+	
+	
 }

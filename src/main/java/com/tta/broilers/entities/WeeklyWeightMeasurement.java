@@ -19,6 +19,28 @@ public class WeeklyWeightMeasurement {
 	private int flockNbr;
 	private Date creationDate;
 	private double average;
+	private double cv;
+	private double uniformity;
+	private double count;
+	
+	public double getCount() {
+		return count;
+	}
+	public void setCount(double count) {
+		this.count = count;
+	}
+	public double getCv() {
+		return cv;
+	}
+	public void setCv(double cv) {
+		this.cv = cv;
+	}
+	public double getUniformity() {
+		return uniformity;
+	}
+	public void setUniformity(double uniformity) {
+		this.uniformity = uniformity;
+	}
 	public int getBreed() {
 		return breed;
 	}
@@ -81,9 +103,10 @@ public class WeeklyWeightMeasurement {
 	}
 	@Override
 	public String toString() {
-		return "weeklyWeightMeasurement [breed=" + breed + ", farmId=" + farmId + ", weight=" + weight + ", centerId="
+		return "WeeklyWeightMeasurement [breed=" + breed + ", farmId=" + farmId + ", weight=" + weight + ", centerId="
 				+ centerId + ", houseId=" + houseId + ", flockId=" + flockId + ", week=" + week + ", flockNbr="
-				+ flockNbr + ", creationDate=" + creationDate + ", average=" + average + "]";
+				+ flockNbr + ", creationDate=" + creationDate + ", average=" + average + ", cv=" + cv + ", uniformity="
+				+ uniformity + ", count=" + count + "]";
 	}
 	
 
