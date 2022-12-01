@@ -24,16 +24,20 @@ public class MortalityDashboardController {
 	@Autowired
 	MortalityDashboardInterface mortalitedashboard;
 	
-	@GetMapping
-	public List<MortalityByBreed> getMortalityByBreed(){
-		return mortalitedashboard.getMortalityByBreed();
+	@GetMapping("/breed/{company}")
+	public List<MortalityByBreed> getMortalityByBreed(@PathVariable("company") String companyId){
+		return mortalitedashboard.getMortalityByBreed(companyId);
 	}
 
-	@GetMapping("/farm/{task}/{date}/{center}")
-	public List<MortalityByFarm> getBreedByMortality(@PathVariable("task") int task,@PathVariable("date") String date,@PathVariable("center") String center_id) throws ParseException{
+	@GetMapping("/farm/{task}/{date}/{company}")
+	public List<MortalityByFarm> getBreedByMortality(@PathVariable("task") int task,@PathVariable("date") String date,@PathVariable("company") String companyId) throws ParseException{
 		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1 = sourceFormat.parse(date);
 		System.out.println(date1);
-		return mortalitedashboard.getPercentagMortalityByFarm(task, date1, center_id);
+		return mortalitedashboard.getPercentagMortalityByFarm(task, date1, companyId);
+	}
+	@GetMapping("/farmgeneral/{company}")
+	public List<MortalityByFarm> getBreedByMortalitygeneral(@PathVariable("company") String companyId) throws ParseException{
+		return mortalitedashboard.getPercentagMortalityByFarmGeneral(companyId);
 	}
 }

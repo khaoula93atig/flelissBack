@@ -11,6 +11,7 @@ public class Flock {
 	private String flockID;
 	private String flockName;
 	private String houseId;
+	private String farmId;
 	private int breed;
 	private int cycle;
 	private Date startOfCycle;
@@ -28,6 +29,15 @@ public class Flock {
 	private Date endOfCycle;
 	private int  restFlockNumber;
 	
+	
+	public String getFarmId() {
+		return farmId;
+	}
+
+	public void setFarmId(String farmId) {
+		this.farmId = farmId;
+	}
+
 	public int getChikedPlaced() {
 		return chikedPlaced;
 	}
@@ -177,12 +187,13 @@ public class Flock {
 
 	@Override
 	public String toString() {
-		return "Flock [flockID=" + flockID + ", flockName=" + flockName + ", houseId=" + houseId + ", breed=" + breed
-				+ ", cycle=" + cycle + ", startOfCycle=" + startOfCycle + ", hatchDate=" + hatchDate + ", chikedPlaced="
-				+ chikedPlaced + ", psOrigin=" + psOrigin + ", house=" + house + ", breedObject=" + breedObject
-				+ ", creationDate=" + creationDate + ", hatchDateString=" + hatchDateString + ", startOfCycleString="
-				+ startOfCycleString + ", flockNumber=" + flockNumber + ", checkEndOfCycle=" + checkEndOfCycle
-				+ ", endOfCycle=" + endOfCycle + ", restFlockNumber=" + restFlockNumber + "]";
+		return "Flock [flockID=" + flockID + ", flockName=" + flockName + ", houseId=" + houseId + ", farmId=" + farmId
+				+ ", breed=" + breed + ", cycle=" + cycle + ", startOfCycle=" + startOfCycle + ", hatchDate="
+				+ hatchDate + ", chikedPlaced=" + chikedPlaced + ", psOrigin=" + psOrigin + ", house=" + house
+				+ ", breedObject=" + breedObject + ", creationDate=" + creationDate + ", hatchDateString="
+				+ hatchDateString + ", startOfCycleString=" + startOfCycleString + ", flockNumber=" + flockNumber
+				+ ", checkEndOfCycle=" + checkEndOfCycle + ", endOfCycle=" + endOfCycle + ", restFlockNumber="
+				+ restFlockNumber + "]";
 	}
 
 }

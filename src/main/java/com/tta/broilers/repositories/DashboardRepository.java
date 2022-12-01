@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tta.broilers.dao.DashboardInterface;
 import com.tta.broilers.entities.Farm;
+import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByBreed;
 import com.tta.broilers.entities.rest.MortalityByFarm;
@@ -17,6 +18,7 @@ import com.tta.broilers.entities.rest.WeightByBreed;
 import com.tta.broilers.entities.rest.WeightByFlock;
 import com.tta.broilers.mappers.FlockRowMapper;
 import com.tta.broilers.mappers.MortalityByfarmRowMapper;
+import com.tta.broilers.mappers.WeeklyweightMesurementRowMapper;
 import com.tta.broilers.mappers.WeightByFlockRowMapper;
 import com.tta.broilers.mappers.WeightPerBreedRowMapper;
 
@@ -176,6 +178,16 @@ public class DashboardRepository implements DashboardInterface {
 
 		// return the new list
 		return weightByBreed;
+	}
+
+	@Override
+	public List<WeeklyWeightMeasurement> weeklyweightByCompanyForFarms(String companyId) {
+		return jdbcTemplate.query(
+				"SELECT count(*), flock_id, week, weekly_weight_measurement.farm_id, average, weekly_weight_measurement.breed, cv, uniformty\r\n"
+				+ "	FROM public.weekly_weight_measurement JOIN farm on farm.farm_id = weekly_weight_measurement.farm_id\r\n"
+				+ "	where farm.company_id=?\r\n"
+				+ "	group by week, weekly_weight_measurement.farm_id, average, weekly_weight_measurement.breed, cv, uniformty , flock_id",new Object[] { companyId },
+				new WeeklyweightMesurementRowMapper());
 	}
 
 	

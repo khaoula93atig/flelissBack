@@ -14,9 +14,7 @@ public class MortalityByBreedRowMapper implements RowMapper<MortalityByBreed> {
 		MortalityByBreed mortalite= new MortalityByBreed();
 		
 		mortalite.setBreed(rs.getInt("breed"));
-		mortalite.setNumber_initial(rs.getDouble("number_initial"));
-		mortalite.setNumber_restant(rs.getDouble("number_restant"));
-		mortalite.setMortality(rs.getDouble("mortality"));
+		mortalite.setPercentage(rs.getDouble("percentage"));
 		
 		return mortalite;
 	}

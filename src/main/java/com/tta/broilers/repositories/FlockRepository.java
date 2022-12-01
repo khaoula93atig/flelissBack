@@ -50,10 +50,10 @@ public class FlockRepository implements FlockInterface {
 			flock.setFlockID(flock.getHouseId() + "-" + Utils.SMPDF2.format(flock.getStartOfCycle()));
 			flock.setRestFlockNumber(flock.getFlockNumber());
 			jdbcTemplate.update("INSERT INTO flock(" + " flock_id,flock_name,house_id, breed, cycle, start_of_cycle,"
-					+ " ps_origin,           hatch_date, chiked_placed, creation_date,flock_number,check_end_of_cycle,rest_flock_number)"
-					+ "    VALUES (?, ?, ?, ?, ?, ?, ?,  ?,?,?,?,?,?);", flock.getFlockID(), flock.getFlockName(),
+					+ " ps_origin,           hatch_date, chiked_placed, creation_date,farm_id,flock_number,check_end_of_cycle,rest_flock_number)"
+					+ "    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?);", flock.getFlockID(), flock.getFlockName(),
 					flock.getHouseId(), flock.getBreed(), flock.getCycle(), flock.getStartOfCycle(),
-					flock.getPsOrigin(), flock.getHatchDate(), flock.getChikedPlaced(), flock.getCreationDate(),
+					flock.getPsOrigin(), flock.getHatchDate(), flock.getChikedPlaced(), flock.getCreationDate(),flock.getFarmId(),
 					flock.getFlockNumber(), flock.isCheckEndOfCycle(), flock.getRestFlockNumber());
 
 			return new BasicResponse("Flock created: " + flock.toString(), HttpStatus.OK);

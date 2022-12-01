@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.tta.broilers.entities.Farm;
+import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.WeightByBreed;
@@ -14,7 +15,15 @@ import com.tta.broilers.entities.rest.WeightByBreed;
  *
  */
 public interface DashboardInterface {
-
+	
+	//travail khaoula
+	
+	public List<WeeklyWeightMeasurement> weeklyweightByCompanyForFarms(String companyId);
+	
+	
+	
+	
+//travail emna 
 	public List<FlockWeight> findWeightByFlock(String flock_id);
 
 	public List<Farm> getById(String id);

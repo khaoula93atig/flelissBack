@@ -43,7 +43,7 @@ public class VisitRepository implements VisitInterface {
 			List<Flock> flocks=flockRepository.getById(visit.getFlockID());
 			Flock flock=flocks.get(0);
 			System.out.println(flock);
-			if(flock.getRestFlockNumber()==0 && (flock.getFlockNumber()>visit.getMortality())) {
+			/*if(flock.getRestFlockNumber()==0 && (flock.getFlockNumber()>visit.getMortality())) {
 				System.out.println("flock"+flock.toString());
 				System.out.println("test1");
 				visit.setVisitId(UUID.randomUUID().toString().replace("-", ""));
@@ -63,7 +63,7 @@ public class VisitRepository implements VisitInterface {
 					return results.get(0);
 				} else
 					return null;
-			}else if(flock.getRestFlockNumber()>0 && flock.getFlockNumber()>flock.getRestFlockNumber() && flock.getRestFlockNumber()>visit.getMortality()) {
+			}else*/ if(flock.getRestFlockNumber()>0 && flock.getFlockNumber()>=flock.getRestFlockNumber() && flock.getRestFlockNumber()>visit.getMortality()) {
 				System.out.println("mor"+visit.getMortality());
 				System.out.println(flock.getRestFlockNumber()>visit.getMortality());
 				System.out.println("test2");

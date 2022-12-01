@@ -24,6 +24,7 @@ public class FlockRowMapper implements RowMapper<Flock> {
 		
 		flock.setFlockID(rs.getString("flock_id")); 
 		flock.setHouseId(rs.getString("house_id"));
+		flock.setFarmId(rs.getString("farm_id"));
 		flock.setFlockName(rs.getString("flock_name"));
 		flock.setBreed(rs.getInt("breed"));
 		flock.setCycle(rs.getInt("cycle"));
