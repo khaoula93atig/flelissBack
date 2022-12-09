@@ -1,5 +1,9 @@
 package com.tta.broilers.controllers;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tta.broilers.dao.DashboardInterface;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
+import com.tta.broilers.entities.rest.AlertByFarm;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.WeightByBreed;
 /**
@@ -27,6 +32,31 @@ public class DashboardController {
 	public List<WeeklyWeightMeasurement> weeklyweightByCompanyForFarm(@PathVariable("company") String companyId) {
 		return dashboardInterface.weeklyweightByCompanyForFarms(companyId);
 	}
+	
+	@GetMapping("/weeklyweight/farm/{farm}")
+	public List<WeeklyWeightMeasurement> weeklyweightBycenterforFarm(@PathVariable("farm") String farmId) {
+		return dashboardInterface.weeklyweightBycenterforFarm(farmId);
+	}
+	
+	@GetMapping("/weeklyweight/center/{center}")
+	public List<WeeklyWeightMeasurement> weeklyweightByhouseforcenter(@PathVariable("center") String centrerId) {
+		return dashboardInterface.weeklyweightByHouseforCenter(centrerId);
+	}
+	
+	@GetMapping("/alert/{visitDate}/{farm}")
+	public List<AlertByFarm> getAlertByFarm(@PathVariable("visitDate") String visitDate,@PathVariable("farm") String farmId) throws ParseException {
+		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sourceFormat.parse(visitDate);
+		return dashboardInterface.getAllAlertByFarm(date1, farmId);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -66,7 +66,7 @@ public class FarmRepository implements FarmInterface {
 	public BasicResponse update(Farm farm) {
 		try {
 			System.out.println("farm "+farm);
-			List<Farm> toUpdate = getById(farm.getFarmId());
+			List<Farm> toUpdate = getByFarmId(farm.getFarmId());
 			if (!toUpdate.isEmpty()) {
 				jdbcTemplate.update(
 						"UPDATE rendez_vous\r\n"
@@ -91,10 +91,10 @@ public class FarmRepository implements FarmInterface {
 	}
 
 	@Override
-	public List<Farm> getById(String id) {
+	public List<Farm> getByFarmId(String id) {
 
 		return jdbcTemplate.query(
-				"select * from farm left join company on farm.company_id= company.company_id where company.company_id=? ",
+				"select * from farm left join company on farm.company_id= company.company_id where farm.farm_id=? ",
 				new Object[] { id }, new FarmRowMapper());
 	}
 
@@ -107,6 +107,13 @@ public class FarmRepository implements FarmInterface {
 	public String getCompanyName(String companyId ) {
 		return jdbcTemplate.queryForObject("SELECT name FROM company where company_id=?",new Object[] { companyId } ,String.class);
 
+	}
+
+	@Override
+	public List<Farm> getByCompanyId(String id) {
+		return jdbcTemplate.query(
+				"select * from farm left join company on farm.company_id= company.company_id where company.company_id=? ",
+				new Object[] { id }, new FarmRowMapper());
 	}
 
 }

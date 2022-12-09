@@ -20,6 +20,8 @@ public class WeeklyweightMesurementRowMapper implements RowMapper<WeeklyWeightMe
 		weeklyWeightMesure.setCv(rs.getDouble("cv"));
 		weeklyWeightMesure.setUniformity(rs.getDouble("uniformty"));
 		weeklyWeightMesure.setFarmId(rs.getString("farm_id"));
+		weeklyWeightMesure.setHouseId(rs.getString("house_id"));
+		weeklyWeightMesure.setCenterId(rs.getString("center_id"));
 
 		return weeklyWeightMesure;
 	}

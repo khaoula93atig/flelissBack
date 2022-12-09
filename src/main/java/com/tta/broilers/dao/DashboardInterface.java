@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.tta.broilers.entities.Farm;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
+import com.tta.broilers.entities.rest.AlertByFarm;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.WeightByBreed;
@@ -19,6 +20,10 @@ public interface DashboardInterface {
 	//travail khaoula
 	
 	public List<WeeklyWeightMeasurement> weeklyweightByCompanyForFarms(String companyId);
+	public List<WeeklyWeightMeasurement> weeklyweightBycenterforFarm(String farmId);
+	public List<WeeklyWeightMeasurement> weeklyweightByHouseforCenter(String centerId);
+	public List<AlertByFarm> getAllAlertByFarm(Date visitDate, String farmId);
+	
 	
 	
 	

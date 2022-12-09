@@ -13,7 +13,8 @@ public interface FarmInterface {
 
 	public List<Farm> findAll();
 
-	public List<Farm> getById(String id);
+	public List<Farm> getByCompanyId(String id);
+	public List<Farm> getByFarmId(String id);
 
 	public BasicResponse save(Farm farm);
 

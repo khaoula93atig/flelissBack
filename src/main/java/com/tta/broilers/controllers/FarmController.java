@@ -32,17 +32,17 @@ public class FarmController {
 		return farmeInterface.findAll();
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/getByid/{id}")
 	public List<Farm> findByID(@PathVariable("id") String id) {
 
-		return farmeInterface.getById(id);
+		return farmeInterface.getByFarmId(id);
 	}
 
 	
 	@GetMapping("/getByCompany/{id}")
 	public List<Farm> getByCompanyID(@PathVariable("id") String id) {
 
-		return farmeInterface.getById(id);
+		return farmeInterface.getByCompanyId(id);
 	}
 	
 	@PostMapping("/save")
