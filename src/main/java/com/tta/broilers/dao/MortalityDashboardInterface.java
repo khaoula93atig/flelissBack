@@ -32,5 +32,13 @@ public interface MortalityDashboardInterface {
 	
 	//survival by farm
 	public double getSurvivalByFarm(String farmId);
+	
+	//Mortality By farm
+	public double getMortalityByFarm(String farmId);
 
+	//Mortality By House
+	public double getMortalityByHouse(String houseId,Date visitdate);
+	
+	//survival by house
+	public double getSurvivalByHouse(String houseId);
 }

@@ -88,5 +88,24 @@ public class MortalityDashboardRepository implements MortalityDashboardInterface
 				+ "				FROM public.flock JOIN farm on farm.farm_id = flock.farm_id \r\n"
 				+ "				where flock.check_end_of_cycle=false and farm.farm_id=?",new Object[] { farmId }, Double.class);
 	}
+	@Override
+	public double getMortalityByFarm(String farmId) {
+		return jdbcTemplate.queryForObject("SELECT round((sum(flock_number)- sum(rest_flock_number)+ 0.0)*100/(sum(flock_number)+ 0.0),2) \r\n"
+				+ "				FROM public.flock \r\n"
+				+ "				where flock.check_end_of_cycle=false and farm_id=?",new Object[] { farmId }, Double.class);
+	}
+	@Override
+	public double getMortalityByHouse(String houseId, Date visitdate) {
+		return jdbcTemplate.queryForObject("SELECT visittasks.measure\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	WHERE visit_date=? and visit.house_id=? and visittasks.task_id=8",new Object[] {visitdate , houseId }, Double.class);
+	}
+	@Override
+	public double getSurvivalByHouse(String houseId) {
+		return jdbcTemplate.queryForObject("SELECT rest_flock_number\r\n"
+				+ "	FROM public.flock\r\n"
+				+ "	where house_id=? and check_end_of_cycle=false;",new Object[] {houseId }, Double.class);
+	}
 
 }

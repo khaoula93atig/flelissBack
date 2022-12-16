@@ -67,4 +67,21 @@ public class MortalityDashboardController {
 		return mortalitedashboard.getSurvivalByFarm(farmId);
 	}
 	
+	@GetMapping("/farm/mortality/{farm}")
+	public double getMortalityByFarm(@PathVariable("farm") String farmId){
+		return mortalitedashboard.getMortalityByFarm(farmId);
+	}
+	
+	@GetMapping("/house/mortality/{house}/{date}")
+	public double getMortalityByHouse(@PathVariable("house") String houseId, @PathVariable("date") String date) throws ParseException{
+		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sourceFormat.parse(date);
+		return mortalitedashboard.getMortalityByHouse(houseId,date1);
+	}
+	
+	@GetMapping("/house/survival/{house}")
+	public double getSurvivalByHouse(@PathVariable("house") String houseId){
+		return mortalitedashboard.getSurvivalByHouse(houseId);
+	}
+	
 }

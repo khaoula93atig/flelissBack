@@ -12,12 +12,14 @@ import com.tta.broilers.dao.DashboardInterface;
 import com.tta.broilers.entities.Farm;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.AlertByFarm;
+import com.tta.broilers.entities.rest.AlertByHouse;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByBreed;
 import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.WeightByBreed;
 import com.tta.broilers.entities.rest.WeightByFlock;
 import com.tta.broilers.mappers.AlertByFarmRowMapper;
+import com.tta.broilers.mappers.AlertByHouseRowMapper;
 import com.tta.broilers.mappers.FlockRowMapper;
 import com.tta.broilers.mappers.MortalityByfarmRowMapper;
 import com.tta.broilers.mappers.WeeklyweightMesurementRowMapper;
@@ -223,6 +225,35 @@ public class DashboardRepository implements DashboardInterface {
 				+ "	WHERE visit_date=? and visit.farm_id=? and (visittasks.deviation!='Normal' and visittasks.deviation!='' and visittasks.deviation!='average')\r\n"
 				+ "	group by visittasks.task_id , visit.center_id , visit.house_id , center.center_name , house.house_name , task.description ,visittasks.deviation , visittasks.measure",new Object[] { visitDate, farmId },
 				new AlertByFarmRowMapper());
+	}
+
+	@Override
+	public List<AlertByHouse> getAlertByHouse(Date visitDate, String houseId) {
+		return jdbcTemplate.query(
+				"SELECT count(*), visittasks.task_id , task.description ,visittasks.deviation , visittasks.measure\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ " join house on house.house_id = visit.house_id \r\n"
+				+ "	join task on task.task_id = visittasks.task_id\r\n"
+				+ "	WHERE visit_date=? and visit.house_id=? and (visittasks.deviation!='Normal' and visittasks.deviation!='' and visittasks.deviation!='average')\r\n"
+				+ "	group by visittasks.task_id , task.description ,visittasks.deviation , visittasks.measure",new Object[] { visitDate, houseId },
+				new AlertByHouseRowMapper());
+	}
+
+	@Override
+	public double getFeedConsumtionDialy(Date visitDate, String houseId) {
+		return jdbcTemplate.queryForObject("SELECT visittasks.measure\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	WHERE visit_date=? and visit.house_id=? and visittasks.task_id=6",new Object[] {visitDate, houseId }, Double.class);
+	}
+
+	@Override
+	public double getFeedConsumtionTotal(Date visitDate, String houseId) {
+		return jdbcTemplate.queryForObject("SELECT sum(visittasks.measure)\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	join flock on flock.flock_id = visit.flock_id\r\n"
+				+ "	WHERE visit.house_id=? and visittasks.task_id=6 and flock.check_end_of_cycle=false and visit.visit_date<=?",new Object[] {houseId ,visitDate }, Double.class);
 	}
 
 	

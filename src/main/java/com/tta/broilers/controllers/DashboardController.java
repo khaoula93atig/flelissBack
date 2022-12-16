@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tta.broilers.dao.DashboardInterface;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.AlertByFarm;
+import com.tta.broilers.entities.rest.AlertByHouse;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.WeightByBreed;
 /**
@@ -43,6 +44,7 @@ public class DashboardController {
 		return dashboardInterface.weeklyweightByHouseforCenter(centrerId);
 	}
 	
+	//alert by farm
 	@GetMapping("/alert/{visitDate}/{farm}")
 	public List<AlertByFarm> getAlertByFarm(@PathVariable("visitDate") String visitDate,@PathVariable("farm") String farmId) throws ParseException {
 		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -50,6 +52,28 @@ public class DashboardController {
 		return dashboardInterface.getAllAlertByFarm(date1, farmId);
 	}
 	
+	@GetMapping("/alert/house/{visitDate}/{house}")
+	public List<AlertByHouse> getAlertByhouse(@PathVariable("visitDate") String visitDate,@PathVariable("house") String houseId) throws ParseException {
+		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sourceFormat.parse(visitDate);
+		return dashboardInterface.getAlertByHouse(date1, houseId);
+	}
+	
+	//feedconsumtion by house daily
+	@GetMapping("/feed/house/{visitDate}/{house}")
+	public double getFeedByhouse(@PathVariable("visitDate") String visitDate,@PathVariable("house") String houseId) throws ParseException {
+		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sourceFormat.parse(visitDate);
+		return dashboardInterface.getFeedConsumtionDialy(date1, houseId);
+	}
+	
+	//feed consumption total by house 
+	@GetMapping("/totalfeed/house/{visitDate}/{house}")
+	public double getTotalFeedByhouse(@PathVariable("visitDate") String visitDate,@PathVariable("house") String houseId) throws ParseException {
+		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sourceFormat.parse(visitDate);
+		return dashboardInterface.getFeedConsumtionTotal(date1, houseId);
+	}
 	
 	
 	
