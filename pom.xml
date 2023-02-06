@@ -12,6 +12,7 @@
 	<groupId>com.tta</groupId>
 	<artifactId>broilers</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>broilers</name>
 	<description>Broilers Project</description>
 	<properties>
@@ -128,6 +129,10 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
 		</plugins>

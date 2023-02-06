@@ -6,7 +6,9 @@ import java.util.List;
 import com.tta.broilers.entities.rest.MortalityByBreed;
 import com.tta.broilers.entities.rest.MortalityByCenter;
 import com.tta.broilers.entities.rest.MortalityByFarm;
+import com.tta.broilers.entities.rest.MortalityByFlock;
 import com.tta.broilers.entities.rest.MortalityByHouse;
+import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
 
 public interface MortalityDashboardInterface {
 	
@@ -41,4 +43,12 @@ public interface MortalityDashboardInterface {
 	
 	//survival by house
 	public double getSurvivalByHouse(String houseId);
+	
+	//age of flock
+	public int getAgeFlock(String houseId , Date date);
+	
+	//mortalite by house list of 7 last days 
+	public List<MortalityByhouseLastDays> getMortalityOfLastdaysByhouse(String houseId);
+	 //mortality by flock
+	public List<MortalityByFlock> getMortalityByflock(String houseId,int year);
 }

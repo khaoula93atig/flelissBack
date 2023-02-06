@@ -29,7 +29,7 @@ public class BeedingManagementRowMapper implements RowMapper<BreedingManagement>
 		breedingManagement.setSealingCeilingBuilding(rs.getString("sealing_ceiling_building"));
 		breedingManagement.setAirLeaksBuildings(rs.getString("air_leaks_buildings"));
 		breedingManagement.setCleanlinessHoppers(rs.getString("cleanliness_hoppers"));
-		breedingManagement.setAvailabilityWireMeshHopper(rs.getString("availability_wire_mesh_hopper"));
+		breedingManagement.setStorageVaccines(rs.getString("storge_vaccines"));
 		breedingManagement.setCleanlinessFeeders(rs.getString("cleanliness_feeders"));
 		breedingManagement.setSufficientNumberFeeders(rs.getString("sufficient_number_feeders"));
 		breedingManagement.setAdjustmentHeightDrinkersAccording(rs.getString("adjustment_height_feeders_according"));

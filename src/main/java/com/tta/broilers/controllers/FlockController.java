@@ -66,4 +66,10 @@ public class FlockController {
 
 		return flockInterface.getreportFlock(flockID);
 	}
+	
+	@GetMapping("/house/exists/{houseId}")
+	public List<Flock> findByhouseId(@PathVariable("houseId") String houseId) {
+
+		return flockInterface.findByHouseIDexisits(houseId);
+	}
 }

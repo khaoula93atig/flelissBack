@@ -22,4 +22,6 @@ public interface HouseInterface {
 	public BasicResponse update(House house);
 	public String  getCenterName(String centerId);
 	public long countAll();
+	
+	public int getBreedofHouse(String houseId);
 }

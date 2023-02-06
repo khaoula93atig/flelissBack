@@ -20,4 +20,5 @@ public interface FlockInterface  {
 	BasicResponse update(Flock flock);
 	BasicResponse updateRestNumberFlock(String FlockID ,int restFlockNumber);
 	FlockTechnicalReport getreportFlock(String flockId);
+	List<Flock> findByHouseIDexisits(String houseID);
 }

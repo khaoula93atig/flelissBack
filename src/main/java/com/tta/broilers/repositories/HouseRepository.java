@@ -108,4 +108,11 @@ public class HouseRepository implements HouseInterface {
 				new Object[] { centerId }, new HouseRowMapper());
 
 	}
+
+	@Override
+	public int getBreedofHouse(String houseId) {
+		return jdbcTemplate.queryForObject("SELECT breed\r\n"
+				+ "	FROM public.flock join house on house.house_id = flock.house_id\r\n"
+				+ "	where flock.check_end_of_cycle=false and house.house_id=?; ",new Object[] { houseId }, int.class);
+	}
 }

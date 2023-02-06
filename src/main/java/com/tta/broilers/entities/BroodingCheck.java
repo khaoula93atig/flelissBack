@@ -43,6 +43,17 @@ public class BroodingCheck {
 	private Date creationDate;
 	private String username;
 	
+	private String floorTemperature ;
+	private String spotBrooding ;
+	private String distanceAccessWater ;
+	private String checkFeed ;
+	private String feedOnPaper ;
+	private String feedersTrays ;
+	private String drinkersNippleLines ;
+	private String drinkersBell ;
+	private String drinkersSupp ;
+	private String waterTemperature ;
+	
 	public String getBroodingCheckId() {
 		return broodingCheckId;
 	}
@@ -241,6 +252,68 @@ public class BroodingCheck {
 	public void setDeliveryVehicleHygiene(String deliveryVehicleHygiene) {
 		this.deliveryVehicleHygiene = deliveryVehicleHygiene;
 	}
+	
+	
+	public String getFloorTemperature() {
+		return floorTemperature;
+	}
+	public void setFloorTemperature(String floorTemperature) {
+		this.floorTemperature = floorTemperature;
+	}
+	public String getSpotBrooding() {
+		return spotBrooding;
+	}
+	public void setSpotBrooding(String spotBrooding) {
+		this.spotBrooding = spotBrooding;
+	}
+	public String getDistanceAccessWater() {
+		return distanceAccessWater;
+	}
+	public void setDistanceAccessWater(String distanceAccessWater) {
+		this.distanceAccessWater = distanceAccessWater;
+	}
+	public String getCheckFeed() {
+		return checkFeed;
+	}
+	public void setCheckFeed(String checkFeed) {
+		this.checkFeed = checkFeed;
+	}
+	public String getFeedOnPaper() {
+		return feedOnPaper;
+	}
+	public void setFeedOnPaper(String feedOnPaper) {
+		this.feedOnPaper = feedOnPaper;
+	}
+	public String getFeedersTrays() {
+		return feedersTrays;
+	}
+	public void setFeedersTrays(String feedersTrays) {
+		this.feedersTrays = feedersTrays;
+	}
+	public String getDrinkersNippleLines() {
+		return drinkersNippleLines;
+	}
+	public void setDrinkersNippleLines(String drinkersNippleLines) {
+		this.drinkersNippleLines = drinkersNippleLines;
+	}
+	public String getDrinkersBell() {
+		return drinkersBell;
+	}
+	public void setDrinkersBell(String drinkersBell) {
+		this.drinkersBell = drinkersBell;
+	}
+	public String getDrinkersSupp() {
+		return drinkersSupp;
+	}
+	public void setDrinkersSupp(String drinkersSupp) {
+		this.drinkersSupp = drinkersSupp;
+	}
+	public String getWaterTemperature() {
+		return waterTemperature;
+	}
+	public void setWaterTemperature(String waterTemperature) {
+		this.waterTemperature = waterTemperature;
+	}
 	@Override
 	public String toString() {
 		return "BroodingCheck [broodingCheckId=" + broodingCheckId + ", litterDepth=" + litterDepth + ", farm=" + farm
@@ -256,7 +329,11 @@ public class BroodingCheck {
 				+ ", checkChickBehavior=" + checkChickBehavior + ", checkChickWaterSupply=" + checkChickWaterSupply
 				+ ", checkFeedSupply=" + checkFeedSupply + ", checkChickCropFill=" + checkChickCropFill
 				+ ", distributionDayOldChicks=" + distributionDayOldChicks + ", dailyPurgesPiping=" + dailyPurgesPiping
-				+ ", airQuality=" + airQuality + ", creationDate=" + creationDate + ", username=" + username + "]";
+				+ ", airQuality=" + airQuality + ", creationDate=" + creationDate + ", username=" + username
+				+ ", floorTemperature=" + floorTemperature + ", spotBrooding=" + spotBrooding + ", distanceAccessWater="
+				+ distanceAccessWater + ", checkFeed=" + checkFeed + ", feedOnPaper=" + feedOnPaper + ", feedersTrays="
+				+ feedersTrays + ", drinkersNippleLines=" + drinkersNippleLines + ", drinkersBell=" + drinkersBell
+				+ ", drinkersSupp=" + drinkersSupp + ", waterTemperature=" + waterTemperature + "]";
 	}
 
 	

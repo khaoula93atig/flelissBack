@@ -11,9 +11,13 @@ import com.tta.broilers.dao.MortalityDashboardInterface;
 import com.tta.broilers.entities.rest.MortalityByBreed;
 import com.tta.broilers.entities.rest.MortalityByCenter;
 import com.tta.broilers.entities.rest.MortalityByFarm;
+import com.tta.broilers.entities.rest.MortalityByFlock;
 import com.tta.broilers.entities.rest.MortalityByHouse;
+import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
 import com.tta.broilers.mappers.MortalityByBreedRowMapper;
 import com.tta.broilers.mappers.MortalityByCenterRowMapper;
+import com.tta.broilers.mappers.MortalityByFlockRowMapper;
+import com.tta.broilers.mappers.MortalityByHouseLastDaysRowMapper;
 import com.tta.broilers.mappers.MortalityByHouseRowMapper;
 import com.tta.broilers.mappers.MortalityByfarmRowMapper;
 
@@ -106,6 +110,31 @@ public class MortalityDashboardRepository implements MortalityDashboardInterface
 		return jdbcTemplate.queryForObject("SELECT rest_flock_number\r\n"
 				+ "	FROM public.flock\r\n"
 				+ "	where house_id=? and check_end_of_cycle=false;",new Object[] {houseId }, Double.class);
+	}
+	@Override
+	public int getAgeFlock(String houseId, Date date) {
+		return jdbcTemplate.queryForObject("SELECT  ?-start_of_cycle  AS date_difference\r\n"
+				+ "	FROM public.flock\r\n"
+				+ "	WHERE house_id=? and check_end_of_cycle=false",new Object[] {date,houseId }, int.class);
+	}
+	@Override
+	public List<MortalityByhouseLastDays> getMortalityOfLastdaysByhouse(String houseId) {
+		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
+				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "			join house on house.house_id = visit.house_id \r\n"
+				+ "			join flock on flock.house_id = house.house_id\r\n"
+				+ "			WHERE visit.house_id=? and visittasks.task_id=8 and flock.check_end_of_cycle=false\r\n"
+				+ "			ORDER BY visit_Date DESC\r\n"
+				+ "			LIMIT 7",new Object[] {houseId}, new MortalityByHouseLastDaysRowMapper());
+	}
+	@Override
+	public List<MortalityByFlock> getMortalityByflock(String houseId, int year) {
+		return jdbcTemplate.query("SELECT CASE WHEN round(((flock_number-rest_flock_number+ 0.0)/flock_number)*100,2)=0.00  THEN 100\r\n"
+				+ "            WHEN round(((flock_number-rest_flock_number+ 0.0)/flock_number)*100,2)=100.00 THEN 0\r\n"
+				+ "            ELSE round(((flock_number-rest_flock_number+ 0.0)/flock_number)*100,2)\r\n"
+				+ "       END as mortality, flock_name\r\n"
+				+ "	FROM public.flock \r\n"
+				+ "	where house_id=? and EXTRACT(YEAR From hatch_date)=?",new Object[] {houseId,year}, new MortalityByFlockRowMapper() );
 	}
 
 }

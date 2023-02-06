@@ -18,7 +18,9 @@ import com.tta.broilers.dao.MortalityDashboardInterface;
 import com.tta.broilers.entities.rest.MortalityByBreed;
 import com.tta.broilers.entities.rest.MortalityByCenter;
 import com.tta.broilers.entities.rest.MortalityByFarm;
+import com.tta.broilers.entities.rest.MortalityByFlock;
 import com.tta.broilers.entities.rest.MortalityByHouse;
+import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
 
 @RestController
 @RequestMapping("/mortalitedashboard")
@@ -82,6 +84,23 @@ public class MortalityDashboardController {
 	@GetMapping("/house/survival/{house}")
 	public double getSurvivalByHouse(@PathVariable("house") String houseId){
 		return mortalitedashboard.getSurvivalByHouse(houseId);
+	}
+	
+	@GetMapping("/ageofFlock/{house}/{date}")
+	public int getageOfFlock(@PathVariable("house") String houseId , @PathVariable("date")String date) throws ParseException{
+		DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sourceFormat.parse(date);
+		return mortalitedashboard.getAgeFlock(houseId, date1);
+	}
+	
+	@GetMapping("/mortalityByHouse/lastDays/{house}")
+	public List<MortalityByhouseLastDays> getMortalityHouseLastDays(@PathVariable("house") String houseId) {
+		return mortalitedashboard.getMortalityOfLastdaysByhouse(houseId);
+	}
+	
+	@GetMapping("/mortalityByflock/{houseId}/{year}")
+	public List<MortalityByFlock> getMortalitybyFlockAndYear(@PathVariable("houseId") String houseId, @PathVariable("year") int year) {
+		return mortalitedashboard.getMortalityByflock(houseId, year);
 	}
 	
 }

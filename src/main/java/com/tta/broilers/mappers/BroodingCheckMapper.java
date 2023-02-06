@@ -58,6 +58,16 @@ public class BroodingCheckMapper implements RowMapper<BroodingCheck> {
 		broodingCheck.setUsername(rs.getString("username"));
 		broodingCheck.setWeighSampleChick(rs.getString("weigh_sample_chick"));
 		broodingCheck.setPlaceChicksQuickly(rs.getString("place_chicks_quickly"));
+		broodingCheck.setFloorTemperature(rs.getString("floor_temperature"));
+		broodingCheck.setSpotBrooding(rs.getString("spot_brooding"));
+		broodingCheck.setDistanceAccessWater(rs.getString("distance_access_water"));
+		broodingCheck.setCheckFeed(rs.getString("check_feed"));
+		broodingCheck.setFeedOnPaper(rs.getString("feed_on_paper"));
+		broodingCheck.setFeedersTrays(rs.getString("feeders_trays"));
+		broodingCheck.setDrinkersNippleLines(rs.getString("drinkers_nipple_lines"));
+		broodingCheck.setDrinkersBell(rs.getString("drinkers_bell"));
+		broodingCheck.setDrinkersSupp(rs.getString("drinkers_supp"));
+		broodingCheck.setWaterTemperature(rs.getString("water_temperature"));
 		
 		
 		Farm farm = new Farm();

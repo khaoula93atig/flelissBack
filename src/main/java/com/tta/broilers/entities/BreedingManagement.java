@@ -22,7 +22,7 @@ public class BreedingManagement {
 	private String sealingCeilingBuilding  ;
 	private String airLeaksBuildings ;
 	private String cleanlinessHoppers;
-	private String availabilityWireMeshHopper ;
+	private String  storageVaccines;
 	private String cleanlinessFeeders ;
 	private String sufficientNumberFeeders ;
 	private String adjustmentHeightFeedersAccording ;
@@ -143,11 +143,12 @@ public class BreedingManagement {
 	public void setCleanlinessHoppers(String cleanlinessHoppers) {
 		this.cleanlinessHoppers = cleanlinessHoppers;
 	}
-	public String getAvailabilityWireMeshHopper() {
-		return availabilityWireMeshHopper;
+	
+	public String getStorageVaccines() {
+		return storageVaccines;
 	}
-	public void setAvailabilityWireMeshHopper(String availabilityWireMeshHopper) {
-		this.availabilityWireMeshHopper = availabilityWireMeshHopper;
+	public void setStorageVaccines(String storageVaccines) {
+		this.storageVaccines = storageVaccines;
 	}
 	public String getCleanlinessFeeders() {
 		return cleanlinessFeeders;
@@ -450,30 +451,30 @@ public class BreedingManagement {
 				+ visitDate + ", cleanlinessBuild=" + cleanlinessBuild + ", absenceHolesSharpCracks="
 				+ absenceHolesSharpCracks + ", conditionDoorsWindowsBuilding=" + conditionDoorsWindowsBuilding
 				+ ", sealingCeilingBuilding=" + sealingCeilingBuilding + ", airLeaksBuildings=" + airLeaksBuildings
-				+ ", cleanlinessHoppers=" + cleanlinessHoppers + ", availabilityWireMeshHopper="
-				+ availabilityWireMeshHopper + ", cleanlinessFeeders=" + cleanlinessFeeders
-				+ ", sufficientNumberFeeders=" + sufficientNumberFeeders + ", adjustmentHeightFeedersAccording="
-				+ adjustmentHeightFeedersAccording + ", unjustifiedFeedLeaks=" + unjustifiedFeedLeaks
-				+ ", feedShapeSizeAccordingAge=" + feedShapeSizeAccordingAge + ", feedTransitionAchieved="
-				+ feedTransitionAchieved + ", recordingDailFeedConsumption=" + recordingDailFeedConsumption
-				+ ", availabilitySufficiencyFeed=" + availabilitySufficiencyFeed + ", cleanlinessTanksFilters="
-				+ cleanlinessTanksFilters + ", cleanlinessNipples=" + cleanlinessNipples + ", correctOperationWatering="
-				+ correctOperationWatering + ", correctOperationPressureRegulator=" + correctOperationPressureRegulator
-				+ ", sufficientNumberDrinkers=" + sufficientNumberDrinkers + ", adjustmentHeightDrinkersAccording="
-				+ adjustmentHeightDrinkersAccording + ", waterLeaks=" + waterLeaks + ", recordingDailyWaterConsumption="
-				+ recordingDailyWaterConsumption + ", monitoringPhysicoDw=" + monitoringPhysicoDw
-				+ ", monitoringBacteriologicalDw=" + monitoringBacteriologicalDw + ", dosingPumpCompliant="
-				+ dosingPumpCompliant + ", cleanlinessBrooders=" + cleanlinessBrooders
-				+ ", correctDistributionBrooders=" + correctDistributionBrooders + ", availLocationFunct="
-				+ availLocationFunct + ", observanceHeatingProgram=" + observanceHeatingProgram
-				+ ", stateCoolingSystem=" + stateCoolingSystem + ", correctOperationCoolingSystem="
-				+ correctOperationCoolingSystem + ", fansMaintained=" + fansMaintained + ", properOperationFans="
-				+ properOperationFans + ", hatchOpeningLevel=" + hatchOpeningLevel + ", observanceAirFlow="
-				+ observanceAirFlow + ", dailyRecordMinMaxTemp=" + dailyRecordMinMaxTemp
-				+ ", recordMinmaxDailyHumidity=" + recordMinmaxDailyHumidity + ", breedingHumidityConfor="
-				+ breedingHumidityConfor + ", energySavingLamps=" + energySavingLamps + ", numberWorkingLamps="
-				+ numberWorkingLamps + ", adequateDistriLamps=" + adequateDistriLamps + ", litterQuality="
-				+ litterQuality + ", mechanicalThermostatAlarmFunct=" + mechanicalThermostatAlarmFunct
+				+ ", cleanlinessHoppers=" + cleanlinessHoppers + ", storageVaccines=" + storageVaccines
+				+ ", cleanlinessFeeders=" + cleanlinessFeeders + ", sufficientNumberFeeders=" + sufficientNumberFeeders
+				+ ", adjustmentHeightFeedersAccording=" + adjustmentHeightFeedersAccording + ", unjustifiedFeedLeaks="
+				+ unjustifiedFeedLeaks + ", feedShapeSizeAccordingAge=" + feedShapeSizeAccordingAge
+				+ ", feedTransitionAchieved=" + feedTransitionAchieved + ", recordingDailFeedConsumption="
+				+ recordingDailFeedConsumption + ", availabilitySufficiencyFeed=" + availabilitySufficiencyFeed
+				+ ", cleanlinessTanksFilters=" + cleanlinessTanksFilters + ", cleanlinessNipples=" + cleanlinessNipples
+				+ ", correctOperationWatering=" + correctOperationWatering + ", correctOperationPressureRegulator="
+				+ correctOperationPressureRegulator + ", sufficientNumberDrinkers=" + sufficientNumberDrinkers
+				+ ", adjustmentHeightDrinkersAccording=" + adjustmentHeightDrinkersAccording + ", waterLeaks="
+				+ waterLeaks + ", recordingDailyWaterConsumption=" + recordingDailyWaterConsumption
+				+ ", monitoringPhysicoDw=" + monitoringPhysicoDw + ", monitoringBacteriologicalDw="
+				+ monitoringBacteriologicalDw + ", dosingPumpCompliant=" + dosingPumpCompliant
+				+ ", cleanlinessBrooders=" + cleanlinessBrooders + ", correctDistributionBrooders="
+				+ correctDistributionBrooders + ", availLocationFunct=" + availLocationFunct
+				+ ", observanceHeatingProgram=" + observanceHeatingProgram + ", stateCoolingSystem="
+				+ stateCoolingSystem + ", correctOperationCoolingSystem=" + correctOperationCoolingSystem
+				+ ", fansMaintained=" + fansMaintained + ", properOperationFans=" + properOperationFans
+				+ ", hatchOpeningLevel=" + hatchOpeningLevel + ", observanceAirFlow=" + observanceAirFlow
+				+ ", dailyRecordMinMaxTemp=" + dailyRecordMinMaxTemp + ", recordMinmaxDailyHumidity="
+				+ recordMinmaxDailyHumidity + ", breedingHumidityConfor=" + breedingHumidityConfor
+				+ ", energySavingLamps=" + energySavingLamps + ", numberWorkingLamps=" + numberWorkingLamps
+				+ ", adequateDistriLamps=" + adequateDistriLamps + ", litterQuality=" + litterQuality
+				+ ", mechanicalThermostatAlarmFunct=" + mechanicalThermostatAlarmFunct
 				+ ", functionalTechParaDisplaySys=" + functionalTechParaDisplaySys + ", numberBirdCageSquareMeter="
 				+ numberBirdCageSquareMeter + ", isolationSickSickAnimals=" + isolationSickSickAnimals
 				+ ", compliantWeighingMethod=" + compliantWeighingMethod + ", samplingCompliant=" + samplingCompliant

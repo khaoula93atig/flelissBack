@@ -54,4 +54,10 @@ public class HouseController {
 	public BasicResponse update(@RequestBody House house) {
 		return houseInterface.update(house);
 	}
+	
+	@GetMapping("/breed/{houseId}")
+	public int getBreedofHouse(@PathVariable("houseId") String houseId) {
+
+		return houseInterface.getBreedofHouse(houseId);
+	}
 }

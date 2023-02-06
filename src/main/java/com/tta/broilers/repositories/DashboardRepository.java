@@ -9,19 +9,28 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.tta.broilers.dao.DashboardInterface;
+
 import com.tta.broilers.entities.Farm;
+import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.AlertByFarm;
 import com.tta.broilers.entities.rest.AlertByHouse;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByBreed;
 import com.tta.broilers.entities.rest.MortalityByFarm;
+import com.tta.broilers.entities.rest.MortalityByFlock;
+import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
+import com.tta.broilers.entities.rest.WeeklyWeightMesurementByFlock;
 import com.tta.broilers.entities.rest.WeightByBreed;
 import com.tta.broilers.entities.rest.WeightByFlock;
 import com.tta.broilers.mappers.AlertByFarmRowMapper;
 import com.tta.broilers.mappers.AlertByHouseRowMapper;
+import com.tta.broilers.mappers.FlockDashRowMapper;
 import com.tta.broilers.mappers.FlockRowMapper;
+import com.tta.broilers.mappers.MortalityByFlockRowMapper;
+import com.tta.broilers.mappers.MortalityByHouseLastDaysRowMapper;
 import com.tta.broilers.mappers.MortalityByfarmRowMapper;
+import com.tta.broilers.mappers.WeeklyWeightMesurementByFlockRowMapper;
 import com.tta.broilers.mappers.WeeklyweightMesurementRowMapper;
 import com.tta.broilers.mappers.WeightByFlockRowMapper;
 import com.tta.broilers.mappers.WeightPerBreedRowMapper;
@@ -71,60 +80,7 @@ public class DashboardRepository implements DashboardInterface {
 
 	private List<FlockWeight> parsObject(List<WeightByFlock> weightByFlock) {
 
-		// FlockWeight FlockWeight2=new FlockWeight();
 		List<FlockWeight> newList = new ArrayList<FlockWeight>();
-
-		/*for ( int  i = 0; i < weightByFlock.size() - 1; i++) {
-			FlockWeight flockWeight = null;
-			if (i == 0) {
-
-				flockWeight = new FlockWeight();
-				List<Integer> ageFlock = new ArrayList<>();
-				List<Double> weight = new ArrayList<>();
-				flockWeight.setFlockID(weightByFlock.get(i).getFlockID());
-				flockWeight.setHouseID(weightByFlock.get(i).getHouseID());
-				flockWeight.setCenterID(weightByFlock.get(i).getCenterID());
-				ageFlock.add(weightByFlock.get(i).getAgeFlock());
-				weight.add(weightByFlock.get(i).getWeight());
-				flockWeight.setAgeFlock(ageFlock);
-				flockWeight.setWeight(weight);
-				newList.add(flockWeight);
-
-			} else {
-				if (!weightByFlock.get(i).getFlockID().equals(weightByFlock.get(i - 1).getFlockID())) {
-					flockWeight = new FlockWeight();
-					List<Integer> ageFlock = new ArrayList<>();
-					List<Double> weight = new ArrayList<>();
-					flockWeight.setFlockID(weightByFlock.get(i).getFlockID());
-					flockWeight.setHouseID(weightByFlock.get(i).getHouseID());
-					flockWeight.setCenterID(weightByFlock.get(i).getCenterID());
-					ageFlock.add(weightByFlock.get(i).getAgeFlock());
-					weight.add(weightByFlock.get(i).getWeight());
-					flockWeight.setAgeFlock(ageFlock);
-					flockWeight.setWeight(weight);
-				} else {
-					final int j=i;
-					 flockWeight = newList.stream()
-							  .filter(f -> weightByFlock.get(j).getFlockID().equals(f.getFlockID()))
-							  .findAny()
-							  .orElse(null);
-					 
-					List<Integer> ageFlock = flockWeight.getAgeFlock();
-					List<Double> weight = flockWeight.getWeight();
-					ageFlock.add(weightByFlock.get(i).getAgeFlock());
-					weight.add(weightByFlock.get(i).getWeight());
-					flockWeight.setAgeFlock(ageFlock);
-					flockWeight.setWeight(weight);
-
-				}
-			}
-			
-		
-			newList.add(flockWeight);
-			
-			
-		
-		}*/
 
 		return newList;
 	}
@@ -255,6 +211,125 @@ public class DashboardRepository implements DashboardInterface {
 				+ "	join flock on flock.flock_id = visit.flock_id\r\n"
 				+ "	WHERE visit.house_id=? and visittasks.task_id=6 and flock.check_end_of_cycle=false and visit.visit_date<=?",new Object[] {houseId ,visitDate }, Double.class);
 	}
+
+	@Override
+	public List<MortalityByhouseLastDays> getFeedByhouseOfLastDays(String houseId) {
+		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
+				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "			join house on house.house_id = visit.house_id \r\n"
+				+ "			join flock on flock.house_id = house.house_id\r\n"
+				+ "			WHERE visit.house_id=? and visittasks.task_id=6 and flock.check_end_of_cycle=false\r\n"
+				+ "			ORDER BY visit_Date DESC\r\n"
+				+ "			LIMIT 7",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
+	}
+
+	@Override
+	public List<MortalityByhouseLastDays> geWeightByhouseOfLastDays(String houseId) {
+		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
+				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "			join house on house.house_id = visit.house_id \r\n"
+				+ "			join flock on flock.house_id = house.house_id\r\n"
+				+ "			WHERE visit.house_id=? and visittasks.task_id=11 and flock.check_end_of_cycle=false\r\n"
+				+ "			ORDER BY visit_Date DESC\r\n"
+				+ "			LIMIT 7",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
+	}
+
+	@Override
+	public List<MortalityByhouseLastDays> getWaterByhouseOfLastDays(String houseId) {
+		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
+				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "			join house on house.house_id = visit.house_id \r\n"
+				+ "			join flock on flock.house_id = house.house_id\r\n"
+				+ "			WHERE visit.house_id=? and visittasks.task_id=7 and flock.check_end_of_cycle=false\r\n"
+				+ "			ORDER BY visit_Date DESC\r\n"
+				+ "			LIMIT 7",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
+	}
+
+	@Override
+	public double getWaterConsumtionDialy(Date visitDate, String houseId) {
+		return jdbcTemplate.queryForObject("SELECT visittasks.measure\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	WHERE visit_date=? and visit.house_id=? and visittasks.task_id=7",new Object[] {visitDate, houseId }, Double.class);
+	}
+
+	@Override
+	public double getWaterConsumtionTotal(Date visitDate, String houseId) {
+		return jdbcTemplate.queryForObject("SELECT sum(visittasks.measure)\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	join flock on flock.flock_id = visit.flock_id\r\n"
+				+ "	WHERE visit.house_id=? and visittasks.task_id=7 and flock.check_end_of_cycle=false and visit.visit_date<=?",new Object[] {houseId ,visitDate }, Double.class);
+	}
+
+	@Override
+	public double getWeightMesurementDialy(Date visitDate, String houseId) {
+		return jdbcTemplate.queryForObject("SELECT visittasks.measure\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	WHERE visit_date=? and visit.house_id=? and visittasks.task_id=11",new Object[] {visitDate, houseId }, Double.class);
+	}
+
+	@Override
+	public double getCVMesurementTotal(Date visitDate, String houseId) {
+		return jdbcTemplate.queryForObject("SELECT visittasks.measure\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	WHERE visit_date=? and visit.house_id=? and visittasks.task_id=12",new Object[] {visitDate, houseId }, Double.class);
+	}
+
+	@Override
+	public List<MortalityByFarm> getTotalFeedConsumByFarm(String companyId) {
+		return jdbcTemplate.query("SELECT weekly_feed.farm_id, (sum(total_starter_feed)+sum(total_grower_feed)+ sum(total_finisher_feed)) as percentage\r\n"
+				+ "	FROM public.weekly_feed join flock on flock.flock_id = weekly_feed.flock_id\r\n"
+				+ "	join farm on farm.farm_id = weekly_feed.farm_id\r\n"
+				+ "	where flock.check_end_of_cycle=false and farm.company_id=?\r\n"
+				+ "	group by weekly_feed.farm_id",new Object[] {companyId }, new MortalityByfarmRowMapper() );
+	}
+
+	@Override
+	public List<Flock> getFlocksByHouseAndYear(String HouseId, int year) {
+		return jdbcTemplate.query("SELECT *\r\n"
+				+ "	FROM public.flock"
+				+ "	where house_id=? and EXTRACT(YEAR From hatch_date)=?;",
+				new Object[] {HouseId, year }, new FlockDashRowMapper());
+	}
+
+	@Override
+	public List<WeeklyWeightMesurementByFlock> getWeightByFlock(String HouseId, int year) {
+		return jdbcTemplate.query("SELECT week, weekly_weight_measurement.flock_id ,average \r\n"
+				+ "	FROM public.weekly_weight_measurement join flock on flock.flock_id = weekly_weight_measurement.flock_id\r\n"
+				+ "	where weekly_weight_measurement.house_id=? and EXTRACT(YEAR From hatch_date)=?\r\n"
+				+ "	group by weekly_weight_measurement.flock_id , week, average, weekly_weight_measurement.creation_date\r\n"
+				+ "	ORDER BY week, weekly_weight_measurement.flock_id ASC;",
+				new Object[] {HouseId, year }, new WeeklyWeightMesurementByFlockRowMapper());
+	}
+
+	@Override
+	public List<WeeklyWeightMesurementByFlock> getfeedByFlock(String HouseId, int year) {
+		return jdbcTemplate.query("SELECT weekly_feed.flock_id, week, (sum(total_starter_feed)+sum(total_grower_feed)+ sum(total_finisher_feed)) as average\r\n"
+				+ "	FROM public.weekly_feed JOIN flock on flock.flock_id = weekly_feed.flock_id\r\n"
+				+ "	where weekly_feed.house_id=?and EXTRACT(YEAR From hatch_date)=?\r\n"
+				+ "	group by weekly_feed.flock_id , week;",
+				new Object[] {HouseId, year }, new WeeklyWeightMesurementByFlockRowMapper());
+	}
+
+	@Override
+	public List<MortalityByFlock> getWaterByFlock(String HouseId, Date visitDate, int year) {
+		return jdbcTemplate.query("SELECT sum(visittasks.measure)AS mortality, flock.flock_name\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	join house on house.house_id = visit.house_id \r\n"
+				+ "	join flock on flock.flock_id = visit.flock_id\r\n"
+				+ "	WHERE visit.house_id=? and visittasks.task_id=7 and visit.visit_date<=? and EXTRACT(YEAR From hatch_date)=?\r\n"
+				+ "	group by flock.flock_name",
+				new Object[] {HouseId, visitDate, year }, new MortalityByFlockRowMapper());
+	}
+
+	
+
+	
+
+	
 
 	
 	

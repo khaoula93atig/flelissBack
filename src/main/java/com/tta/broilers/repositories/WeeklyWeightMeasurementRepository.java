@@ -130,10 +130,10 @@ public class WeeklyWeightMeasurementRepository implements WeeklyWeightMeasuremen
 
 	@Override
 	public List<WeeklyWeightMeasurement> getweeklyweightOfFlocks(String flockId) {
-		return jdbcTemplate.query("SELECT count(*) as count,average, week , flock_id , cv , uniformty\r\n"
+		return jdbcTemplate.query("SELECT count(*) as count,average, week , flock_id, farm_id , house_id, center_id, cv , uniformty\r\n"
 				+ "	FROM public.weekly_weight_measurement\r\n"
 				+ "	WHERE flock_id=?\r\n"
-				+ "	GROUP by average , week , flock_id , cv , uniformty \r\n"
+				+ "	GROUP by average , week , flock_id , farm_id, house_id, center_id, cv , uniformty \r\n"
 				+ "	ORDER by week ASC;", new Object[] {flockId} , new WeeklyweightMesurementRowMapper());
 	}
 

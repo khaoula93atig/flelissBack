@@ -203,4 +203,15 @@ public class FlockRepository implements FlockInterface {
 				new Object[] { farmId }, new FlockRowMapper());
 	}
 
+	@Override
+	public List<Flock> findByHouseIDexisits(String houseID) {
+		return jdbcTemplate.query(
+				"SELECT * FROM public.flock\r\n"
+				+ "	left join house on flock.house_id=house.house_id \r\n"
+				+ "	left join farm on house.farm_id=farm.farm_id\r\n"
+				+ "	left join breed on flock.breed=breed.breed_id\r\n"
+				+ "	where house.house_id=? and check_end_of_cycle=false;",
+				new Object[] {houseID }, new FlockRowMapper());
+	}
+
 }

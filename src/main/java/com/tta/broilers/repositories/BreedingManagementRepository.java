@@ -39,7 +39,7 @@ public class BreedingManagementRepository implements BreedingManagementInterface
 			jdbcTemplate.update("INSERT INTO public.breeding_management(\r\n"
 					+ "	breeding_management_id, creation_date, username, farm_id, center_id,"
 					+ " cleanliness_build, absence_holes_sharp_cracks, condition_doors_windows_building, sealing_ceiling_building,"
-					+ " air_leaks_buildings, cleanliness_hoppers, availability_wire_mesh_hopper, cleanliness_feeders, sufficient_number_feeders, adjustment_height_feeders_according,"
+					+ " air_leaks_buildings, cleanliness_hoppers, storge_vaccines, cleanliness_feeders, sufficient_number_feeders, adjustment_height_feeders_according,"
 					+ " unjustified_feed_leaks, feed_shape_size_according_age, feed_transition_achieved, recording_daily_feed_consumption,"
 					+ " availability_sufficiency_feed, cleanliness_tanks_filters, cleanliness_nipples, correct_operation_watering, correct_operation_pressure_regulator,"
 					+ " sufficient_number_drinkers, adjustment_height_drinkers_according, water_leaks, recording_daily_water_consumption, "
@@ -53,7 +53,7 @@ public class BreedingManagementRepository implements BreedingManagementInterface
 					+ "	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 			+"",breedingManagement.getBreedingManagementId(),breedingManagement.getCreationDate(),breedingManagement.getUsername(),breedingManagement.getFarmId(),breedingManagement.getCenterId(),
 			breedingManagement.getCleanlinessBuild(),breedingManagement.getAbsenceHolesSharpCracks(),breedingManagement.getConditionDoorsWindowsBuilding(),breedingManagement.getSealingCeilingBuilding(),
-			breedingManagement.getAirLeaksBuildings(),breedingManagement.getCleanlinessHoppers(),breedingManagement.getAvailabilityWireMeshHopper(),breedingManagement.getCleanlinessFeeders(),breedingManagement.getSufficientNumberFeeders(),breedingManagement.getAdjustmentHeightDrinkersAccording(),
+			breedingManagement.getAirLeaksBuildings(),breedingManagement.getCleanlinessHoppers(),breedingManagement.getStorageVaccines(),breedingManagement.getCleanlinessFeeders(),breedingManagement.getSufficientNumberFeeders(),breedingManagement.getAdjustmentHeightDrinkersAccording(),
 			breedingManagement.getUnjustifiedFeedLeaks(),breedingManagement.getFeedShapeSizeAccordingAge(),breedingManagement.getFeedTransitionAchieved(),breedingManagement.getRecordingDailFeedConsumption(),
 			breedingManagement.getAvailabilitySufficiencyFeed(),breedingManagement.getCleanlinessTanksFilters(),breedingManagement.getCleanlinessNipples(),breedingManagement.getCorrectOperationWatering(),breedingManagement.getCorrectOperationPressureRegulator(),
 			breedingManagement.getSufficientNumberDrinkers(),breedingManagement.getAdjustmentHeightDrinkersAccording(),breedingManagement.getWaterLeaks(),breedingManagement.getRecordingDailyWaterConsumption(),
