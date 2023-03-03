@@ -69,12 +69,12 @@ public class FarmRepository implements FarmInterface {
 			List<Farm> toUpdate = getByFarmId(farm.getFarmId());
 			if (!toUpdate.isEmpty()) {
 				jdbcTemplate.update(
-						"UPDATE rendez_vous\r\n"
-						+ "   SET id_patient=?, nom=?, prenom=?, date_naissance=?, email=?, \r\n"
-						+ "       numero_tel=?, specioalite_id=?, medecin_id=?, date_rdv=?, creation_date=?, \r\n"
-						+ "       status=?\r\n"
-						+ " WHERE id_rdv=?;\r\n"
-						+ "",farm.getAddress(),farm.getArea(),farm.getTypeProduction(),farm.getFarmManageName(),
+						"UPDATE public.farm\r\n"
+						+ "	SET address=?, area=?, type_production=?, farm_manager_name=?, farm_manager_email=?, farm_manager_tel=?,\r\n"
+						+ "	brids_number_per_center=?, number_center=?, result=?, av_mortality_rate=?, fcr=?, epef=?, \r\n"
+						+ "	company_id=?, rotation=?, av_lay_rate=?, creation_date=?, breed=?, farm_name=?, \"Houses_number\"=?\r\n"
+						+ "	WHERE farm_id=?;",
+						farm.getAddress(),farm.getArea(),farm.getTypeProduction(),farm.getFarmManageName(),
 						farm.getFarmManageEmail(),farm.getFarmManageTel(),farm.getBridsNumberPerCenter(),farm.getNumberCenter(),
 						farm.getResult(),farm.getAvMortalityRate(),farm.getFcr(),farm.getEpef(),farm.getCompanyID(),
 						farm.getRotation(),farm.getAvLayRate(),farm.getCreationDate(),farm.getBreed(),farm.getFarmName(),farm.getHousesNumber(), farm.getFarmId());

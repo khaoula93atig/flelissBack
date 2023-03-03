@@ -342,9 +342,13 @@ public class VisitTasksRepository implements VisitTasksInterface {
 		int endingDay = 0;
 		int PrevDay = 0;
 		List<VisitTasks> result = jdbcTemplate.query(
-				"SELECT * FROM visittasks vt , visit v , flock f, house h, farm fa,  \"user\"  u  , task t where  vt.visit_id=v.visit_id  and v.flock_id=f.flock_id and h.house_id=f.house_id and v.username= u.username and fa.farm_id=h.farm_id  and vt.task_id=t.task_id and vt.task_id=11 and v.flock_id=? ORDER BY visit_date ASC",
+				"SELECT * FROM visittasks vt , visit v , flock f, house h, farm fa , task t, \"user\" u \r\n"
+				+ "where  vt.visit_id=v.visit_id  and v.flock_id=f.flock_id and h.house_id=f.house_id and v.username= u.username \r\n"
+				+ "and fa.farm_id=h.farm_id  and vt.task_id=t.task_id and vt.task_id=11 and v.flock_id=?\r\n"
+				+ "ORDER BY visit_date ASC",
 				new Object[] { flockId }, new VisitTasksRowMapper());
 		// result.size()>1 pour la première visite fcr= 0
+		System.out.println("reslt"+result);
 		if (!result.isEmpty() && result.size() > 1) {
 
 			// ending weight(first visit) – beginning weight (last visit)

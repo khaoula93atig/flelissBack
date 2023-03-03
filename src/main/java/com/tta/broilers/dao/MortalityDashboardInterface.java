@@ -9,6 +9,7 @@ import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.MortalityByFlock;
 import com.tta.broilers.entities.rest.MortalityByHouse;
 import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
+import com.tta.broilers.entities.rest.WeeklyweightStandardByBreedAndAge;
 
 public interface MortalityDashboardInterface {
 	
@@ -51,4 +52,7 @@ public interface MortalityDashboardInterface {
 	public List<MortalityByhouseLastDays> getMortalityOfLastdaysByhouse(String houseId);
 	 //mortality by flock
 	public List<MortalityByFlock> getMortalityByflock(String houseId,int year);
+	
+	//get mortality by age of flock (je met le type de retour weeklyweightstandardby breed pour ne pas ajouter beaucoup d'entites)
+	public List<WeeklyweightStandardByBreedAndAge> getMortalityByAge(String flockId);
 }

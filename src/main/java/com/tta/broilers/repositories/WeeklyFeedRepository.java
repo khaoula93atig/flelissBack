@@ -12,6 +12,7 @@ import com.tta.broilers.dao.WeeklyFeedInterface;
 import com.tta.broilers.dao.WeeklyWeightMeasurementInterface;
 import com.tta.broilers.entities.WeeklyFeed;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
+import com.tta.broilers.mappers.WeeklyWeightByFlockAndAgeRowMapper;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -62,6 +63,14 @@ public class WeeklyFeedRepository implements WeeklyFeedInterface {
 				return new BasicResponse("Error!", HttpStatus.BAD_REQUEST);
 
 			}
+	}
+
+	@Override
+	public List<Long> getbyAgeAndFlock(int age, String flockId) {
+		return jdbcTemplate.queryForList(
+				"SELECT (total_starter_feed+total_grower_feed+total_finisher_feed) as feed\r\n"
+				+ "	FROM public.weekly_feed WHERE week=? and flock_id=? ;",
+				new Object[] { age ,flockId}, Long.class);
 	}
 
 

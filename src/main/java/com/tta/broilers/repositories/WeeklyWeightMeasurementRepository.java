@@ -14,6 +14,7 @@ import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.WeeklyWeightForChart;
 import com.tta.broilers.entities.rest.WeeklyweightStandardByBreedAndAge;
 import com.tta.broilers.entities.rest.WeeklyweightbyNbreOfoiseaux;
+import com.tta.broilers.mappers.WeeklyWeightByFlockAndAgeRowMapper;
 import com.tta.broilers.mappers.WeeklyWeightForChartRowMapper;
 import com.tta.broilers.mappers.WeeklyWeightStandardByBreedAndAgeRowMapper;
 import com.tta.broilers.mappers.WeeklyWeightbynbreOfOiseauxMapper;
@@ -135,6 +136,16 @@ public class WeeklyWeightMeasurementRepository implements WeeklyWeightMeasuremen
 				+ "	WHERE flock_id=?\r\n"
 				+ "	GROUP by average , week , flock_id , farm_id, house_id, center_id, cv , uniformty \r\n"
 				+ "	ORDER by week ASC;", new Object[] {flockId} , new WeeklyweightMesurementRowMapper());
+	}
+
+	@Override
+	public List<WeeklyWeightMeasurement> getWeeklyWeightByFlockAndAge(int age, String flockId) {
+		return jdbcTemplate.query(
+				"SELECT DISTINCT week, farm_id, center_id, house_id, flock_id, average, creation_date, breed, cv, uniformty\r\n"
+				+ "	FROM public.weekly_weight_measurement \r\n"
+				+ "	where weekly_weight_measurement.week=?\r\n"
+				+ "	and weekly_weight_measurement.flock_id=?\r\n",
+				new Object[] { age ,flockId}, new WeeklyWeightByFlockAndAgeRowMapper());
 	}
 
 	

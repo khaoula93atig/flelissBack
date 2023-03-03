@@ -68,5 +68,12 @@ public class WeeklyWeightMeasurementController {
 		
 	}
 	
+	@GetMapping("/weeklyWeightByFlockAndAge/{age}/{flockId}")
+	public List<WeeklyWeightMeasurement> getWeeklyWeightMesurementByFlockAndage(@PathVariable("age") int age, @PathVariable("flockId") String flockId) {
+
+		return weeklyWeightMeasurementInterface.getWeeklyWeightByFlockAndAge(age, flockId);
+		
+	}
+	
 
 }

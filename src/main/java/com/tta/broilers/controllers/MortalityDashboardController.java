@@ -21,6 +21,7 @@ import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.MortalityByFlock;
 import com.tta.broilers.entities.rest.MortalityByHouse;
 import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
+import com.tta.broilers.entities.rest.WeeklyweightStandardByBreedAndAge;
 
 @RestController
 @RequestMapping("/mortalitedashboard")
@@ -101,6 +102,10 @@ public class MortalityDashboardController {
 	@GetMapping("/mortalityByflock/{houseId}/{year}")
 	public List<MortalityByFlock> getMortalitybyFlockAndYear(@PathVariable("houseId") String houseId, @PathVariable("year") int year) {
 		return mortalitedashboard.getMortalityByflock(houseId, year);
+	}
+	@GetMapping("/flock/{flockId}")
+	public List<WeeklyweightStandardByBreedAndAge> getMortalitybyAge(@PathVariable("flockId") String flockId) {
+		return mortalitedashboard.getMortalityByAge(flockId);
 	}
 	
 }

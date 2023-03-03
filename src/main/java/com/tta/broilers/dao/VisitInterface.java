@@ -1,6 +1,7 @@
 package com.tta.broilers.dao;
 import java.util.List;
 import com.tta.broilers.entities.Visit;
+import com.tta.broilers.entities.rest.visitTasksVerification;
 import com.tta.broilers.responses.BasicResponse;
 /**
  * @author rym lamouchi
@@ -16,4 +17,5 @@ public interface VisitInterface  {
 	Visit save(Visit visit);
 	Visit saveVistveterinarian(Visit visit);
 	BasicResponse update(Visit visit);
+	List<visitTasksVerification> getVistTasksVerfication(String flockId, int age , int task);
 }

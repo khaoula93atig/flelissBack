@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tta.broilers.dao.VisitInterface;
 import com.tta.broilers.entities.Visit;
+import com.tta.broilers.entities.rest.visitTasksVerification;
 import com.tta.broilers.responses.BasicResponse;
 /**
  * @author rym lamouchi
@@ -66,5 +67,10 @@ public class VisitController {
 	    } 
 	    return ResponseEntity.ok("File uploaded successfully.");
 	  }
+	
+	@GetMapping("/vistTaskVerif/{flockId}/{age}/{task}")
+	public List<visitTasksVerification> getVisitTaskVerif(@PathVariable("flockId") String flockId,@PathVariable("age") int age,@PathVariable("task") int task) {
+		return vistInterface.getVistTasksVerfication(flockId, age, task);
+	}
 
 }

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.tta.broilers.dao.VisitInterface;
 import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.Visit;
+import com.tta.broilers.entities.rest.visitTasksVerification;
 import com.tta.broilers.mappers.VisitRowMapper;
+import com.tta.broilers.mappers.VisitTasksVerificationRowMapper;
 import com.tta.broilers.responses.BasicResponse;
 import com.tta.broilers.utils.Utils;
 
@@ -158,9 +160,9 @@ public class VisitRepository implements VisitInterface {
 			System.out.println("farm manager ");
 			return jdbcTemplate.query(
 					"select * from visit v , house h , center c,  flock fo , breed b , farm f\r\n"
-					+ "where v.type_visit='daily_visit' and h.house_id=v.house_id and c.center_id=v.center_id and fo.flock_id=v.flock_id and b.breed_id =fo.breed  and f.farm_id=v.farm_id\r\n"
+					+ "where v.type_visit='daily_visit' and h.house_id=v.house_id and c.center_id=v.center_id and fo.flock_id=v.flock_id and b.breed_id =fo.breed  and f.farm_id=v.farm_id  and v.farm_id=?\r\n"
 					+ "ORDER BY visit_date  DESC",
-					new Object[] { }, new VisitRowMapper());
+					new Object[] {farmID }, new VisitRowMapper());
 		}else {
 			System.out.println("else if  ");
 		return jdbcTemplate.query(
@@ -194,6 +196,15 @@ public class VisitRepository implements VisitInterface {
 				+ " and v.type_visit='veter_visit' ORDER BY visit_date  DESC",
 				new Object[] { username }, new VisitRowMapper());
 		}
+	}
+
+	@Override
+	public List<visitTasksVerification> getVistTasksVerfication(String flockId, int age, int task) {
+		return jdbcTemplate.query(
+				"SELECT visit.visit_id, age_flock, flock_id , visittasks.measure\r\n"
+				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
+				+ "	WHERE flock_id=? and age_flock=? and visittasks.task_id=? ;",
+				new Object[] { flockId , age , task }, new VisitTasksVerificationRowMapper());
 	}
 
 

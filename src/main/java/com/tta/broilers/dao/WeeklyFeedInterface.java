@@ -14,6 +14,7 @@ public interface WeeklyFeedInterface  {
 	List<WeeklyFeed> findAll();
 	
 	BasicResponse save(WeeklyFeed WeeklyFeed);
+	List<Long> getbyAgeAndFlock(int age , String flockId);
 	
 
 }

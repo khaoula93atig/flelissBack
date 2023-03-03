@@ -164,7 +164,7 @@ public class FlockRepository implements FlockInterface {
 				"select  sum(measure ) from visittasks, visit where visittasks.visit_id=visit.visit_id and visit.flock_id=?  and visittasks.task_id=6 ",
 				new Object[] { flockID }, double.class);
 		double mortality1Week = jdbcTemplate.queryForObject(
-				"select sum(measure) from visittasks, visit where visittasks.visit_id=visit.visit_id and visit.flock_id=? and visittasks.task_id=8 and visit.age_flock<=7 ",
+				"select sum(measure) from visittasks, visit where visittasks.visit_id=visit.visit_id and visit.flock_id=? and visittasks.task_id=8",
 				new Object[] { flockID }, double.class);
 		
 		System.out.println("Totalweight " + totalweight);

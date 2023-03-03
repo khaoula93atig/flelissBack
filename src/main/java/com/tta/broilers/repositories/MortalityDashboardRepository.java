@@ -14,12 +14,14 @@ import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.MortalityByFlock;
 import com.tta.broilers.entities.rest.MortalityByHouse;
 import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
+import com.tta.broilers.entities.rest.WeeklyweightStandardByBreedAndAge;
 import com.tta.broilers.mappers.MortalityByBreedRowMapper;
 import com.tta.broilers.mappers.MortalityByCenterRowMapper;
 import com.tta.broilers.mappers.MortalityByFlockRowMapper;
 import com.tta.broilers.mappers.MortalityByHouseLastDaysRowMapper;
 import com.tta.broilers.mappers.MortalityByHouseRowMapper;
 import com.tta.broilers.mappers.MortalityByfarmRowMapper;
+import com.tta.broilers.mappers.WeeklyWeightStandardByBreedAndAgeRowMapper;
 
 @Repository
 public class MortalityDashboardRepository implements MortalityDashboardInterface{
@@ -135,6 +137,31 @@ public class MortalityDashboardRepository implements MortalityDashboardInterface
 				+ "       END as mortality, flock_name\r\n"
 				+ "	FROM public.flock \r\n"
 				+ "	where house_id=? and EXTRACT(YEAR From hatch_date)=?",new Object[] {houseId,year}, new MortalityByFlockRowMapper() );
+	}
+	@Override
+	public List<WeeklyweightStandardByBreedAndAge> getMortalityByAge(String flockId) {
+		return jdbcTemplate.query("SELECT \r\n"
+				+ "  (CASE \r\n"
+				+ "     WHEN (visit.visit_date - flock.start_of_cycle) BETWEEN 0 AND 7 THEN 7 \r\n"
+				+ "     WHEN (visit.visit_date - flock.start_of_cycle) BETWEEN 8 AND 14 THEN 14 \r\n"
+				+ "     WHEN (visit.visit_date - flock.start_of_cycle) BETWEEN 15 AND 21 THEN 21 \r\n"
+				+ "     WHEN (visit.visit_date - flock.start_of_cycle) BETWEEN 22 AND 28 THEN 28 \r\n"
+				+ "     WHEN (visit.visit_date - flock.start_of_cycle) BETWEEN 29 AND 35 THEN 35 \r\n"
+				+ "     WHEN (visit.visit_date - flock.start_of_cycle) BETWEEN 36 AND 42 THEN 42 \r\n"
+				+ "   END) AS age_days, \r\n"
+				+ "  SUM(measure) AS weight \r\n"
+				+ "FROM \r\n"
+				+ "  visittasks, \r\n"
+				+ "  visit, \r\n"
+				+ "  flock \r\n"
+				+ "WHERE \r\n"
+				+ "  visittasks.visit_id = visit.visit_id \r\n"
+				+ "  AND visit.flock_id = ? \r\n"
+				+ "  AND visittasks.task_id = 8 \r\n"
+				+ "  AND (visit.visit_date - flock.start_of_cycle) BETWEEN 0 AND 42 \r\n"
+				+ "GROUP BY \r\n"
+				+ "  age_days\r\n"
+				+ "  order by age_days asc",new Object[] {flockId}, new WeeklyWeightStandardByBreedAndAgeRowMapper() );
 	}
 
 }
