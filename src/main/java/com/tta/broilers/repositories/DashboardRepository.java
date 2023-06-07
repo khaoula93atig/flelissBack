@@ -3,6 +3,8 @@ package com.tta.broilers.repositories;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +17,7 @@ import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.AlertByFarm;
 import com.tta.broilers.entities.rest.AlertByHouse;
+import com.tta.broilers.entities.rest.FlockOutResult;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByBreed;
 import com.tta.broilers.entities.rest.MortalityByFarm;
@@ -26,6 +29,7 @@ import com.tta.broilers.entities.rest.WeightByFlock;
 import com.tta.broilers.mappers.AlertByFarmRowMapper;
 import com.tta.broilers.mappers.AlertByHouseRowMapper;
 import com.tta.broilers.mappers.FlockDashRowMapper;
+import com.tta.broilers.mappers.FlockOutResultRowMapper;
 import com.tta.broilers.mappers.FlockRowMapper;
 import com.tta.broilers.mappers.MortalityByFlockRowMapper;
 import com.tta.broilers.mappers.MortalityByHouseLastDaysRowMapper;
@@ -323,6 +327,26 @@ public class DashboardRepository implements DashboardInterface {
 				+ "	WHERE visit.house_id=? and visittasks.task_id=7 and visit.visit_date<=? and EXTRACT(YEAR From hatch_date)=?\r\n"
 				+ "	group by flock.flock_name",
 				new Object[] {HouseId, visitDate, year }, new MortalityByFlockRowMapper());
+	}
+
+	@Override
+	public List<FlockOutResult> getFlockOutResultOfBadyWeight(String companyId) {
+		String req1="select farm.farm_name, house.house_name,flock.flock_name,visittasks.measure as weight\r\n"
+				+ "from visit , flock , house , farm , visittasks\r\n"
+				+ "where visit.flock_id=flock.flock_id and visit.farm_id = farm.farm_id and house.house_id=visit.house_id and visit.visit_id=visittasks.visit_id\r\n"
+				+ "and age_flock=35 and flock.check_end_of_cycle=true and visittasks.task_id=11 and farm.company_id=?;";
+		List<FlockOutResult> list1=jdbcTemplate.query(req1, new Object[] {companyId},new FlockOutResultRowMapper());
+		
+		String req2="SELECT farm.farm_name, house.house_name,flock.flock_name,average as weight\r\n"
+				+ "FROM public.weekly_weight_measurement , flock , house , farm   \r\n"
+				+ "where weekly_weight_measurement.farm_id = farm.farm_id and house.house_id=weekly_weight_measurement.house_id and \r\n"
+				+ "flock.flock_id = weekly_weight_measurement.flock_id \r\n"
+				+ "and week=35 and flock.check_end_of_cycle=true and farm.company_id=?\r\n"
+				+ "group by average , farm.farm_name, house.house_name,flock.flock_name;";
+		List<FlockOutResult> list2=jdbcTemplate.query(req2, new Object[] {companyId},new FlockOutResultRowMapper());
+		
+		return Stream.concat(list1.stream(), list2.stream())
+                .collect(Collectors.toList());
 	}
 
 	

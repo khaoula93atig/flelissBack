@@ -17,6 +17,7 @@ public class Company {
 	private String address = "";
 	private String country = "";
 	private String zone = "";
+	private String logo;
 	private String generalManageName = "";
 	private String generalManageEmail = "";
 	private String generalManageTel = "";
@@ -129,6 +130,15 @@ public class Company {
 		this.creationDate = creationDate;
 	}
 
+	
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -216,11 +226,11 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Company [companyId=" + companyId + ", name=" + name + ", integration=" + integration + ", farmsNumber=" + farmsNumber
-				+ ", agreement=" + agreement + ", address=" + address + ", country=" + country + ", zone=" + zone
-				+ ", generalManageName=" + generalManageName + ", generalManageEmail=" + generalManageEmail
-				+ ", generalManageTel=" + generalManageTel + ", annualProduction=" + annualProduction
-				+ ", creationDate=" + creationDate + "]";
+		return "Company [companyId=" + companyId + ", name=" + name + ", integration=" + integration + ", farmsNumber="
+				+ farmsNumber + ", agreement=" + agreement + ", address=" + address + ", country=" + country + ", zone="
+				+ zone + ", logo=" + logo + ", generalManageName=" + generalManageName + ", generalManageEmail="
+				+ generalManageEmail + ", generalManageTel=" + generalManageTel + ", annualProduction="
+				+ annualProduction + ", creationDate=" + creationDate + "]";
 	}
 
 }

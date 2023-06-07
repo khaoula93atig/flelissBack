@@ -17,6 +17,7 @@ import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.AlertByFarm;
 import com.tta.broilers.entities.rest.AlertByHouse;
+import com.tta.broilers.entities.rest.FlockOutResult;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.MortalityByFlock;
@@ -159,6 +160,12 @@ public class DashboardController {
 			Date date1 = sourceFormat.parse(visitDate);
 			return dashboardInterface.getWaterByFlock(houseId, date1, year);
 		}
+		
+	//get result of outgoing flocks on body weight in 35 day
+	@GetMapping("/flock/out/{companyId}")
+	public List<FlockOutResult> getFlockOutResultOfBodyWeight(@PathVariable("companyId") String companyId){
+		return dashboardInterface.getFlockOutResultOfBadyWeight(companyId);
+	}
 	
 	
 	

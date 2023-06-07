@@ -32,6 +32,7 @@ public class CompanyRowMapper implements RowMapper<Company> {
 		company.setIntegration(rs.getBoolean("integration"));
 		company.setName(rs.getString("name"));
 		company.setZone(rs.getString("zone"));
+		company.setLogo(rs.getString("logo"));
 
 		return company;
 	}

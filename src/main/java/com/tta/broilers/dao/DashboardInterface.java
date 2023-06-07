@@ -9,6 +9,7 @@ import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
 import com.tta.broilers.entities.rest.AlertByFarm;
 import com.tta.broilers.entities.rest.AlertByHouse;
+import com.tta.broilers.entities.rest.FlockOutResult;
 import com.tta.broilers.entities.rest.FlockWeight;
 import com.tta.broilers.entities.rest.MortalityByFarm;
 import com.tta.broilers.entities.rest.MortalityByFlock;
@@ -44,6 +45,7 @@ public interface DashboardInterface {
 	public List<WeeklyWeightMesurementByFlock> getWeightByFlock(String HouseId, int year);
 	public List<WeeklyWeightMesurementByFlock> getfeedByFlock(String HouseId, int year);
 	public List<MortalityByFlock> getWaterByFlock(String HouseId,Date visitDate , int year);
+	public List<FlockOutResult> getFlockOutResultOfBadyWeight(String companyId);
 	
 	
 	

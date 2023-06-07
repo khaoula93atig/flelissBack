@@ -17,6 +17,8 @@ public class Utils {
 	public static final String RootFolder = "C://Users//EMNA//Documents//broilersWorkspace -new//doc";
 	public static final SimpleDateFormat SMPDF2 = new SimpleDateFormat("yyyyMMdd");
 	public static final SimpleDateFormat SMPDF3 = new SimpleDateFormat("dd/MM/yyyy");
+	public static final String Logo = "C:\\logCompany";
+
 
 	public static LocalDate getCreationDate() {
 		return new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
