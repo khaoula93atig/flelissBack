@@ -55,4 +55,12 @@ public class SignupRequest {
 	    this.role = role;
 	  }
 
+	@Override
+	public String toString() {
+		return "SignupRequest [username=" + username + ", email=" + email + ", role=" + role + ", password=" + password
+				+ "]";
+	}
+	  
+	  
+
 }

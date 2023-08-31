@@ -21,7 +21,7 @@ public class UserSecurity {
 	
 	@Id
 	  @GeneratedValue(strategy = GenerationType.IDENTITY)
-	  private Long id;
+	  private Long idSecurity;
 
 	  @NotBlank
 	  @Size(max = 20)
@@ -37,7 +37,7 @@ public class UserSecurity {
 	  private String password;
 
 	  @ManyToMany(fetch = FetchType.LAZY)
-	  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_idSecurity"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	  private Set<RoleSecurity> roles = new HashSet<>();
 
 	  public UserSecurity() {
@@ -50,11 +50,11 @@ public class UserSecurity {
 	  }
 
 	public Long getId() {
-		return id;
+		return idSecurity;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.idSecurity = id;
 	}
 
 	public String getUsername() {

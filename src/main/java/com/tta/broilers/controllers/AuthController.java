@@ -74,6 +74,7 @@ public class AuthController {
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+	  System.out.println(signUpRequest);
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
           .badRequest()
@@ -104,6 +105,7 @@ public class AuthController {
         case "admin":
           RoleSecurity adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+          
           roles.add(adminRole);
 
           break;
@@ -122,6 +124,7 @@ public class AuthController {
     }
 
     user.setRoles(roles);
+    System.out.println(user);
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
