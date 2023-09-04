@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tta.broilers.entities.User;
 import com.tta.broilers.entities.UserSecurity;
 
 
@@ -24,15 +25,18 @@ public class UsersDetailsImpl implements UserDetails {
 
 	  @JsonIgnore
 	  private String password;
+	  
+	  private String userDetails;
 
 	  private Collection<? extends GrantedAuthority> authorities;
 
-	  public UsersDetailsImpl(Long id, String username, String email, String password,
+	  public UsersDetailsImpl(Long id, String username, String email, String password, String userDetails, 
 	      Collection<? extends GrantedAuthority> authorities) {
 	    this.id = id;
 	    this.username = username;
 	    this.email = email;
 	    this.password = password;
+	    this.userDetails = userDetails;
 	    this.authorities = authorities;
 	  }
 
@@ -44,7 +48,8 @@ public class UsersDetailsImpl implements UserDetails {
 	    return new UsersDetailsImpl(user.getId(), 
 	                               user.getUsername(), 
 	                               user.getEmail(),
-	                               user.getPassword(), 
+	                               user.getPassword(),
+	                               user.getUserDetails(),
 	                               authorities);
 	  }
 

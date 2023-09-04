@@ -3,12 +3,14 @@ package com.tta.broilers.entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 
 /**
  * @author rym lamouchi
  *
  */
-
 public class User {
 	private String username; // id
 	private String password;

@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tta.broilers.entities.ERole;
 import com.tta.broilers.entities.RoleSecurity;
+import com.tta.broilers.entities.User;
 import com.tta.broilers.entities.UserSecurity;
 import com.tta.broilers.payload.request.LoginRequest;
 import com.tta.broilers.payload.request.SignupRequest;
 import com.tta.broilers.payload.response.JwtResponse;
 import com.tta.broilers.payload.response.MessageResponse;
 import com.tta.broilers.repositories.RoleSecurityRepository;
+import com.tta.broilers.repositories.UserRepository;
 import com.tta.broilers.repositories.UserSecurityRepository;
 import com.tta.broilers.security.jwt.JwtUtils;
 import com.tta.broilers.security.services.UsersDetailsImpl;
@@ -47,6 +49,9 @@ public class AuthController {
 
   @Autowired
   PasswordEncoder encoder;
+  
+  @Autowired
+  UserRepository userDetailsRepository;
 
   @Autowired
   JwtUtils jwtUtils;
@@ -64,12 +69,14 @@ public class AuthController {
     List<String> roles = userDetails.getAuthorities().stream()
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
+    UserSecurity userSecurity= userRepository.findByUsername(loginRequest.getUsername()).get();
+    User user=userDetailsRepository.findByID(userSecurity.getUserDetails()).get(0);
 
     return ResponseEntity.ok(new JwtResponse(jwt, 
                          userDetails.getId(), 
                          userDetails.getUsername(), 
                          userDetails.getEmail(), 
-                         roles));
+                         roles, user));
   }
 
   @PostMapping("/signup")

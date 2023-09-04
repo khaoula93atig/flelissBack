@@ -39,6 +39,9 @@ public class UserSecurity {
 	  @ManyToMany(fetch = FetchType.LAZY)
 	  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_idSecurity"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	  private Set<RoleSecurity> roles = new HashSet<>();
+	  
+	  @NotBlank
+	    private String userDetails;
 
 	  public UserSecurity() {
 	  }
@@ -88,7 +91,25 @@ public class UserSecurity {
 	public void setRoles(Set<RoleSecurity> roles) {
 		this.roles = roles;
 	}
-	  
+
+	public Long getIdSecurity() {
+		return idSecurity;
+	}
+
+	public void setIdSecurity(Long idSecurity) {
+		this.idSecurity = idSecurity;
+	}
+
+	public String getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(String userDetails) {
+		this.userDetails = userDetails;
+	}
+
+	
+
 	  
 	  
 }

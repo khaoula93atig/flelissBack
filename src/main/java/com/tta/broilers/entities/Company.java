@@ -2,12 +2,15 @@ package com.tta.broilers.entities;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+
 /**
  * @author rym lamouchi
  *
  */
 public class Company {
 
+	@Id
 	private String companyId;
 
 	private String name;
