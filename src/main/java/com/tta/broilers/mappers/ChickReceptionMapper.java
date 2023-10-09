@@ -5,8 +5,11 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.tta.broilers.entities.Center;
 import com.tta.broilers.entities.ChickReception;
 import com.tta.broilers.entities.Farm;
+import com.tta.broilers.entities.Flock;
+import com.tta.broilers.entities.House;
 
 
 
@@ -41,6 +44,19 @@ public class ChickReceptionMapper implements RowMapper<ChickReception> {
 		chickReception.setDefectsEyeLegsSpraddled(rs.getInt("defects_eye_legs_spraddled"));
 		chickReception.setTotalScore(rs.getInt("total_score"));
 		chickReception.setCreationDate(rs.getDate("creation_date"));
+		
+		House house = new House();
+		house.setHouseName(rs.getString("house_name"));
+		
+		Center center = new Center();
+		center.setCenterName(rs.getString("center_name"));
+		
+		Flock flock = new Flock();
+		flock.setFlockName(rs.getString("flock_name"));
+		
+		chickReception.setHouse(house);
+		chickReception.setCenter(center);
+		chickReception.setFlock(flock);
 		
 		return chickReception;
 	}

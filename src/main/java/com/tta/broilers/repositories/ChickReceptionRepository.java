@@ -76,5 +76,18 @@ public class ChickReceptionRepository implements ChickReceptionInterface {
 		return null;
 	}
 
+	@Override
+	public List<ChickReception> getByFarm(String farm) {
+		String req = "SELECT 	chick_reception.farm_id, chick_reception.center_id, chick_reception.house_id, chick_reception.flock_id, chick_reception.breed, chick_reception.hatch_date, chick_reception.chick_placed, chick_reception.ps_origin, chick_reception.ps_age, visit_date, navel_notclosed_strung_button, navel_clean_well_healed, navel_closed_slight_abrasiveness, legs_clean_waxy, legs_dryness_pale, legs_deshydrated_vien_protruding, hocks_clean_noblemishes, hocks_slight_blushing, hocks_redcolor_heavyblushing, defects_clean_nodefects, defects_minor_defects, defects_eye_legs_spraddled, total_score, chick_reception.creation_date, chick_reception_id\r\n"
+				+ ",house.house_name ,center.center_name , flock.flock_name\r\n"
+				+ "FROM public.chick_reception join house on house.house_id = chick_reception.house_id\r\n"
+				+ "join center on center.center_id = chick_reception.center_id\r\n"
+				+ "join flock on flock.flock_id = chick_reception.flock_id\r\n"
+				+ "where chick_reception.farm_id=?;";
+		
+		return jdbcTemplate.query(req,new Object[]{farm},
+				new ChickReceptionMapper());
+	}
+
 
 }

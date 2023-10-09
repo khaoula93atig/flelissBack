@@ -54,6 +54,23 @@ public class BroodingCheck {
 	private String drinkersSupp ;
 	private String waterTemperature ;
 	
+	private House house;
+	private Center center ;
+	
+	
+	
+	public House getHouse() {
+		return house;
+	}
+	public void setHouse(House house) {
+		this.house = house;
+	}
+	public Center getCenter() {
+		return center;
+	}
+	public void setCenter(Center center) {
+		this.center = center;
+	}
 	public String getBroodingCheckId() {
 		return broodingCheckId;
 	}
@@ -333,7 +350,8 @@ public class BroodingCheck {
 				+ ", floorTemperature=" + floorTemperature + ", spotBrooding=" + spotBrooding + ", distanceAccessWater="
 				+ distanceAccessWater + ", checkFeed=" + checkFeed + ", feedOnPaper=" + feedOnPaper + ", feedersTrays="
 				+ feedersTrays + ", drinkersNippleLines=" + drinkersNippleLines + ", drinkersBell=" + drinkersBell
-				+ ", drinkersSupp=" + drinkersSupp + ", waterTemperature=" + waterTemperature + "]";
+				+ ", drinkersSupp=" + drinkersSupp + ", waterTemperature=" + waterTemperature + ", house=" + house
+				+ ", center=" + center + "]";
 	}
 
 	

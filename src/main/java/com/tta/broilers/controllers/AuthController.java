@@ -24,6 +24,7 @@ import com.tta.broilers.entities.ERole;
 import com.tta.broilers.entities.RoleSecurity;
 import com.tta.broilers.entities.User;
 import com.tta.broilers.entities.UserSecurity;
+import com.tta.broilers.entities.rest.ResetPassword;
 import com.tta.broilers.payload.request.LoginRequest;
 import com.tta.broilers.payload.request.SignupRequest;
 import com.tta.broilers.payload.response.JwtResponse;
@@ -32,6 +33,7 @@ import com.tta.broilers.repositories.RoleSecurityRepository;
 import com.tta.broilers.repositories.UserRepository;
 import com.tta.broilers.repositories.UserSecurityRepository;
 import com.tta.broilers.security.jwt.JwtUtils;
+import com.tta.broilers.security.services.MailService;
 import com.tta.broilers.security.services.UsersDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -55,7 +57,11 @@ public class AuthController {
 
   @Autowired
   JwtUtils jwtUtils;
+  
+  @Autowired
+  MailService mailService;
 
+  
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -97,7 +103,7 @@ public class AuthController {
     // Create new user's account
     UserSecurity user = new UserSecurity(signUpRequest.getUsername(), 
                signUpRequest.getEmail(),
-               encoder.encode(signUpRequest.getPassword()));
+               encoder.encode(signUpRequest.getPassword()),null);
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<RoleSecurity> roles = new HashSet<>();
@@ -136,5 +142,28 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
+  
+  //
+  @PostMapping("/mpoublier")
+	public String MPoublier(@RequestBody String email) {
+	  System.out.println(email);
+	  System.out.println(userRepository.existsByEmail(email));
+	  UserSecurity userSecurity =userRepository.getByEmail(email);
+	  User user=userDetailsRepository.findByID(userSecurity.getUserDetails()).get(0);
+		mailService.EnvoyerEmail(userSecurity,user);
+		return null;
+		
+	}
+  
+  @PostMapping("/resetPassword")
+  public void resetPassword(@RequestBody ResetPassword resetPassword) {
+      String token = resetPassword.getToken();
+      if (Boolean.FALSE.equals(jwtUtils.isTokenExpired(token))) {
+          String email = jwtUtils.getUsernameFromToken(token);
+          mailService.resetPassword(resetPassword, email);
+      } else throw new RuntimeException("Token expired");
+
+  }
+
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,12 @@ public class ChickReceptionController {
 	public BasicResponse save(@RequestBody ChickReception chickReception) {
 		System.out.println("chickReception farm" + chickReception.toString());
 		return chickReceptionInterface.save(chickReception);
+	}
+	
+	@GetMapping("/getByFarm/{farm}")
+	public List<ChickReception> findByFarm(@PathVariable String farm) {
+
+		return chickReceptionInterface.getByFarm(farm);
 	}
 
 }

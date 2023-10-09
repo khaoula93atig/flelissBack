@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.tta.broilers.dao.BreedingManagementInterface;
 import com.tta.broilers.entities.BreedingManagement;
 import com.tta.broilers.mappers.BeedingManagementRowMapper;
+import com.tta.broilers.mappers.BroodingCheckMapper;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -144,27 +145,6 @@ public class BreedingManagementRepository implements BreedingManagementInterface
 					+ "            vaccine_dose_control, technical_performance, evolution_weight_weight)\r\n"
 					+ "    VALUES (?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
 					+ "  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,   ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?);\r\n"
-					/*,breedingManagement.getBreedingManagementId(),breedingManagement.getCreationDate(),breedingManagement.getUsername(),breedingManagement.getFarmId(),
-					breedingManagement.getCenterId(),breedingManagement.getHouseId(),breedingManagement.getCleanlinessBuild(),breedingManagement.getAbsenceHolesSharpCracks(),
-					breedingManagement.getConditionDoorsWindowsBuilding(),breedingManagement.getSealingCeilingBuilding(),breedingManagement.getAirLeaksBuildings(),
-					breedingManagement.getCleanlinessHoppers(),breedingManagement.getAvailabilityWireMeshHopper(),breedingManagement.getCleanlinessFeeders(),
-					breedingManagement.getCleanlinessNipples(),breedingManagement.getCorrectOperationWatering(),breedingManagement.getCorrectOperationPressureRegulator(),
-					breedingManagement.getSufficientNumberDrinkers(),breedingManagement.getAdjustmentHeightDrinkersAccording(),breedingManagement.getWaterLeaks(),
-					breedingManagement.getRecordingDailFeedConsumption(),breedingManagement.getMonitoringPhysicoDw(),breedingManagement.getMonitoringBacteriologicalDw(),
-					breedingManagement.getDosingPumpCompliant(),breedingManagement.getCleanlinessBrooders(),breedingManagement.getCorrectDistributionBrooders(),
-					breedingManagement.getAvailLocationFunct(),breedingManagement.getObservanceHeating_program(),breedingManagement.getStateCoolingSystem(),
-					breedingManagement.getCorrectOperationCoolingSystem(),breedingManagement.getFansMaintained(),breedingManagement.getProperOperationFans(),
-					breedingManagement.getHatchOpeningLevel(),breedingManagement.getObservanceAirFlow(),breedingManagement.getDailyRecordMinMaxTemp(),
-					breedingManagement.getBreedingHumidityConfor(),breedingManagement.getEnergySavingLamps(),breedingManagement.getNumberWorkingLamps(),
-					breedingManagement.getAdequateDistriLamps(),breedingManagement.getCompliantPitchHeight(),breedingManagement.getComplianceLightProgram(),
-					breedingManagement.getCompliantLitter(),breedingManagement.getMechanicalThermostatAlarmFunct(),breedingManagement.getFunctionalTechParaDisplaySys(),
-					breedingManagement.getDisposalHeavilySoiled(),breedingManagement.getRoundCollecEggsCompleted(),breedingManagement.getExistingFunctionalManureScraper(),
-					breedingManagement.getExistingManureScraperCable(),breedingManagement.getFliesMealwormsBuilding(),breedingManagement.getCleanFoodHomogeneouDistribution(),
-					breedingManagement.getInstalFeeding_belts(),breedingManagement.getTrolledCompliantTest(),breedingManagement.getControlBehaviorDistri(),
-					breedingManagement.getStateHensHens(),breedingManagement.getManureCachesClean(),breedingManagement.getIsolationSickSickAnimals(),
-					breedingManagement.getCorpsesCorridors(),breedingManagement.getCompliantWeighingMethod(),breedingManagement.getSamplingCompliant(),
-					breedingManagement.getWeighingRecording(),breedingManagement.getComplianceLightProgram(),breedingManagement.getMonitoringVaccinationAge(),
-					breedingManagement.getVaccineDoseControl(),breedingManagement.getTechnicalPerformance(),breedingManagement.getEvolutionWeightWeight()*/
 					
 
 			);
@@ -177,6 +157,17 @@ public class BreedingManagementRepository implements BreedingManagementInterface
 			return new BasicResponse("Error!", HttpStatus.BAD_REQUEST);
 
 		}
+	}
+
+	@Override
+	public List<BreedingManagement> getByFarm(String farm) {
+		String req = "SELECT breeding_management_id, breeding_management.creation_date, username, breeding_management.farm_id, breeding_management.center_id, cleanliness_build, absence_holes_sharp_cracks, condition_doors_windows_building, sealing_ceiling_building, air_leaks_buildings, cleanliness_hoppers, storge_vaccines, cleanliness_feeders, sufficient_number_feeders, adjustment_height_feeders_according, unjustified_feed_leaks, feed_shape_size_according_age, feed_transition_achieved, recording_daily_feed_consumption, availability_sufficiency_feed, cleanliness_tanks_filters, cleanliness_nipples, correct_operation_watering, correct_operation_pressure_regulator, sufficient_number_drinkers, adjustment_height_drinkers_according, water_leaks, recording_daily_water_consumption, monitoring_physico_dw, monitoring_bacteriological_dw, dosing_pump_compliant, cleanliness_brooders, correct_distribution_brooders, avail_location_funct, observance_heating_program, state_cooling_system, correct_operation_cooling_system, fans_maintained, proper_operation_fans, hatch_opening_level, observance_air_flow, daily_record_min_max_temp, record_minmax_daily_humidity, breeding_humidity_confor, energy_saving_lamps, number_working_lamps, adequate_distri_lamps, mechanical_thermostat_alarm_funct, functional_tech_para_display_sys, number_birds_per_cage, isolation_sick_sick_animals, compliant_weighing_method, sampling_compliant, weighing_recording, compliance_vaccin_program, monitoring_vaccination_age, vaccine_dose_control, technical_performance, scoring, litter_quality, evolution_weight_compared_standard, visit_date\r\n"
+				+ "	, center.center_name \r\n"
+				+ "	FROM public.breeding_management \r\n"
+				+ "	join center on center.center_id = breeding_management.center_id where breeding_management.farm_id=?;";
+		
+		return jdbcTemplate.query(req,new Object[]{farm},
+				new BeedingManagementRowMapper());
 	}
 
 	

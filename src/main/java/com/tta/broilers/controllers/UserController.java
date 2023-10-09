@@ -2,7 +2,10 @@ package com.tta.broilers.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,9 +47,10 @@ public class UserController {
 
 		return userInterface.findByCompanyID(companyID);
 	}
-	@PostMapping(path = "/save", consumes = "application/json", produces = "application/json")
-	public BasicResponse save(@RequestBody User user) {
-		return userInterface.save(user);
+	@PostMapping(path = "/save/{role}")
+	public ResponseEntity<?> save(@Valid@RequestBody User user ,@PathVariable ("role") String roleuser ) {
+		System.out.println(user+roleuser);
+		return userInterface.save(user, roleuser);
 
 	}
 

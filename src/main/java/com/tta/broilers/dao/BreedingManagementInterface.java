@@ -13,7 +13,7 @@ public interface BreedingManagementInterface {
 
 
 	List<BreedingManagement> findAll();
-	//List<BreedingManagement> getById(int id);
+	List<BreedingManagement> getByFarm(String farm);
 	BasicResponse save(BreedingManagement breedingManagement);
 	BasicResponse saveObject(BreedingManagement breedingManagement);
 	BasicResponse update(BreedingManagement breedingManagement);

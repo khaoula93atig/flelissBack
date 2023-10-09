@@ -18,6 +18,8 @@ public interface ChickReceptionInterface {
 	public BasicResponse save(ChickReception farm);
 
 	public BasicResponse update(ChickReception farm);
+	
+	public List<ChickReception> getByFarm(String farm);
 
 	
 

@@ -33,6 +33,16 @@ public class ChickReception {
 	private int defectsEyeLegsSpraddled;
 	private int totalScore;
 	private Date creationDate;
+	private House house;
+	private Center center;
+	private Flock flock;
+	
+	public House getHouse() {
+		return house;
+	}
+	public void setHouse(House house) {
+		this.house = house;
+	}
 	public Date getVisitDate() {
 		return visitDate;
 	}
@@ -184,9 +194,22 @@ public class ChickReception {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+	
+	public Center getCenter() {
+		return center;
+	}
+	public void setCenter(Center center) {
+		this.center = center;
+	}
+	public Flock getFlock() {
+		return flock;
+	}
+	public void setFlock(Flock flock) {
+		this.flock = flock;
+	}
 	@Override
 	public String toString() {
-		return "ChickReception [visitDate=" + visitDate + ", chicReceptionId=" + chicReceptionId + ", centerId="
+		return "ChickReception [chicReceptionId=" + chicReceptionId + ", visitDate=" + visitDate + ", centerId="
 				+ centerId + ", farmId=" + farmId + ", housesId=" + housesId + ", flockId=" + flockId + ", breed="
 				+ breed + ", hatchDate=" + hatchDate + ", chickPlaced=" + chickPlaced + ", psOrigin=" + psOrigin
 				+ ", psAge=" + psAge + ", navelNotclosedStrungButton=" + navelNotclosedStrungButton
@@ -196,22 +219,8 @@ public class ChickReception {
 				+ ", hocksCleanNoblemishes=" + hocksCleanNoblemishes + ", hocksSlightBlushing=" + hocksSlightBlushing
 				+ ", hocksRedcolorHeavyblushing=" + hocksRedcolorHeavyblushing + ", defectsCleanNodefects="
 				+ defectsCleanNodefects + ", defectsMinorDefects=" + defectsMinorDefects + ", defectsEyeLegsSpraddled="
-				+ defectsEyeLegsSpraddled + ", totalScore=" + totalScore + ", creationDate=" + creationDate
-				+ ", getVisitDate()=" + getVisitDate() + ", getChicReceptionId()=" + getChicReceptionId()
-				+ ", getCenterId()=" + getCenterId() + ", getFarmId()=" + getFarmId() + ", getHousesId()="
-				+ getHousesId() + ", getFlockId()=" + getFlockId() + ", getBreed()=" + getBreed() + ", getHatchDate()="
-				+ getHatchDate() + ", getChickPlaced()=" + getChickPlaced() + ", getPsOrigin()=" + getPsOrigin()
-				+ ", getPsAge()=" + getPsAge() + ", getNavelNotclosedStrungButton()=" + getNavelNotclosedStrungButton()
-				+ ", getNavelCleanWellHealed()=" + getNavelCleanWellHealed() + ", getNavelClosedSlightAbrasiveness()="
-				+ getNavelClosedSlightAbrasiveness() + ", getLegsCleanWaxy()=" + getLegsCleanWaxy()
-				+ ", getLegsDrynessPale()=" + getLegsDrynessPale() + ", getLegsDeshydratedVienProtruding()="
-				+ getLegsDeshydratedVienProtruding() + ", getHocksCleanNoblemishes()=" + getHocksCleanNoblemishes()
-				+ ", getHocksSlightBlushing()=" + getHocksSlightBlushing() + ", getHocksRedcolorHeavyblushing()="
-				+ getHocksRedcolorHeavyblushing() + ", getDefectsCleanNodefects()=" + getDefectsCleanNodefects()
-				+ ", getDefectsMinorDefects()=" + getDefectsMinorDefects() + ", getDefectsEyeLegsSpraddled()="
-				+ getDefectsEyeLegsSpraddled() + ", getTotalScore()=" + getTotalScore() + ", getCreationDate()="
-				+ getCreationDate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ defectsEyeLegsSpraddled + ", totalScore=" + totalScore + ", creationDate=" + creationDate + ", house="
+				+ house + ", center=" + center + ", flock=" + flock + "]";
 	}
 	
 	

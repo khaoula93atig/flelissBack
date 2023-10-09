@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.tta.broilers.dao.BroodingCheckInterface;
 import com.tta.broilers.entities.BroodingCheck;
 import com.tta.broilers.mappers.BroodingCheckMapper;
+import com.tta.broilers.mappers.ChickReceptionMapper;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -82,6 +83,20 @@ public class BroodingCheckRepository implements BroodingCheckInterface {
 	public BroodingCheck getByWeek(int week) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<BroodingCheck> getByFarm(String farm) {
+		String req = "SELECT brooding_check_id, litter_depth, temperature, pre_heat_least, realtive_humidity, air_speed, position_supp_drink, delivery_vehi_temp, delivery_vehi_humi, chick_confort, external_env_cond, transit_time, delivery_vehicle_air_exch, delivery_vehicle_hygiene, internal_chick_temp, weigh_sample_chick, place_chicks_quickly, light_intensity, check_chick_behavior, check_chick_water_supply, check_feed_supply, check_chick_crop_fill, distribution_day_old_chicks, daily_purges_piping, air_quality, \"Brooding_check\".creation_date, username, \"Brooding_check\".farm_id, \"Brooding_check\".center_id, \"Brooding_check\".house_id, air_temperature, ensure_feed_water, floor_temperature, spot_brooding, distance_access_water, check_feed, feed_on_paper, feeders_trays, drinkers_nipple_lines, drinkers_bell, drinkers_supp, water_temperature\r\n"
+				+ "	,farm.farm_id, farm.address, farm.area, type_production, farm_manager_name, farm_manager_email, farm_manager_tel, brids_number_per_center, number_center, result, av_mortality_rate, fcr, epef, farm.company_id, rotation, av_lay_rate, farm.creation_date, farm.breed, farm.farm_name, \"Houses_number\"\r\n"
+				+ "	, center.center_Name , house.house_name\r\n"
+				+ "	FROM public.\"Brooding_check\" join farm on farm.farm_id = \"Brooding_check\".farm_id\r\n"
+				+ "	join house on house.house_id = \"Brooding_check\".house_id\r\n"
+				+ "	join center on center.center_id = \"Brooding_check\".center_id\r\n"
+				+ "	where \"Brooding_check\".farm_id=?;";
+		
+		return jdbcTemplate.query(req,new Object[]{farm},
+				new BroodingCheckMapper());
 	}
 
 }

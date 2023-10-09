@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.tta.broilers.entities.BroodingCheck;
+import com.tta.broilers.entities.Center;
 import com.tta.broilers.entities.Farm;
+import com.tta.broilers.entities.House;
 
 
 /**
@@ -92,6 +94,15 @@ public class BroodingCheckMapper implements RowMapper<BroodingCheck> {
 		farm.setCreationDate(rs.getDate("creation_date")); 
  
 		broodingCheck.setFarm(farm);
+		
+		House house = new House();
+		house.setHouseName(rs.getString("house_name"));
+		broodingCheck.setHouse(house);
+		
+		Center center = new Center();
+		center.setCenterName(rs.getString("center_name"));
+		broodingCheck.setCenter(center);
+		
 		return broodingCheck;
 		
 

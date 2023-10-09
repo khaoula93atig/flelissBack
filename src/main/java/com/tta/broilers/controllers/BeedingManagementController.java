@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tta.broilers.dao.BreedingManagementInterface;
 import com.tta.broilers.entities.BreedingManagement;
+import com.tta.broilers.entities.BroodingCheck;
 import com.tta.broilers.responses.BasicResponse;
 
 /**
@@ -44,6 +45,12 @@ public class BeedingManagementController {
 	@PutMapping("/update")
 	public BasicResponse update(@RequestBody BreedingManagement breedingManagement) {
 		return breedingManagementInterface.update(breedingManagement);
+	}
+	
+	@GetMapping("/getByFarm/{farm}")
+	public List<BreedingManagement> findByFarm(@PathVariable String farm) {
+
+		return breedingManagementInterface.getByFarm(farm);
 	}
 
 }

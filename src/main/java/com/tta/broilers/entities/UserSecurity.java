@@ -46,10 +46,11 @@ public class UserSecurity {
 	  public UserSecurity() {
 	  }
 
-	  public UserSecurity(String username, String email, String password) {
+	  public UserSecurity(String username, String email, String password, String userDetails) {
 	    this.username = username;
 	    this.email = email;
 	    this.password = password;
+	    this.userDetails= userDetails; 
 	  }
 
 	public Long getId() {

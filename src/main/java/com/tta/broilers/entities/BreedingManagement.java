@@ -72,11 +72,17 @@ public class BreedingManagement {
 	private String  vaccineDoseControl  ;
 	private String  technicalPerformance ;
 	private Float scoring;
+	private Center center;
 	
 	
 	
 	
-	
+	public Center getCenter() {
+		return center;
+	}
+	public void setCenter(Center center) {
+		this.center = center;
+	}
 	public String getBreedingManagementId() {
 		return breedingManagementId;
 	}
@@ -481,7 +487,8 @@ public class BreedingManagement {
 				+ ", weighingRecording=" + weighingRecording + ", evolutionWeightComparedStandard="
 				+ evolutionWeightComparedStandard + ", complianceVaccinProgram=" + complianceVaccinProgram
 				+ ", monitoringVaccinationAge=" + monitoringVaccinationAge + ", vaccineDoseControl="
-				+ vaccineDoseControl + ", technicalPerformance=" + technicalPerformance + ", scoring=" + scoring + "]";
+				+ vaccineDoseControl + ", technicalPerformance=" + technicalPerformance + ", scoring=" + scoring
+				+ ", center=" + center + "]";
 	}
 	
 	

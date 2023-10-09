@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.tta.broilers.entities.BreedingManagement;
+import com.tta.broilers.entities.Center;
 /**
  * @author RLamouchi @email r.lamouchi@ttatunisia.com
  *
@@ -32,7 +33,7 @@ public class BeedingManagementRowMapper implements RowMapper<BreedingManagement>
 		breedingManagement.setStorageVaccines(rs.getString("storge_vaccines"));
 		breedingManagement.setCleanlinessFeeders(rs.getString("cleanliness_feeders"));
 		breedingManagement.setSufficientNumberFeeders(rs.getString("sufficient_number_feeders"));
-		breedingManagement.setAdjustmentHeightDrinkersAccording(rs.getString("adjustment_height_feeders_according"));
+		breedingManagement.setAdjustmentHeightDrinkersAccording(rs.getString("adjustment_height_drinkers_according"));
 		breedingManagement.setUnjustifiedFeedLeaks(rs.getString("unjustified_feed_leaks"));
 		breedingManagement.setFeedShapeSizeAccordingAge(rs.getString("feed_shape_size_according_age"));
 		breedingManagement.setFeedTransitionAchieved(rs.getString("feed_transition_achieved"));
@@ -43,7 +44,7 @@ public class BeedingManagementRowMapper implements RowMapper<BreedingManagement>
 		breedingManagement.setCorrectOperationWatering(rs.getString("correct_operation_watering"));
 		breedingManagement.setCorrectOperationPressureRegulator(rs.getString("correct_operation_pressure_regulator"));
 		breedingManagement.setSufficientNumberDrinkers(rs.getString("sufficient_number_drinkers"));
-		breedingManagement.setAdjustmentHeightDrinkersAccording(rs.getString("adjustment_height_drinkers_according"));
+		breedingManagement.setAdjustmentHeightFeedersAccording(rs.getString("adjustment_height_feeders_according"));
 		breedingManagement.setWaterLeaks(rs.getString("water_leaks"));
 		breedingManagement.setRecordingDailyWaterConsumption(rs.getString("recording_daily_water_consumption"));
 		breedingManagement.setMonitoringPhysicoDw(rs.getString("monitoring_physico_dw"));
@@ -78,6 +79,14 @@ public class BeedingManagementRowMapper implements RowMapper<BreedingManagement>
 		breedingManagement.setLitterQuality(rs.getString("litter_quality"));
 		breedingManagement.setEnergySavingLamps(rs.getString("evolution_weight_compared_standard"));
 		breedingManagement.setVisitDate(rs.getDate("visit_date"));
+		breedingManagement.setObservanceHeatingProgram(rs.getString("observance_heating_program"));
+        breedingManagement.setNumberBirdCageSquareMeter(rs.getString("number_birds_per_cage"));
+        breedingManagement.setEvolutionWeightComparedStandard(rs.getString("evolution_weight_compared_standard"));
+        
+        Center center = new Center();
+		center.setCenterName(rs.getString("center_name"));
+		breedingManagement.setCenter(center);
+
 		
 		return breedingManagement;
 	}

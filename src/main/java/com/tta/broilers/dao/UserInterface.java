@@ -2,6 +2,8 @@ package com.tta.broilers.dao;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.tta.broilers.entities.User;
 import com.tta.broilers.entities.rest.UserCredentials;
 import com.tta.broilers.responses.BasicResponse;
@@ -19,7 +21,7 @@ public interface UserInterface {
 	List<User>findByCompanyID(String companyID);
 	List<User> findByCredentials(UserCredentials credentials);
 
-	BasicResponse save(User user);
+	ResponseEntity<?>  save(User user, String roleuser);
 
 	BasicResponse update(User user);
 

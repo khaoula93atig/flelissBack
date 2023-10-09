@@ -16,6 +16,7 @@ public interface BroodingCheckInterface  {
 	List<BroodingCheck> getByBreed(int breed);
 	BasicResponse save(BroodingCheck broodingCheck);
 	BroodingCheck getByWeek(int week);
+	List<BroodingCheck> getByFarm(String farm);
 
 
 }

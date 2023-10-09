@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.tta.broilers.entities.User;
 import com.tta.broilers.entities.UserSecurity;
 
 @Repository
@@ -16,5 +17,9 @@ public interface UserSecurityRepository extends JpaRepository<UserSecurity, Long
 	  Boolean existsByUsername(String username);
 
 	  Boolean existsByEmail(String email);
+
+	UserSecurity getByUsername(String login);
+
+	UserSecurity getByEmail(String email);
 
 }
