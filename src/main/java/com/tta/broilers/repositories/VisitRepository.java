@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.tta.broilers.entities.rest.MortalityHistorique;
+import com.tta.broilers.mappers.MortalityHistoriqueRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.tta.broilers.dao.VisitInterface;
@@ -81,7 +84,9 @@ public class VisitRepository implements VisitInterface {
 				int d1=(int)(flock.getRestFlockNumber()-visit.getMortality());
 				System.out.println(d1);
 				flockRepository.updateRestNumberFlock(flock.getFlockID(), d1);
-				List<Visit> results = getById(visit.getVisitId());
+				System.out.println(visit);
+				List<Visit> results = this.getById(visit.getVisitId());
+				System.out.println(results);
 				if (!results.isEmpty()) {
 					results.get(0).setStatusSave("success");
 					return results.get(0);
@@ -207,7 +212,14 @@ public class VisitRepository implements VisitInterface {
 				new Object[] { flockId , age , task }, new VisitTasksVerificationRowMapper());
 	}
 
+	@Override
+	public List<MortalityHistorique> getHistoriqueMortalityByFlock(String flockId) {
+		String req = "select measure , visit.age_flock , visit.visit_date\n" +
+				"from visittasks join visit on visit.visit_id= visittasks.visit_id\n" +
+				"where task_id=8 and visit.flock_id=?\n" +
+				"ORDER by visit.age_flock ASC;";
+		return jdbcTemplate.query(req, new Object[]{flockId}, new MortalityHistoriqueRowMapper());
+	}
 
 
-	
 }

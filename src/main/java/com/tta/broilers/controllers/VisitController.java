@@ -1,6 +1,8 @@
 package com.tta.broilers.controllers;
 import java.io.File;
 import java.util.List;
+
+import com.tta.broilers.entities.rest.MortalityHistorique;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +73,11 @@ public class VisitController {
 	@GetMapping("/vistTaskVerif/{flockId}/{age}/{task}")
 	public List<visitTasksVerification> getVisitTaskVerif(@PathVariable("flockId") String flockId,@PathVariable("age") int age,@PathVariable("task") int task) {
 		return vistInterface.getVistTasksVerfication(flockId, age, task);
+	}
+
+	@GetMapping("/historiqueMortalityByFlock/{flockId}")
+	public List<MortalityHistorique> getHistoriqueMortalityByFlock(@PathVariable("flockId") String flockId) {
+		return vistInterface.getHistoriqueMortalityByFlock(flockId);
 	}
 
 }
