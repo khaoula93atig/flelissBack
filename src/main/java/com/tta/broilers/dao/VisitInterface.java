@@ -21,4 +21,7 @@ public interface VisitInterface  {
 	List<visitTasksVerification> getVistTasksVerfication(String flockId, int age , int task);
 
 	List<MortalityHistorique> getHistoriqueMortalityByFlock(String flockId);
+
+	// totale measure of until visit or date
+	double totalMeasureTaskDate(String flockId , int ageFlock , int taskId);
 }

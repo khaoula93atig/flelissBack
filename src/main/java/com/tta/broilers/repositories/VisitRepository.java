@@ -221,5 +221,14 @@ public class VisitRepository implements VisitInterface {
 		return jdbcTemplate.query(req, new Object[]{flockId}, new MortalityHistoriqueRowMapper());
 	}
 
+	@Override
+	public double totalMeasureTaskDate(String flockId, int ageFlock , int taskId) {
+		String req = "select sum(visittasks.measure) from visit , visittasks \n" +
+				"where visit.frequency='Daily' and visittasks.task_id= ? \n" +
+				"and visit.flock_id=? and visit.visit_id=visittasks.visit_id and visit.age_flock<?;";
+		return jdbcTemplate.queryForObject(req, new Object[]{taskId, flockId, ageFlock}, Double.class);
+	}
+
+
 
 }

@@ -80,4 +80,11 @@ public class VisitController {
 		return vistInterface.getHistoriqueMortalityByFlock(flockId);
 	}
 
+
+	// totale measure of until visit or date
+	@GetMapping("Dailyvisit/TotalTaskMeasure/{flockId}/{taskId}/{ageFlock}")
+	public Double totalTaskMeasureDate(@PathVariable("flockId") String flockId ,@PathVariable("taskId") int taskId ,@PathVariable("ageFlock") int ageFlock) {
+		return vistInterface.totalMeasureTaskDate(flockId,ageFlock,taskId);
+	}
+
 }
