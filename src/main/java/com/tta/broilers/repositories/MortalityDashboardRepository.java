@@ -42,20 +42,40 @@ public class MortalityDashboardRepository implements MortalityDashboardInterface
 	@Override
 	public List<MortalityByFarm> getPercentagMortalityByFarm(int task, Date visitDate, String companyId) {
 		return jdbcTemplate.query(
-				"SELECT Round(sum(visittasks.percentage)/count(*),2)as percentage, visit.farm_id\r\n"
+				"SELECT Round(sum(visittasks.percentage)/count(*),2)as percentage, farm.farm_name\r\n"
 				+ "				FROM public.visittasks left join visit on visit.visit_id = visittasks.visit_id\r\n"
 				+ "				left join farm on farm.farm_id = visit.farm_id \r\n"
 				+ "				where task_id=? and visit.visit_date=? and farm.company_id=?\r\n"
-				+ "				group by visit.farm_id",new Object[] { task,  visitDate,  companyId },
+				+ "				group by farm.farm_name",new Object[] { task,  visitDate,  companyId },
 				new MortalityByfarmRowMapper());
 	}
 	@Override
 	public List<MortalityByFarm> getPercentagMortalityByFarmGeneral(String companyId) {
 		return jdbcTemplate.query(
-				"SELECT round((sum(flock_number)- sum(rest_flock_number)+ 0.0)*100/(sum(flock_number)+ 0.0),2) as percentage ,flock.farm_id\r\n"
-				+ "	FROM public.flock JOIN farm on farm.farm_id = flock.farm_id \r\n"
-				+ "	where flock.check_end_of_cycle=false and farm.company_id=? \r\n"
-				+ "	group by flock.farm_id",new Object[] { companyId },
+				/*"SELECT round((sum(flock_number)- sum(rest_flock_number)+ 0.0)*100/(sum(flock_number)+ 0.0),2) as percentage ,farm.farm_name\n" +
+						"FROM public.flock JOIN farm on farm.farm_id = flock.farm_id \n" +
+						"where flock.check_end_of_cycle=false and farm.company_id=?\n" +
+						"group by farm.farm_name"*/
+				"SELECT COALESCE(t2.percentage, t1.percentage) AS percentage, t1.farm_name\n" +
+						"FROM \n" +
+						"(\n" +
+						"    SELECT 0 AS percentage, farm_name \n" +
+						"    FROM farm \n" +
+						"    WHERE farm.company_id=?\n" +
+						"    GROUP BY farm_name\n" +
+						") t1\n" +
+						"LEFT JOIN \n" +
+						"(\n" +
+						"    SELECT \n" +
+						"        round((sum(flock_number)- sum(rest_flock_number)+ 0.0)*100/(sum(flock_number)+ 0.0),2) as percentage, \n" +
+						"        farm.farm_name\n" +
+						"    FROM public.flock \n" +
+						"    JOIN farm on farm.farm_id = flock.farm_id \n" +
+						"    WHERE flock.check_end_of_cycle=false and farm.company_id=?\n" +
+						"    GROUP BY farm.farm_name\n" +
+						") t2\n" +
+						"ON t1.farm_name = t2.farm_name;\n"
+				,new Object[] { companyId , companyId},
 				new MortalityByfarmRowMapper());
 	}
 	@Override
@@ -121,13 +141,14 @@ public class MortalityDashboardRepository implements MortalityDashboardInterface
 	}
 	@Override
 	public List<MortalityByhouseLastDays> getMortalityOfLastdaysByhouse(String houseId) {
-		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
-				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
-				+ "			join house on house.house_id = visit.house_id \r\n"
-				+ "			join flock on flock.house_id = house.house_id\r\n"
-				+ "			WHERE visit.house_id=? and visittasks.task_id=8 and flock.check_end_of_cycle=false\r\n"
-				+ "			ORDER BY visit_Date DESC\r\n"
-				+ "			LIMIT 7",new Object[] {houseId}, new MortalityByHouseLastDaysRowMapper());
+		return jdbcTemplate.query("SELECT measure , ' D'|| age_flock as ageDate , visit_date\n" +
+				"\t\t\t\tfrom (select visittasks.measure , visit.age_flock , visit_date FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\n" +
+				"\t\t\t\tjoin house on house.house_id = visit.house_id \n" +
+				"\t\t\t\tjoin flock on flock.house_id = house.house_id\n" +
+				"\t\t\t\tWHERE visit.house_id=? and visittasks.task_id=8 and flock.check_end_of_cycle=false\n" +
+				"\t\t\t\tORDER BY visit_Date desc , visit.age_flock desc\n" +
+				"\t\t\t\tLIMIT 7)\n" +
+				"\t\t\t\torder by visit_date asc",new Object[] {houseId}, new MortalityByHouseLastDaysRowMapper());
 	}
 	@Override
 	public List<MortalityByFlock> getMortalityByflock(String houseId, int year) {

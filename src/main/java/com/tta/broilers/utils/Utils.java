@@ -13,7 +13,7 @@ public class Utils {
 
 	public static final SimpleDateFormat SMPDF = new SimpleDateFormat("dd-MM-yyyy");
 	public static final SimpleDateFormat SMPDF4 = new SimpleDateFormat("MM/dd/yyyy");
-	public static final String BroilersAgreementsDIR = "C://opt//broilers//";
+	public static final String BroilersAgreementsDIR = "C:\\Users\\Khaoula\\Desktop\\projects\\flellis\\fleliss\\fleliss\\attachements\\";
 	public static final String RootFolder = "C://Users//EMNA//Documents//broilersWorkspace -new//doc";
 	public static final SimpleDateFormat SMPDF2 = new SimpleDateFormat("yyyyMMdd");
 	public static final SimpleDateFormat SMPDF3 = new SimpleDateFormat("dd/MM/yyyy");

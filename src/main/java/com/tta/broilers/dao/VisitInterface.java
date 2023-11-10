@@ -24,4 +24,8 @@ public interface VisitInterface  {
 
 	// totale measure of until visit or date
 	double totalMeasureTaskDate(String flockId , int ageFlock , int taskId);
+
+	// get visit by age and flock if exist
+	List<Visit> visitByAgeAndFlock(int age , String flock);
+
 }

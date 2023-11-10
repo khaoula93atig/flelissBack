@@ -133,9 +133,11 @@ public class DashboardController {
 		}
 	
 		//feed comsum by farm for company
-				@GetMapping("/feed/company/{companyId}")
-				public List<MortalityByFarm> getfeedTotalconsumByfarm(@PathVariable("companyId") String companyId)  {
-					return dashboardInterface.getTotalFeedConsumByFarm(companyId);
+				@GetMapping("/feed/company/{companyId}/{visitDate}")
+				public List<MortalityByFarm> getfeedTotalconsumByfarm(@PathVariable("companyId") String companyId, @PathVariable("visitDate") String visitDate) throws ParseException {
+					DateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd");
+					Date date1 = sourceFormat.parse(visitDate);
+					return dashboardInterface.getTotalFeedConsumByFarm(companyId , date1);
 				}
 		//all flock by house and year
 		@GetMapping("/flock/house/{houseId}/{year}")

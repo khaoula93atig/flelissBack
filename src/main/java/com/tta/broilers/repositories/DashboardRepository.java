@@ -218,35 +218,41 @@ public class DashboardRepository implements DashboardInterface {
 
 	@Override
 	public List<MortalityByhouseLastDays> getFeedByhouseOfLastDays(String houseId) {
-		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
-				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
-				+ "			join house on house.house_id = visit.house_id \r\n"
-				+ "			join flock on flock.house_id = house.house_id\r\n"
-				+ "			WHERE visit.house_id=? and visittasks.task_id=6 and flock.check_end_of_cycle=false\r\n"
-				+ "			ORDER BY visit_Date DESC\r\n"
-				+ "			LIMIT 7",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
+		return jdbcTemplate.query("SELECT measure , ' D'|| age_flock as ageDate , visit_date\n" +
+				"from (SELECT visittasks.measure ,age_flock, visit_Date  \n" +
+				"FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\n" +
+				"join house on house.house_id = visit.house_id\n" +
+				"join flock on flock.house_id = house.house_id\n" +
+				"WHERE visit.house_id=? and visittasks.task_id=6 and flock.check_end_of_cycle=false\n" +
+				"ORDER BY visit_Date DESC\n" +
+				"LIMIT 7)\n" +
+				"order by visit_date asc",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
 	}
 
 	@Override
 	public List<MortalityByhouseLastDays> geWeightByhouseOfLastDays(String houseId) {
-		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
-				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
-				+ "			join house on house.house_id = visit.house_id \r\n"
-				+ "			join flock on flock.house_id = house.house_id\r\n"
-				+ "			WHERE visit.house_id=? and visittasks.task_id=11 and flock.check_end_of_cycle=false\r\n"
-				+ "			ORDER BY visit_Date DESC\r\n"
-				+ "			LIMIT 7",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
+		return jdbcTemplate.query("SELECT measure , ' D'|| age_flock as ageDate , visit_date\n" +
+				"from (SELECT visittasks.measure ,age_flock, visit_Date  \n" +
+				"FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\n" +
+				"join house on house.house_id = visit.house_id\n" +
+				"join flock on flock.house_id = house.house_id\n" +
+				"WHERE visit.house_id=? and visittasks.task_id=11 and flock.check_end_of_cycle=false\n" +
+				"ORDER BY visit_Date DESC\n" +
+				"LIMIT 7)\n" +
+				"order by visit_date asc",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
 	}
 
 	@Override
 	public List<MortalityByhouseLastDays> getWaterByhouseOfLastDays(String houseId) {
-		return jdbcTemplate.query("SELECT visittasks.measure , visit_Date\r\n"
-				+ "			FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"
-				+ "			join house on house.house_id = visit.house_id \r\n"
-				+ "			join flock on flock.house_id = house.house_id\r\n"
-				+ "			WHERE visit.house_id=? and visittasks.task_id=7 and flock.check_end_of_cycle=false\r\n"
-				+ "			ORDER BY visit_Date DESC\r\n"
-				+ "			LIMIT 7",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
+		return jdbcTemplate.query("SELECT measure , ' D'|| age_flock as ageDate , visit_date\n" +
+				"from (SELECT visittasks.measure ,age_flock, visit_Date  \n" +
+				"FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\n" +
+				"join house on house.house_id = visit.house_id\n" +
+				"join flock on flock.house_id = house.house_id\n" +
+				"WHERE visit.house_id=? and visittasks.task_id=7 and flock.check_end_of_cycle=false\n" +
+				"ORDER BY visit_Date DESC\n" +
+				"LIMIT 7)\n" +
+				"order by visit_date asc",new Object[] {houseId }, new MortalityByHouseLastDaysRowMapper() );
 	}
 
 	@Override
@@ -283,12 +289,24 @@ public class DashboardRepository implements DashboardInterface {
 	}
 
 	@Override
-	public List<MortalityByFarm> getTotalFeedConsumByFarm(String companyId) {
-		return jdbcTemplate.query("SELECT weekly_feed.farm_id, (sum(total_starter_feed)+sum(total_grower_feed)+ sum(total_finisher_feed)) as percentage\r\n"
-				+ "	FROM public.weekly_feed join flock on flock.flock_id = weekly_feed.flock_id\r\n"
-				+ "	join farm on farm.farm_id = weekly_feed.farm_id\r\n"
-				+ "	where flock.check_end_of_cycle=false and farm.company_id=?\r\n"
-				+ "	group by weekly_feed.farm_id",new Object[] {companyId }, new MortalityByfarmRowMapper() );
+	public List<MortalityByFarm> getTotalFeedConsumByFarm(String companyId , Date visitDate) {
+		return jdbcTemplate.query("SELECT COALESCE(t2.percentage, t1.percentage) AS percentage, t1.farm_name\n" +
+				"\t\t\t\tFROM \n" +
+				"\t\t\t\t( SELECT 0 AS percentage, farm_name\n" +
+				"\t\t\t\tFROM farm \n" +
+				"\t\t\t\tWHERE farm.company_id=? \n" +
+				"\t\t\t\tGROUP BY farm_name\n" +
+				"\t\t\t\t) t1\n" +
+				"\t\t\t\tLEFT JOIN\n" +
+				"\t\t\t\t(SELECT (sum(measure)) as percentage, farm.farm_name\n" +
+				"\t\t\t\tFROM public.visittasks join visit on visit.visit_id= visittasks.visit_id\n" +
+				"\t\t\t\tjoin flock on flock.flock_id = visit.flock_id\n" +
+				"\t\t\t\tjoin farm on farm.farm_id = visit.farm_id\n" +
+				"\t\t\t\twhere flock.check_end_of_cycle=false and farm.company_id=? and\n" +
+				"\t\t\t\t visittasks.task_id=6 and visit.visit_date<=? \n" +
+				"\t\t\t\tgroup by farm.farm_name\n" +
+				"\t\t\t\t) t2\n" +
+				"\t\t\t\tON t1.farm_name = t2.farm_name;",new Object[] {companyId , companyId , visitDate }, new MortalityByfarmRowMapper() );
 	}
 
 	@Override

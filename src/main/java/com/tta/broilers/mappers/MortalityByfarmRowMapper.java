@@ -14,7 +14,7 @@ public class MortalityByfarmRowMapper implements RowMapper<MortalityByFarm> {
 	public MortalityByFarm mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MortalityByFarm mortalitybyFarm=new MortalityByFarm();
 		
-		mortalitybyFarm.setFarmId(rs.getString("farm_id"));
+		mortalitybyFarm.setFarmName(rs.getString("farm_name"));
 		mortalitybyFarm.setPercentage(rs.getDouble("percentage"));
 		
 		return mortalitybyFarm;

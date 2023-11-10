@@ -40,7 +40,7 @@ public interface DashboardInterface {
 	public double getWaterConsumtionTotal(Date visitDate , String houseId);
 	public double getWeightMesurementDialy(Date visitDate , String houseId);
 	public double getCVMesurementTotal(Date visitDate , String houseId);
-	public List<MortalityByFarm> getTotalFeedConsumByFarm(String companyId);
+	public List<MortalityByFarm> getTotalFeedConsumByFarm(String companyId ,Date visitDate);
 	public List<Flock> getFlocksByHouseAndYear(String HouseId, int year);
 	public List<WeeklyWeightMesurementByFlock> getWeightByFlock(String HouseId, int year);
 	public List<WeeklyWeightMesurementByFlock> getfeedByFlock(String HouseId, int year);

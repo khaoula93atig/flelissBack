@@ -14,7 +14,8 @@ public class MortalityByHouseLastDaysRowMapper implements RowMapper<MortalityByh
 	public MortalityByhouseLastDays mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MortalityByhouseLastDays mortalitybyHouse=new MortalityByhouseLastDays();
 		mortalitybyHouse.setMesure(rs.getInt("measure"));
-		mortalitybyHouse.setDate(rs.getDate("visit_Date"));
+		mortalitybyHouse.setDateAge(rs.getString("ageDate"));
+		mortalitybyHouse.setVisitDate(rs.getDate("visit_date"));
 		return mortalitybyHouse;
 	}
 

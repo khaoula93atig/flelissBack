@@ -26,7 +26,7 @@ import com.tta.broilers.utils.Utils;
  *
  */
 @Repository
-public class VisitRepository implements VisitInterface {
+ class VisitRepository implements VisitInterface {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
@@ -76,10 +76,16 @@ public class VisitRepository implements VisitInterface {
 				visit.setCreationDate(new Date());
 				visit.setVisitDate(Utils.SMPDF3.parse(visit.getVisitdateString()));
 				System.out.println("date viste "+visit.getVisitDate());
+				String req = "INSERT INTO public.visit(\n" +
+						"\tvisit_id, visit_date, flock_id, username, house_id, age_flock," +
+						" creation_date, frequency, mortality, dwg, eep, total_water_consumption, total_feed_consumption," +
+						" fcr, type_visit, center_id, farm_id)\n" +
+						"\tVALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 				jdbcTemplate.update(
-						"INSERT INTO visit( visit_id, visit_date, frequency,  flock_id, house_id, username, age_flock,type_visit, creation_date,center_id,farm_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-						visit.getVisitId(), visit.getVisitDate(), visit.getFrequency(), visit.getFlockID(),
-						visit.getHouseID(), visit.getUsername(), visit.getAgeFlock(),visit.getTypeVisit(), visit.getCreationDate(),visit.getCenterID(),visit.getFarmId());
+						req,
+						visit.getVisitId(), visit.getVisitDate(),visit.getFlockID(), visit.getUsername(),visit.getHouseID(),visit.getAgeFlock(),
+						visit.getCreationDate(),visit.getFrequency(), visit.getMortality(),visit.getDwg(),visit.getEep(),visit.getTotal_water_consumption(),visit.getTotal_feed_consumption(),
+						visit.getFcr(),visit.getTypeVisit(), visit.getCenterID(),visit.getFarmId());
 				System.out.println("mor1"+visit.getMortality());
 				int d1=(int)(flock.getRestFlockNumber()-visit.getMortality());
 				System.out.println(d1);
@@ -229,6 +235,14 @@ public class VisitRepository implements VisitInterface {
 		return jdbcTemplate.queryForObject(req, new Object[]{taskId, flockId, ageFlock}, Double.class);
 	}
 
+	@Override
+	public List<Visit> visitByAgeAndFlock(int age, String flock) {
+		String req = "SELECT * \n" +
+				"FROM public.visit v ,flock f , house h , farm fa, breed b\n" +
+				"where  v.type_visit='daily_visit' and  v.flock_id=f.flock_id and f.breed=b.breed_id  and f.house_id=h.house_id and h.farm_id=fa.farm_id and \n" +
+				"v.age_flock=? and v.flock_id=?;";
+		return jdbcTemplate.query(req, new Object[]{age , flock}, new VisitRowMapper());
+	}
 
 
 }

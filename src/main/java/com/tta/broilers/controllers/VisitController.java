@@ -86,5 +86,10 @@ public class VisitController {
 	public Double totalTaskMeasureDate(@PathVariable("flockId") String flockId ,@PathVariable("taskId") int taskId ,@PathVariable("ageFlock") int ageFlock) {
 		return vistInterface.totalMeasureTaskDate(flockId,ageFlock,taskId);
 	}
+	// get visit by age and flock
+	@GetMapping("/visitExist/{age}/{flock}")
+	public List<Visit> visitsByAgeAndFlock(@PathVariable("age") int age , @PathVariable("flock") String flock){
+		return vistInterface.visitByAgeAndFlock(age,flock);
+	}
 
 }
