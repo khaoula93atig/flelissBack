@@ -99,9 +99,15 @@ public class WeeklyWeightMeasurementRepository implements WeeklyWeightMeasuremen
 
 	@Override
 	public List<WeeklyWeightForChart> getWeekWeightForChart(String farm, String flock, int breed) {
-		return jdbcTemplate.query("SELECT week, average\r\n"
-				+ "	FROM public.weekly_weight_measurement where farm_id=? and flock_id=? and breed=?"
-				+ " GROUP by average , week ORDER by week ASC ;", new Object[] {farm, flock, breed} , new WeeklyWeightForChartRowMapper());
+		return jdbcTemplate.query("(SELECT week, average\n" +
+				"\t\t\t\tFROM public.weekly_weight_measurement where farm_id=? and flock_id=? and breed=?\n" +
+				"\t\t\t\tGROUP by average , week ORDER by week ASC) \n" +
+				"union\n" +
+				"\t\t\t\t(select visit.age_flock , visittasks.measure\n" +
+				"\t\t\t\t\t\tfrom visit JOIN flock on flock.flock_id = visit.flock_id\n" +
+				"\t\t\t\t\t\tjoin visittasks on visittasks.visit_id = visit.visit_id \n" +
+				"\t\t\t\t\t\twhere visittasks.task_id=11 and visit.age_flock in (0,7,14,21,28,35,42)  and visit.flock_id=? )\n" +
+				"\t\t\t\t\t\tORDER by week ASC", new Object[] {farm, flock, breed ,flock} , new WeeklyWeightForChartRowMapper());
 		 
 	}
 

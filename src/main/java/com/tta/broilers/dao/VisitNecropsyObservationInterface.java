@@ -17,7 +17,7 @@ public interface VisitNecropsyObservationInterface {
 
 	List<VisitNecropsyObservation> getById(String visitId, int necropsyId);
 
-	BasicResponse save(VisitNecropsyObservation visitNecropsyObservation);
+	VisitNecropsyObservation save(VisitNecropsyObservation visitNecropsyObservation);
 
 	BasicResponse update(VisitNecropsyObservation visitNecropsyObservation);
 

@@ -18,6 +18,7 @@ public class Utils {
 	public static final SimpleDateFormat SMPDF2 = new SimpleDateFormat("yyyyMMdd");
 	public static final SimpleDateFormat SMPDF3 = new SimpleDateFormat("dd/MM/yyyy");
 	public static final String Logo = "C:\\Users\\Khaoula\\Desktop\\projects\\flellis\\fleliss\\fleliss\\attachements\\logoComany";
+	public static final String Analyse = "C:\\Users\\Khaoula\\Desktop\\projects\\flellis\\fleliss\\fleliss\\attachements\\analyses";
 
 
 	public static LocalDate getCreationDate() {

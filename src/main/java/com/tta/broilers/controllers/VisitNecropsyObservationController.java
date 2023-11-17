@@ -47,7 +47,7 @@ public class VisitNecropsyObservationController {
 	}
 
 	@PostMapping("/save")
-	public BasicResponse save(@RequestBody VisitNecropsyObservation visitNecropsyObservation) {
+	public VisitNecropsyObservation save(@RequestBody VisitNecropsyObservation visitNecropsyObservation) {
 		return visitNecropsyObservationInterface.save(visitNecropsyObservation);
 	}
 

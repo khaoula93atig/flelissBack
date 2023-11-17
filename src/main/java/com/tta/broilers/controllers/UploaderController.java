@@ -12,12 +12,15 @@ import java.util.List;
 
 import javax.ws.rs.Produces;
 
+import com.tta.broilers.entities.FileInfoVisit;
+import com.tta.broilers.repositories.FileInfoVisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +43,12 @@ public class UploaderController {
 
 	@Autowired
 	CompanyRepository companyRepository;
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private FileInfoVisitRepository fileInfoVisitRepository;
 
 	String path_traitement = Utils.BroilersAgreementsDIR+"agreements";
 	String path_analyses = Utils.BroilersAgreementsDIR+"analyses";
@@ -167,7 +176,7 @@ public class UploaderController {
 
 			// asume that it was a PDF file
 			//InputStreamResource inputStreamResource = new InputStreamResource(is);
-		
+		FileInfoVisit fileInfoVisit = new FileInfoVisit();
 				is = new FileInputStream(new File(path_analyses, visitId +"_"+ visitDate + ".pdf"));
 				// asume that it was a PDF file
 				HttpHeaders responseHeaders = new HttpHeaders();
@@ -175,6 +184,16 @@ public class UploaderController {
 				// responseHeaders.setContentLength(contentLengthOfStream);
 				responseHeaders.setContentType(MediaType.valueOf("application/pdf"));
 				// just in case you need to support browsers
+			fileInfoVisit.setVisitId(visitId);
+			fileInfoVisit.setVisitNecropsyNbservationId("analyse");
+			fileInfoVisit.setUrl(path_analyses+"\\"+visitId +"_"+ visitDate + ".pdf");
+			fileInfoVisit.setName(fileInfoVisit.getVisitId() + String.valueOf(fileInfoVisitRepository.countAll(fileInfoVisit.getVisitId()) + 1));
+			jdbcTemplate.update(
+					"INSERT INTO public.file_info_visit(\n" +
+							"\tname, url, visit_id, visit_necropsy_nbservation_id)\n" +
+							"\tVALUES (?, ?, ?, ?);",
+					fileInfoVisit.getName(), fileInfoVisit.getUrl(), fileInfoVisit.getVisitId(),
+					fileInfoVisit.getVisitNecropsyNbservationId());
 
 				//responseHeaders.put("Content-Disposition",Collections.singletonList(  fileName+ ".pdf"));
 		

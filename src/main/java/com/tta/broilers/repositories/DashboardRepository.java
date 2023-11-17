@@ -319,21 +319,30 @@ public class DashboardRepository implements DashboardInterface {
 
 	@Override
 	public List<WeeklyWeightMesurementByFlock> getWeightByFlock(String HouseId, int year) {
-		return jdbcTemplate.query("SELECT week, weekly_weight_measurement.flock_id ,average \r\n"
-				+ "	FROM public.weekly_weight_measurement join flock on flock.flock_id = weekly_weight_measurement.flock_id\r\n"
-				+ "	where weekly_weight_measurement.house_id=? and EXTRACT(YEAR From hatch_date)=?\r\n"
-				+ "	group by weekly_weight_measurement.flock_id , week, average, weekly_weight_measurement.creation_date\r\n"
-				+ "	ORDER BY week, weekly_weight_measurement.flock_id ASC;",
-				new Object[] {HouseId, year }, new WeeklyWeightMesurementByFlockRowMapper());
+		return jdbcTemplate.query("select weekly_weight_measurement.flock_id, week, average \n" +
+						"\t\t\t\t\t from weekly_weight_measurement JOIN flock on flock.flock_id = weekly_weight_measurement.flock_id\n" +
+						"\t\t\t\twhere weekly_weight_measurement.house_id=? and EXTRACT(YEAR From hatch_date)=?\n" +
+						"\t\t\t\tgroup by weekly_weight_measurement.flock_id , week , average\n" +
+						"\t\t\t\tunion\n" +
+						"select visit.flock_id , visit.age_flock , visittasks.measure\n" +
+						"from visit JOIN flock on flock.flock_id = visit.flock_id\n" +
+						"join visittasks on visittasks.visit_id = visit.visit_id \n" +
+						"where visittasks.task_id=11 and visit.age_flock in (0,7,14,21,28,35,42)  and visit.house_id = ? \n" +
+						"and EXTRACT(YEAR From hatch_date)=?",
+				new Object[] {HouseId, year ,HouseId, year}, new WeeklyWeightMesurementByFlockRowMapper());
 	}
 
 	@Override
 	public List<WeeklyWeightMesurementByFlock> getfeedByFlock(String HouseId, int year) {
-		return jdbcTemplate.query("SELECT weekly_feed.flock_id, week, (sum(total_starter_feed)+sum(total_grower_feed)+ sum(total_finisher_feed)) as average\r\n"
-				+ "	FROM public.weekly_feed JOIN flock on flock.flock_id = weekly_feed.flock_id\r\n"
-				+ "	where weekly_feed.house_id=?and EXTRACT(YEAR From hatch_date)=?\r\n"
-				+ "	group by weekly_feed.flock_id , week;",
-				new Object[] {HouseId, year }, new WeeklyWeightMesurementByFlockRowMapper());
+		return jdbcTemplate.query("select weekly_feed.flock_id, week, (sum(total_starter_feed)+sum(total_grower_feed)+ sum(total_finisher_feed)) as average \n" +
+						"\t\t\t\t\t from public.weekly_feed JOIN flock on flock.flock_id = weekly_feed.flock_id\n" +
+						"\t\t\t\twhere weekly_feed.house_id=? and EXTRACT(YEAR From hatch_date)=?\n" +
+						"\t\t\t\tgroup by weekly_feed.flock_id , week\n" +
+						"union\n" +
+						"select visit.flock_id , visit.age_flock , visit.total_feed_consumption\n" +
+						"from visit JOIN flock on flock.flock_id = visit.flock_id\n" +
+						"where  visit.age_flock in (0,7,14,21,28,35,42) and visit.house_id = ? and EXTRACT(YEAR From hatch_date)=?",
+				new Object[] {HouseId, year ,HouseId, year }, new WeeklyWeightMesurementByFlockRowMapper());
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.tta.broilers.entities.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,7 +33,7 @@ public class VisitNecropsyObservationRepository implements VisitNecropsyObservat
 	}
 
 	@Override
-	public BasicResponse save(VisitNecropsyObservation visitNecropsyObservation) {
+	public VisitNecropsyObservation save(VisitNecropsyObservation visitNecropsyObservation) {
 
 		try {
 			System.out.println("save visit");
@@ -55,8 +56,16 @@ public class VisitNecropsyObservationRepository implements VisitNecropsyObservat
 					visitNecropsyObservation.getCreationDate(),visitNecropsyObservation.getVisitNecropsyObservationId()
 					
 					);
-
-			return new BasicResponse("visitNecropsyObservation created: " + visitNecropsyObservation.toString(),
+			List<VisitNecropsyObservation> results = getByVisitId(visitNecropsyObservation.getVisitId());
+			if (!results.isEmpty()) {
+				return results.get(0);
+			} else
+				return null;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+			/*return new BasicResponse("visitNecropsyObservation created: " + visitNecropsyObservation.toString(),
 					HttpStatus.OK);
 		} catch (org.springframework.dao.DuplicateKeyException ex) {
 			ex.printStackTrace();
@@ -66,7 +75,7 @@ public class VisitNecropsyObservationRepository implements VisitNecropsyObservat
 			ex.printStackTrace();
 			return new BasicResponse("Error!", HttpStatus.BAD_REQUEST);
 
-		}
+		}*/
 	}
 
 	@Override
