@@ -148,6 +148,18 @@ public class UploaderController {
 			// Create the file on server
 			File serverFile = new File(dir.getAbsolutePath() + "\\"+ visitId +"_"+ visitDate + ".pdf");
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+			FileInfoVisit fileInfoVisit = new FileInfoVisit();
+			fileInfoVisit.setVisitId(visitId);
+			fileInfoVisit.setVisitNecropsyNbservationId("analyse");
+			fileInfoVisit.setUrl(dir.getAbsolutePath()+"\\"+visitId +"_"+ visitDate + ".pdf");
+			fileInfoVisit.setName(fileInfoVisit.getVisitId() + String.valueOf(fileInfoVisitRepository.countAll(fileInfoVisit.getVisitId()) + 1));
+			System.out.println("test file analyse **** fileInfoVisit" + fileInfoVisit);
+			jdbcTemplate.update(
+					"INSERT INTO public.file_info_visit(\n" +
+							"\tname, url, visit_id, visit_necropsy_nbservation_id)\n" +
+							"\tVALUES (?, ?, ?, ?);",
+					fileInfoVisit.getName(), fileInfoVisit.getUrl(), fileInfoVisit.getVisitId(),
+					fileInfoVisit.getVisitNecropsyNbservationId());
 			stream.write(bytes);
 			stream.close();
 			return new BasicResponse("analyse uploaded", HttpStatus.OK);
@@ -176,7 +188,6 @@ public class UploaderController {
 
 			// asume that it was a PDF file
 			//InputStreamResource inputStreamResource = new InputStreamResource(is);
-		FileInfoVisit fileInfoVisit = new FileInfoVisit();
 				is = new FileInputStream(new File(path_analyses, visitId +"_"+ visitDate + ".pdf"));
 				// asume that it was a PDF file
 				HttpHeaders responseHeaders = new HttpHeaders();
@@ -184,16 +195,6 @@ public class UploaderController {
 				// responseHeaders.setContentLength(contentLengthOfStream);
 				responseHeaders.setContentType(MediaType.valueOf("application/pdf"));
 				// just in case you need to support browsers
-			fileInfoVisit.setVisitId(visitId);
-			fileInfoVisit.setVisitNecropsyNbservationId("analyse");
-			fileInfoVisit.setUrl(path_analyses+"\\"+visitId +"_"+ visitDate + ".pdf");
-			fileInfoVisit.setName(fileInfoVisit.getVisitId() + String.valueOf(fileInfoVisitRepository.countAll(fileInfoVisit.getVisitId()) + 1));
-			jdbcTemplate.update(
-					"INSERT INTO public.file_info_visit(\n" +
-							"\tname, url, visit_id, visit_necropsy_nbservation_id)\n" +
-							"\tVALUES (?, ?, ?, ?);",
-					fileInfoVisit.getName(), fileInfoVisit.getUrl(), fileInfoVisit.getVisitId(),
-					fileInfoVisit.getVisitNecropsyNbservationId());
 
 				//responseHeaders.put("Content-Disposition",Collections.singletonList(  fileName+ ".pdf"));
 		

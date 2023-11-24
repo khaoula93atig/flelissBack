@@ -154,6 +154,11 @@ public class DashboardController {
 		public List<WeeklyWeightMesurementByFlock> getFeedFlockByHouseAndYear(@PathVariable("houseId") String houseId,@PathVariable("year") int year)  {
 			return dashboardInterface.getfeedByFlock(houseId, year);
 			}
+	//fcr by flock by house and year
+	@GetMapping("/flock/fcr/{houseId}")
+	public List<WeeklyWeightMesurementByFlock> getFcrFlockByHouseAndYear(@PathVariable("houseId") String houseId)  {
+		return dashboardInterface.getFcrByFlock(houseId);
+	}
 			
 		//water by flock by house and year
 		@GetMapping("/flock/water/{houseId}/{visitDate}/{year}")

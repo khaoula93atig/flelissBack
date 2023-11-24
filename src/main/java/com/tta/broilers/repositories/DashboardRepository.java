@@ -346,6 +346,18 @@ public class DashboardRepository implements DashboardInterface {
 	}
 
 	@Override
+	public List<WeeklyWeightMesurementByFlock> getFcrByFlock(String houseId) {
+		String req = "select weekly_feed.flock_id, weekly_feed.week,Round(((sum(total_starter_feed)+sum(total_grower_feed)+ sum(total_finisher_feed))/average),3) as average\n" +
+				"from public.weekly_feed \n" +
+				"JOIN flock on flock.flock_id = weekly_feed.flock_id\n" +
+				"Join weekly_weight_measurement on weekly_weight_measurement.flock_id = weekly_feed.flock_id \n" +
+				"and weekly_feed.week = weekly_weight_measurement.week\n" +
+				"where weekly_feed.house_id=?\n" +
+				"group by weekly_feed.flock_id , weekly_feed.week , average";
+		return jdbcTemplate.query(req ,new Object[] {houseId} , new WeeklyWeightMesurementByFlockRowMapper() );
+	}
+
+	@Override
 	public List<MortalityByFlock> getWaterByFlock(String HouseId, Date visitDate, int year) {
 		return jdbcTemplate.query("SELECT sum(visittasks.measure)AS mortality, flock.flock_name\r\n"
 				+ "	FROM public.visit join visittasks on visittasks.visit_id = visit.visit_id\r\n"

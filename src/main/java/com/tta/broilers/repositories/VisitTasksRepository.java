@@ -166,6 +166,30 @@ public class VisitTasksRepository implements VisitTasksInterface {
 			}
 		}
 			break;
+			case 8: {
+				if(ageDays==7) {
+					if (percentage > 2) {
+						deviation = "High";
+					} else if (measure <= 1) {
+						deviation = "Good";
+					} else if (percentage <= 2 && percentage > 1) {
+						deviation = "Acceptable";
+					}
+				}else if(ageDays == 14 || ageDays == 21 || ageDays == 28 || ageDays == 35){
+					System.out.println("//// test deviation mortality " + ageDays + '/' + percentage);
+					if (percentage >= 1) {
+						deviation = "High";
+						System.out.println("//// high " );
+					} else if (percentage <= 0.5) {
+						System.out.println("//// good " );
+						deviation = "Good";
+					} else if (percentage <= 0.6 && percentage > 0.5) {
+						System.out.println("//// acceptable " );
+						deviation = "Acceptable";
+					}
+				}
+			}
+			break;
 
 		case 11: {
 			DailyWeight dailyWeight = dailyWeightInterface.getByAgeDays(ageDays,breed);
@@ -248,6 +272,14 @@ public class VisitTasksRepository implements VisitTasksInterface {
 
 			standard = String.valueOf(feedConsumption.getDaily_feed_consumption());
 		}
+			break;
+			case 8: {
+				if(ageDays==7) {
+					standard= "[0,1]";
+				}else if(ageDays == 14 || ageDays == 21 || ageDays == 28 || ageDays == 35){
+					standard ="[0, 0.5]";
+				}
+			}
 			break;
 
 		case 11: {

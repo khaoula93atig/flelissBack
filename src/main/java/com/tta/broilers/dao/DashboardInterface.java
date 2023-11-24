@@ -44,6 +44,7 @@ public interface DashboardInterface {
 	public List<Flock> getFlocksByHouseAndYear(String HouseId, int year);
 	public List<WeeklyWeightMesurementByFlock> getWeightByFlock(String HouseId, int year);
 	public List<WeeklyWeightMesurementByFlock> getfeedByFlock(String HouseId, int year);
+	 public List<WeeklyWeightMesurementByFlock> getFcrByFlock(String houseId);
 	public List<MortalityByFlock> getWaterByFlock(String HouseId,Date visitDate , int year);
 	public List<FlockOutResult> getFlockOutResultOfBadyWeight(String companyId);
 	
