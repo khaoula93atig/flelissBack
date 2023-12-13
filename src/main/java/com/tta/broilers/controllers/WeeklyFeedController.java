@@ -2,6 +2,7 @@ package com.tta.broilers.controllers;
 
 import java.util.List;
 
+import com.tta.broilers.entities.rest.FeedWeightweekly;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,13 @@ public class WeeklyFeedController {
 	public List<Long> getWeeklyFeedByflockAndAge(@PathVariable("age") int age, @PathVariable("flockId") String flockId) {
 
 		return weeklyFeedInterface.getbyAgeAndFlock(age, flockId);
+
+	}
+
+	@GetMapping("/feed/weight/{week}/{flockId}")
+	public List<FeedWeightweekly> getWeeklyFeedandWeightByflockAndAge(@PathVariable("week") int week, @PathVariable("flockId") String flockId) {
+
+		return weeklyFeedInterface.getFeedWeightWeeklyByAgeAndFlock(week, flockId);
 
 	}
 }

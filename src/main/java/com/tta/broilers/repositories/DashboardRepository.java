@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.tta.broilers.entities.rest.*;
+import com.tta.broilers.mappers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,29 +17,6 @@ import com.tta.broilers.dao.DashboardInterface;
 import com.tta.broilers.entities.Farm;
 import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
-import com.tta.broilers.entities.rest.AlertByFarm;
-import com.tta.broilers.entities.rest.AlertByHouse;
-import com.tta.broilers.entities.rest.FlockOutResult;
-import com.tta.broilers.entities.rest.FlockWeight;
-import com.tta.broilers.entities.rest.MortalityByBreed;
-import com.tta.broilers.entities.rest.MortalityByFarm;
-import com.tta.broilers.entities.rest.MortalityByFlock;
-import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
-import com.tta.broilers.entities.rest.WeeklyWeightMesurementByFlock;
-import com.tta.broilers.entities.rest.WeightByBreed;
-import com.tta.broilers.entities.rest.WeightByFlock;
-import com.tta.broilers.mappers.AlertByFarmRowMapper;
-import com.tta.broilers.mappers.AlertByHouseRowMapper;
-import com.tta.broilers.mappers.FlockDashRowMapper;
-import com.tta.broilers.mappers.FlockOutResultRowMapper;
-import com.tta.broilers.mappers.FlockRowMapper;
-import com.tta.broilers.mappers.MortalityByFlockRowMapper;
-import com.tta.broilers.mappers.MortalityByHouseLastDaysRowMapper;
-import com.tta.broilers.mappers.MortalityByfarmRowMapper;
-import com.tta.broilers.mappers.WeeklyWeightMesurementByFlockRowMapper;
-import com.tta.broilers.mappers.WeeklyweightMesurementRowMapper;
-import com.tta.broilers.mappers.WeightByFlockRowMapper;
-import com.tta.broilers.mappers.WeightPerBreedRowMapper;
 
 /**
  * @author EMNA
@@ -388,12 +367,48 @@ public class DashboardRepository implements DashboardInterface {
                 .collect(Collectors.toList());
 	}
 
-	
+	@Override
+	public List<WeeklyWeightMeasurementForFarm> getWeeklyWeighMeasurementForFarm(String companyId) {
+		String req ="SELECT COALESCE(t2.week, t1.week) AS week, COALESCE(t2.avg, t1.avg) AS avg, t1.farm_name\n" +
+				"\t\t\t\tFROM \n" +
+				"\t\t\t\t( SELECT 0 as week , 0 AS avg, farm_name\n" +
+				"\t\t\t\tFROM farm\n" +
+				"\t\t\t\tWHERE farm.company_id=? \n" +
+				"\t\t\t\tGROUP BY farm_name)\n" +
+				"\t\t\t\tt1\n" +
+				"\t\t\t\tLEFT JOIN\n" +
+				"\t\t\t\t(select week , farm.farm_name , avg(average) as avg\n" +
+				"from weekly_weight_measurement join company on company_id = ? \n" +
+				"join farm on farm.company_id = company.company_id and weekly_weight_measurement.farm_id =farm.farm_id\n" +
+				"join flock on flock.farm_id = farm.farm_id and check_end_of_cycle = false\n" +
+				"group by week , farm.farm_name  \n" +
+				"order By week ASC) t2\n" +
+				"\t\t\t\tON t1.farm_name = t2.farm_name;";
+		return jdbcTemplate.query(req, new Object[] {companyId ,companyId},new WeeklyWeightMeasurementForFarmRowMapper());
+	}
 
-	
+	@Override
+	public List<WeeklyWeightMeasurementByHouse> getWeeklyWeighMeasurementByHouse(String companyId, String farmName) {
+		String req ="SELECT COALESCE(t2.week, t1.week) AS week, COALESCE(t2.average, t1.average) AS average, t1.house_name\n" +
+				"\t\t\t\tFROM \n" +
+				"\t\t\t\t( SELECT 0 as week , 0 AS average, house_name\n" +
+				"\t\t\t\tFROM house join farm on farm.farm_id =house.farm_id \n" +
+				"\t\t\t\tWHERE farm.company_id=? and farm.farm_name =?\n" +
+				"\t\t\t\tGROUP BY house_name )\n" +
+				"\t\t\t\tt1\n" +
+				"\t\t\t\tLEFT JOIN\n" +
+				"\t\t\t\t(select week , average , house.house_name\n" +
+				"from weekly_weight_measurement join company on company_id = ? \n" +
+				"join farm on farm.company_id = company.company_id and weekly_weight_measurement.farm_id =farm.farm_id and\n" +
+				"farm.farm_name =?\n" +
+				"join flock on flock.farm_id = farm.farm_id and check_end_of_cycle = false\n" +
+				"join house on house.house_id = weekly_weight_measurement.house_id\n" +
+				"group by week , average ,house.house_name\n" +
+				"order By week ASC)\n" +
+				"\t\t\t\tt2\n" +
+				"\t\t\t\tON t1.house_name = t2.house_name;";
+		return jdbcTemplate.query(req, new Object[] {companyId ,farmName , companyId , farmName},new WeeklyWeightMeasurementByHouseRowMapper());
+	}
 
-	
 
-	
-	
 }

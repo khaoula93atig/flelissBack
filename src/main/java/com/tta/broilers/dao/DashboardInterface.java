@@ -7,15 +7,7 @@ import java.util.List;
 import com.tta.broilers.entities.Farm;
 import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
-import com.tta.broilers.entities.rest.AlertByFarm;
-import com.tta.broilers.entities.rest.AlertByHouse;
-import com.tta.broilers.entities.rest.FlockOutResult;
-import com.tta.broilers.entities.rest.FlockWeight;
-import com.tta.broilers.entities.rest.MortalityByFarm;
-import com.tta.broilers.entities.rest.MortalityByFlock;
-import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
-import com.tta.broilers.entities.rest.WeeklyWeightMesurementByFlock;
-import com.tta.broilers.entities.rest.WeightByBreed;
+import com.tta.broilers.entities.rest.*;
 import com.tta.broilers.mappers.WeeklyweightMesurementRowMapper;
 
 /**
@@ -47,6 +39,11 @@ public interface DashboardInterface {
 	 public List<WeeklyWeightMesurementByFlock> getFcrByFlock(String houseId);
 	public List<MortalityByFlock> getWaterByFlock(String HouseId,Date visitDate , int year);
 	public List<FlockOutResult> getFlockOutResultOfBadyWeight(String companyId);
+
+	public List<WeeklyWeightMeasurementForFarm> getWeeklyWeighMeasurementForFarm(String companyId);
+
+	public List<WeeklyWeightMeasurementByHouse> getWeeklyWeighMeasurementByHouse(String companyId , String farmName);
+
 	
 	
 	

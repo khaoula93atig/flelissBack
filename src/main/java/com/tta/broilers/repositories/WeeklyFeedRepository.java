@@ -3,6 +3,8 @@ package com.tta.broilers.repositories;
 import java.util.Date;
 import java.util.List;
 
+import com.tta.broilers.entities.rest.FeedWeightweekly;
+import com.tta.broilers.mappers.FeedWeightWeeklyRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -73,9 +75,16 @@ public class WeeklyFeedRepository implements WeeklyFeedInterface {
 				new Object[] { age ,flockId}, Long.class);
 	}
 
+	@Override
+	public List<FeedWeightweekly> getFeedWeightWeeklyByAgeAndFlock(int week, String flockId) {
+		String req = "select average , weekly_feed.total_finisher_feed , weekly_feed.total_grower_feed , weekly_feed.total_starter_feed\n" +
+				"from weekly_weight_measurement \n" +
+				"join weekly_feed on weekly_feed.week = weekly_weight_measurement.week \n" +
+				"and weekly_feed.flock_id = weekly_weight_measurement.flock_id\n" +
+				"where weekly_feed.flock_id = ? and weekly_feed.week =? \n" +
+				"group by average,weekly_feed.total_finisher_feed , weekly_feed.total_grower_feed , weekly_feed.total_starter_feed";
+		return jdbcTemplate.query(req ,new Object[] { flockId, week}, new FeedWeightWeeklyRowMapper());
+	}
 
 
-
-	
-	
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.tta.broilers.entities.rest.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,15 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tta.broilers.dao.DashboardInterface;
 import com.tta.broilers.entities.Flock;
 import com.tta.broilers.entities.WeeklyWeightMeasurement;
-import com.tta.broilers.entities.rest.AlertByFarm;
-import com.tta.broilers.entities.rest.AlertByHouse;
-import com.tta.broilers.entities.rest.FlockOutResult;
-import com.tta.broilers.entities.rest.FlockWeight;
-import com.tta.broilers.entities.rest.MortalityByFarm;
-import com.tta.broilers.entities.rest.MortalityByFlock;
-import com.tta.broilers.entities.rest.MortalityByhouseLastDays;
-import com.tta.broilers.entities.rest.WeeklyWeightMesurementByFlock;
-import com.tta.broilers.entities.rest.WeightByBreed;
 import com.tta.broilers.mappers.MortalityByHouseLastDaysRowMapper;
 /**
  * @author EMNA
@@ -173,7 +165,17 @@ public class DashboardController {
 	public List<FlockOutResult> getFlockOutResultOfBodyWeight(@PathVariable("companyId") String companyId){
 		return dashboardInterface.getFlockOutResultOfBadyWeight(companyId);
 	}
-	
+
+	// get weekly weight measurement for farm (moyenne des mesures par farm)
+	@GetMapping("/farm/weight/{companyId}")
+	public List<WeeklyWeightMeasurementForFarm> getweeklyWeightMeasurementByFarm(@PathVariable("companyId") String companyId){
+		return dashboardInterface.getWeeklyWeighMeasurementForFarm(companyId);
+	}
+	// get weekly weight measurement by house
+	@GetMapping("/house/weight/{companyId}/{farmName}")
+	public List<WeeklyWeightMeasurementByHouse> getweeklyWeightMeasurementByHouse(@PathVariable("companyId") String companyId, @PathVariable("farmName") String farmName){
+		return dashboardInterface.getWeeklyWeighMeasurementByHouse(companyId , farmName);
+	}
 	
 	
 	
